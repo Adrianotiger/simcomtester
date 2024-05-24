@@ -1,0 +1,128 @@
+.window
+{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-style: ridge;
+  border-width: 2px;
+  border-radius: 1vh;
+  box-shadow: 0.2vh 0.2vh 1vh #005;
+  font-family: sans-serif;
+}
+
+.loading
+{
+  background: linear-gradient(to bottom, #fff, #ffa);
+  font-size: 3vh;
+  line-height: 3vh;
+  height: 3vh;
+  padding: 5vh;
+  color: #005;
+  z-index: 1000;
+}
+
+.tab
+{
+  position: absolute;
+  height: 77vh;
+  width: 41.8vw;
+  margin: 0 auto;
+  text-align: center;
+  top: unset;
+  bottom: 0.1vh;
+  z-index: 1000;
+  left: 0.1vw;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 1vh;
+}
+
+.singlecmd
+{
+  display: inline-block;
+  width: 12vw;
+  height: 3vh;
+  margin: 0.5vw;
+  line-height: 3vh;
+  border-bottom-style: dotted;
+  border-bottom-width: 1px;
+  border-bottom-color: #666;
+  text-align: left;
+  white-space: nowrap;
+}
+.singlecmd span
+{
+  display: inline-block;
+  max-width: 9vw;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+
+.singlecmd button
+{
+  height: 3vh;
+  float: right;
+}
+
+.settingsgroup
+{
+  margin: 1vh;
+  width: 90%;
+  background: #fff;
+  border-radius: 1vh;
+  box-shadow: 0vh 0vh 1vh #666;
+  text-align: left;
+  padding: min(1vh, 1vw);
+}
+
+.settingsgroup label
+{
+  min-width: 20vw;
+  padding-right: 1vw;
+}
+
+.settingsgroup input
+{
+  min-width: 50%;
+}
+
+.tab table
+{
+  width: 90%;
+  box-shadow: 0px 0px 0.5vh 1px #005;
+  margin:0 auto;
+  text-align: center;
+}
+
+.tab tr:hover
+{
+  background: #ffa;
+  cursor: pointer;
+}
+
+.manual
+{
+  
+}
+
+.manual h1
+{
+  background: linear-gradient(to bottom, #fff, #ff0, #fff);
+  border-radius: 2vh;
+}
+
+.manual th
+{
+  width: 20%;
+}
+
+.manual label
+{
+  display: inline-block;
+  min-width: 5vw;
+  background: linear-gradient(to right, #ddd, #aaa, #ddd);
+  font-family: monospace;
+  text-align: center;
+}

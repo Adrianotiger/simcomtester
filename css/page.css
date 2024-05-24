@@ -1,0 +1,167 @@
+html
+{
+  width: 100%;
+  height: 100%;
+}
+
+body
+{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0px;
+  background: radial-gradient(#fff, #bbf);
+}
+
+button, select, input, textarea
+{
+  margin:0 auto;
+  background: linear-gradient(to bottom, #fff, #ffa);
+  font-size: 110%;
+  border-radius: 0.5vh;
+  cursor: pointer;
+}
+
+select, input, textarea
+{
+  background: linear-gradient(to bottom, #fff, #ffe);
+}
+
+textarea
+{
+  font-size: 70%;
+}
+
+.box
+{
+  padding: 0.5vh;
+  width: 20vh;
+  height: 10vh;
+  background: linear-gradient(#fff, #aaa);
+  position: absolute;
+  left: 1vh;
+  top: 1vh;
+  border-style: outset;
+  border-width: 2px;
+  border-radius: 1vh;
+  font-size: 1.5vh;
+}
+
+.box h2
+{
+  width: 100%;
+  margin: 0vh;
+  margin-bottom: 1vh;
+  font-family: monospace;
+  font-size: 1.5vh;
+  text-align: center;
+}
+
+.serialdiv
+{
+  margin:0 auto;
+  text-align: center;
+  height: 8vh;
+}
+
+.infotab
+{
+  width: 70vh;
+  height: 10vh;
+  left: 30vh;
+  height: 8vh;
+}
+
+.labelInfo
+{
+  display: inline-block;
+  width: 30vh;
+  white-space: nowrap;
+  text-overflow: ellipse;
+}
+
+.labelInfo label
+{
+  display: inline-block;
+  min-width: 15vh;
+}
+
+.labelInfo i
+{
+  background-color: #aaa;
+}
+
+.tabs
+{
+  position: absolute;
+  height: 85vh;
+  width: 42vw;
+  top: unset;
+  bottom: 1vh;
+  left: 1vh;
+}
+
+.tabs p
+{
+  margin-bottom: 0.2vh;
+}
+
+.tabselect
+{
+  position: absolute;
+  height: 7vh;
+  width: 9.5vw;
+  top: 4vh;
+  left: 2vw;
+  font-size: min(1vw, 2vh);
+  font-family: monospace;
+  border-radius: 1vh;
+  box-shadow: 0vh 0vh 0.2vh #00C;
+  border-width: 2px;
+  border-color: #000;
+  border-style: ridge;
+  text-align: center;
+  background: linear-gradient(to bottom, #eef, #aaf);
+  cursor:pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.tabselect:hover
+{
+  background: linear-gradient(to bottom, #ffe, #ffa);
+  box-shadow: 0vh 0vh 1vh #00C;
+  transform: translate(0vh, -1vh);
+}
+
+.simModule
+{
+  position: absolute;
+  right: 1vh;
+  top: 1vh;
+  width: 10vh;
+  height: 10vh;
+  background: url("../modules/sim.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.simModule span
+{
+  position: absolute;
+  top: 1.5vh;
+  right: 1.5vh;
+  font-size: 1vh;
+  height: 1vh;
+  font-weight: bold;
+}
+
+.paramdiv input, .paramdiv select
+{
+  min-width: 50%;
+  display: block;
+}
+
+.paramdiv textarea
+{
+  width: 99%;
+}

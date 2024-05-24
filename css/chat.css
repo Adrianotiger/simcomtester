@@ -1,0 +1,138 @@
+.chat
+{
+  width: 50vw;
+  height: 82vh;
+  background: linear-gradient(to bottom, #224, #001);
+  left: unset;
+  right: 1vh;
+  top: unset;
+  bottom: 3vh;
+  color: springgreen;
+  overflow-y: scroll;
+}
+
+.chat h2
+{
+  position: sticky;
+}
+
+.chat input
+{
+  position: fixed;
+  width: 40vw;
+  right: 5vw;
+  bottom: 0.5vh;
+  box-shadow: 0vh 0vh 1vh #fff;
+  font-size: 2vh;
+  text-align: center;
+  border-radius: 1vh;
+  opacity: 0.5;
+  transition: all 0.5s ease-in-out;
+  z-index: 900;
+}
+
+.chat input:hover
+{
+  opacity: 1.0;
+  background: #ff8;
+}
+
+.chat input:focus
+{
+  opacity: 1.0;
+}
+
+.msg_g
+{
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 3vh;
+  overflow: auto;
+  vertical-align: bottom;
+}
+
+.msg_g i
+{
+  margin-left: 1vh;
+  color: #888;
+  line-height: 2vh;
+}
+
+.msg_g b
+{
+  margin-right: 2vh;
+  float: right;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.msg_g b:hover
+{
+  opacity: 1.0;
+}
+
+.msg_g .msg_h
+{
+  display: inline-block;
+  border-radius: 100%;
+  width: 2vh;
+  background: linear-gradient(to bottom, #66a, #448);
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+}
+
+.msg_s
+{
+  position: relative;
+  display: inline-block;
+  padding-left: 1vh;
+  padding-right: 1vh;
+  float: left;
+  min-width: 10vh;
+  border-radius: 1vh;
+  border-top-left-radius: 0vh;
+  border-color: #a85;
+  background: linear-gradient(to bottom, #fff, #ffa);
+  color: #44b;
+  cursor: pointer;
+}
+
+.msg_r
+{
+  position: relative;
+  display: inline-block;
+  padding-right: 1vh;
+  padding-left: 2vh;
+  float: right;
+  min-width: 10vh;
+  border-radius: 1vh;
+  border-top-right-radius: 0vh;
+  border-color: #a85;
+  background: linear-gradient(to bottom, #fff, #afa);
+  color: #008;
+  text-align: right;
+}
+
+.msg_r span
+{
+  display: block;
+}
+
+.msg_i
+{
+  position: relative;
+  display: inline-block;
+  padding-right: 1vh;
+  padding-left: 2vh;
+  margin: 0 auto;
+  min-width: 10vh;
+  border-radius: 1vh;
+  border-bottom-right-radius: 0vh;
+  border-bottom-left-radius: 0vh;
+  border-color: #a85;
+  background: linear-gradient(to bottom, #bbb, #888);
+  color: #008;
+  text-align: center;
+}
