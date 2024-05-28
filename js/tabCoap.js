@@ -1,8 +1,10 @@
 class TabCoap
 {
-  constructor(div)
+  Title = "Coap";
+  
+  constructor()
   {
-    this.div = _CN("div", {class:"box tab"}, [_CN("h2", {}, ["COAP"])], div);
+    this.div = _CN("div", {class:"box tab"}, [_CN("h2", {}, ["COAP"])], Tabs.GetDiv());
     this.pdpidx = null;
     this.iptype = null;
     this.code = null;
@@ -252,3 +254,5 @@ class TabCoap
   }
   
 }
+
+Tabs.AddTab(new TabCoap());

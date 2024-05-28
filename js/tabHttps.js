@@ -1,8 +1,10 @@
 class TabHttps
 {
-  constructor(div)
+  Title = "HTTPs";
+
+  constructor()
   {
-    this.div = _CN("div", {class:"box tab"}, [_CN("h2", {}, ["HTTPs"])], div);
+    this.div = _CN("div", {class:"box tab"}, [_CN("h2", {}, ["HTTPs"])], Tabs.GetDiv());
     this.ctxindex = null;
     this.sslver = null;
     this.url = null;
@@ -405,3 +407,5 @@ class TabHttps
   }
   
 }
+
+Tabs.AddTab(new TabHttps());

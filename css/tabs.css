@@ -1,0 +1,84 @@
+.tab
+{
+  position: absolute;
+  height: 77vh;
+  width: 41.8vw;
+  margin: 0 auto;
+  text-align: center;
+  top: unset;
+  bottom: 0.1vh;
+  z-index: 1000;
+  left: 0.1vw;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 1vh;
+}
+
+.tabs
+{
+  position: absolute;
+  height: 85vh;
+  width: 42vw;
+  top: unset;
+  bottom: 1vh;
+  left: 1vh;
+}
+
+.tabs p
+{
+  margin-bottom: 0.2vh;
+}
+
+.tabselect
+{
+  position: absolute;
+  height: 7vh;
+  width: 9.5vw;
+  top: 4vh;
+  left: 2vw;
+  font-size: min(1vw, 2vh);
+  font-family: monospace;
+  border-radius: 1vh;
+  box-shadow: 0vh 0vh 0.2vh #00C;
+  border-width: 2px;
+  border-color: #000;
+  border-style: ridge;
+  text-align: center;
+  background: linear-gradient(to bottom, #eef, #aaf);
+  cursor:pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.tabselect:hover
+{
+  background: linear-gradient(to bottom, #ffe, #ffa);
+  box-shadow: 0vh 0vh 1vh #00C;
+  transform: translate(0vh, -1vh);
+}
+
+.manual
+{
+    background: linear-gradient(to bottom, #cff, #fff, #dff);
+    background-attachment: fixed;
+}
+
+.manual h1
+{
+  background: linear-gradient(to bottom, #dff, #ff8, #dff);
+  border-radius: 2vh;
+  color: rgb(55, 29, 199);
+}
+
+.manual th
+{
+  width: 20%;
+}
+
+.manual label
+{
+  display: inline-block;
+  min-width: 5vw;
+  background: linear-gradient(to right, #ddd, #aaa, #ddd);
+  font-family: monospace;
+  text-align: center;
+}

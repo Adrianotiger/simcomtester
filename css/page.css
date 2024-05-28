@@ -91,48 +91,6 @@ textarea
   background-color: #aaa;
 }
 
-.tabs
-{
-  position: absolute;
-  height: 85vh;
-  width: 42vw;
-  top: unset;
-  bottom: 1vh;
-  left: 1vh;
-}
-
-.tabs p
-{
-  margin-bottom: 0.2vh;
-}
-
-.tabselect
-{
-  position: absolute;
-  height: 7vh;
-  width: 9.5vw;
-  top: 4vh;
-  left: 2vw;
-  font-size: min(1vw, 2vh);
-  font-family: monospace;
-  border-radius: 1vh;
-  box-shadow: 0vh 0vh 0.2vh #00C;
-  border-width: 2px;
-  border-color: #000;
-  border-style: ridge;
-  text-align: center;
-  background: linear-gradient(to bottom, #eef, #aaf);
-  cursor:pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-.tabselect:hover
-{
-  background: linear-gradient(to bottom, #ffe, #ffa);
-  box-shadow: 0vh 0vh 1vh #00C;
-  transform: translate(0vh, -1vh);
-}
-
 .simModule
 {
   position: absolute;

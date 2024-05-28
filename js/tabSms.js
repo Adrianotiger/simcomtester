@@ -1,10 +1,11 @@
 class TabSms
 {
+  Title = "SMS";
   #table = {};
   
-  constructor(div)
+  constructor()
   {
-    this.div = _CN("div", {class:"box tab"}, [_CN("h2", {}, ["SMS"])], div);
+    this.div = _CN("div", {class:"box tab"}, [_CN("h2", {}, ["SMS"])], Tabs.GetDiv());
     this.messageTextMode = null;
     this.phoneNr = null;
     this.msg = null;
@@ -190,3 +191,5 @@ class TabSms
   }
   
 }
+
+Tabs.AddTab(new TabSms());

@@ -29,6 +29,15 @@ const SIMSerial = new class
       {
         this.div.textContent = "Select COM port";
         this.div.appendChild(b);
+
+        _CN("p", {}, ["Select the SimCom port"], document.getElementsByClassName("loading")[0]);
+        let b2 = _CN("button", {style:"display:block;"}, ["Search Module"]);
+        b2.addEventListener("click", ()=>{
+          navigator.serial.requestPort().then((port)=>{
+            this.#Connect(port);
+          });
+        });
+        document.getElementsByClassName("loading")[0].appendChild(b2);
       }
       else
       {

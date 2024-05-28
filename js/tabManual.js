@@ -1,10 +1,11 @@
 class TabManual
 {
+  Title = "Manual";
   #table = {};
   
-  constructor(div)
+  constructor()
   {
-    this.div = _CN("div", {class:"box tab"}, [_CN("h2", {}, ["Manual"])], div);
+    this.div = _CN("div", {class:"box tab manual"}, [_CN("h2", {}, ["Manual"])], Tabs.GetDiv());
         
     _CN("p", {}, ["Press on 📃 to get more info about the command."], this.div);
     
@@ -31,6 +32,8 @@ class TabManual
     {
       timeout = (cmd.GetTimeout() / 1000) + "s";
     }
+
+    _CN("p", {}, [cmd.GetDescription()], this.manual);
         
     _CN("table", {border:1}, [
       _CN("tr", {}, [
@@ -48,9 +51,7 @@ class TabManual
         _CN("td", {}, [timeout])
       ])
     ], this.manual);
-    
-    _CN("p", {}, [cmd.GetDescription()], this.manual);
-    
+        
     const atp = cmd.GetAllParams();
     
     console.log(atp);
@@ -139,3 +140,5 @@ class TabManual
   }
   
 }
+
+Tabs.AddTab(new TabManual());

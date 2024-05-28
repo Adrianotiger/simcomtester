@@ -16,26 +16,11 @@
   background: linear-gradient(to bottom, #fff, #ffa);
   font-size: 3vh;
   line-height: 3vh;
-  height: 3vh;
+  min-height: 3vh;
+  text-align: center;
   padding: 5vh;
   color: #005;
   z-index: 1000;
-}
-
-.tab
-{
-  position: absolute;
-  height: 77vh;
-  width: 41.8vw;
-  margin: 0 auto;
-  text-align: center;
-  top: unset;
-  bottom: 0.1vh;
-  z-index: 1000;
-  left: 0.1vw;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding-bottom: 1vh;
 }
 
 .singlecmd
@@ -100,29 +85,4 @@
 {
   background: #ffa;
   cursor: pointer;
-}
-
-.manual
-{
-  
-}
-
-.manual h1
-{
-  background: linear-gradient(to bottom, #fff, #ff0, #fff);
-  border-radius: 2vh;
-}
-
-.manual th
-{
-  width: 20%;
-}
-
-.manual label
-{
-  display: inline-block;
-  min-width: 5vw;
-  background: linear-gradient(to right, #ddd, #aaa, #ddd);
-  font-family: monospace;
-  text-align: center;
 }

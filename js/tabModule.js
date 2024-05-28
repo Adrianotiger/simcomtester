@@ -1,8 +1,10 @@
 class TabModule
 {
-  constructor(div)
+  Title = "Module";
+
+  constructor()
   {
-    this.div = _CN("div", {class:"box tab"}, [_CN("h2", {}, ["Module"])], div);
+    this.div = _CN("div", {class:"box tab"}, [_CN("h2", {}, ["Module"])], Tabs.GetDiv());
     
     setTimeout(()=>{
       this.Init();
@@ -184,3 +186,4 @@ class TabModule
   }
 };
 
+Tabs.AddTab(new TabModule());

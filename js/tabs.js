@@ -3,10 +3,16 @@ const Tabs = new class
   #tabs = [];
   #div;
   #tabManual = null;
+  #tabPos = {left:2, top:4.5, W:9.5, T:0, offsetX:9.7, offsetY:-2.5, zIndex:100};
   
   constructor()
   {
     
+  }
+
+  GetDiv()
+  {
+    return this.#div;
   }
   
   Load()
@@ -14,64 +20,65 @@ const Tabs = new class
     this.#div = _CN("div", {class:"box tabs", style:"border-style:none;background:transparent;"}, [], document.body);
     
     let scripts = [
-      {name:"tabModule", title: "Module Info"}, 
-      {name:"tabCommands", title: "Commands"}, 
-      {name:"tabCoap", title: "COAP"},
-      {name:"tabHttps", title: "HTTPs"},
-      {name:"tabSms", title: "SMS"},
-      {name:"tabManual", title: "Manual"}
+      {name:"tabModule"}, 
+      {name:"tabCommands"}, 
+      {name:"tabCoap"},
+      {name:"tabHttps"},
+      {name:"tabSms"},
+      {name:"tabGnss"},
+      {name:"tabManual"}
     ];
+
+    this.#tabManual = scripts.length - 1;
     
-    let left = 2;
-    let top = 0;
-    const tabW = 9.5;
-    const tabT = 4.5;
-    scripts.forEach(scr=>{
-      let s = _CN("script", {src:"js/" + scr.name + ".js?v=55" + parseInt(new Date().getTime() / 5000)}, [], document.head);
-    });
-    
-    setTimeout(()=>{
-      for(let j=0;j<scripts.length;j++)
+    let scriptsTotLoaded = 0;
+    let scriptsLoading = false;
+    let scriptLoading = setInterval(()=>{
+      if(!scriptsLoading)
       {
-        let sl = left;
-        let st = tabT - top * 2;
-        left += 9.7;
-        if(left > 40)
-        {
-          top ++;
-          left = 2 + (top%2) * (tabW*0.5);
-        }
-        let tab = null;
-        switch(j)
-        {
-          case 0: tab = new TabModule(this.#div); break;
-          case 1: tab = new TabCommands(this.#div); break;
-          case 2: tab = new TabCoap(this.#div); break;
-          case 3: tab = new TabHttps(this.#div); break;
-          case 4: tab = new TabSms(this.#div); break;
-          case 5: tab = new TabManual(this.#div); this.#tabManual = j; break;
-          default: console.error("Tab " + j + " not available!"); break;
-        }
-        let sel = _CN("div", {class:"tabselect"}, [scripts[j].title], this.#div);
-        sel.style.left = sl + "vw";
-        sel.style.top = st + "vh";
-        sel.style.zIndex = 50 - j;
-        this.#tabs.push({sel: sel, tab: tab});
-        
-        if(j == 0)
-        {
-          sel.style.background = "#eff";
-        }
-        else
-        {
-          tab.div.style.display = "none";
-        }
-        
-        sel.addEventListener("click", ()=>{
-          this.#SelectTab(j);
-        });
+        scriptsLoading = true;
+        let s = _CN("script", {src:"js/" + scripts[scriptsTotLoaded].name + ".js?v=55" + parseInt(new Date().getTime() / 5000)}, [], document.head);
+        s.addEventListener("load", ()=>{
+          scriptsLoading = false;
+          if(++scriptsTotLoaded >= scripts.length) clearInterval(scriptLoading);
+        })
       }
-    }, 500);
+    }, 100);
+  }
+
+  AddTab(tabClass)
+  {
+    //#tabPos = {left:2, top:4.5, W:9.5, T:0, offsetX:9.7, offsetY:-2, zIndex:100};
+    
+    let sel = _CN("div", {class:"tabselect"}, [tabClass.Title], this.#div);
+    sel.style.left = this.#tabPos.left + "vw";
+    sel.style.top = this.#tabPos.top + "vh";
+    sel.style.zIndex = this.#tabPos.zIndex;
+
+    this.#tabs.push({sel: sel, tab: tabClass});
+
+    const j = 100 - this.#tabPos.zIndex;
+    this.#tabPos.left += this.#tabPos.offsetX;
+    this.#tabPos.zIndex--;
+    if(this.#tabPos.left > 40)
+    {
+      this.#tabPos.T++;
+      this.#tabPos.left = 2 + (this.#tabPos.T % 2) * (this.#tabPos.W * 0.5);
+      this.#tabPos.top += this.#tabPos.offsetY;
+    }
+    
+    if(j == 0)
+    {
+      sel.style.background = "#eff";
+    }
+    else
+    {
+      tabClass.div.style.display = "none";
+    }
+    
+    sel.addEventListener("click", ()=>{
+      this.#SelectTab(j);
+    });
   }
   
   OpenManualTab()
