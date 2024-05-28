@@ -60,4 +60,22 @@ let AT_CGNSINF = new class extends ATBase
       });
     }
   }
+
+  GetLatitude()
+  {
+    const value = this.GetValue();
+    return value.latitude;
+  }
+
+  GetLongitude()
+  {
+    const value = this.GetValue();
+    return value.longitude;
+  }
+
+  GetAccuracy()
+  {
+    const value = this.GetValue();
+    return Math.max(parseFloat(value.hpa), parseFloat(value.vpa));
+  }
 };
