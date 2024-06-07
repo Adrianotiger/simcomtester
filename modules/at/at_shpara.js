@@ -9,7 +9,7 @@ let AT_SHPARA = new class extends ATBase
       test: true,
       description: "Set HTTP(S) Parameter",
       example: "+SHPARA: 64,64",
-      cmd: "AT+SHAHEAD"
+      cmd: "AT+SHPARA"
     });
     
     this.AddParam("key", "string", "key");

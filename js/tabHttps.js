@@ -199,8 +199,8 @@ class TabHttps
             res();
             return;
           }
-          const header = header_arr[step-1].trim().split("=");
-          AT_SHAHEAD.Write(header).then(()=>{
+          const header = header_arr[step-1].trim().split("=", 2);
+          AT_SHAHEAD.Write(['"' + header[0] + '"', '"' + header[1] + '"']).then(()=>{
             
             this.#SendHttpsValues(true, step+1).then(()=>{
               res();
@@ -217,8 +217,8 @@ class TabHttps
             res();
             return;
           }
-          const param = params[step-1].trim().split("=");
-          AT_SHPARA.Write(param).then(()=>{
+          const param = params[step-1].trim().split("=", 2);
+          AT_SHPARA.Write(['"' + param[0] + '"', '"' + param[1] + '"']).then(()=>{
             
             this.#SendHttpsValues(false, step+1).then(()=>{
               res();
