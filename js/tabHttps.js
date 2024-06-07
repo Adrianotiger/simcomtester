@@ -192,14 +192,14 @@ class TabHttps
       return new Promise((res, rej)=>{
         if(headers)
         {
-          let headers = [];
-          this.headers.value.split("\n").forEach(h=>{if(h.length > 2) headers.push(h);});
-          if(step > headers.length) 
+          let header_arr = [];
+          this.headers.value.split("\n").forEach(h=>{if(h.length > 2) header_arr.push(h);});
+          if(step > header_arr.length) 
           {
             res();
             return;
           }
-          const header = headers[step-1].trim().split("=");
+          const header = header_arr[step-1].trim().split("=");
           AT_SHAHEAD.Write(header).then(()=>{
             
             this.#SendHttpsValues(true, step+1).then(()=>{
