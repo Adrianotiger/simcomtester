@@ -72,6 +72,18 @@ textarea
   height: 8vh;
 }
 
+.github
+{
+  width: 200px;
+  height: 6vh;
+  right: 15vh;
+  left: unset !important;
+  top: 2vh;
+  opacity: 0.5;
+  background: linear-gradient(#fff, #aaf);
+  text-align: center;
+}
+
 .labelInfo
 {
   display: inline-block;

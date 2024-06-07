@@ -57,7 +57,7 @@ class TabHttps
     Settings.AutoSaveChanges(this.headers);
     
     this.params = _CN("textarea", {title:"https_params", rows:5}, []);
-    _CN("div", {class:"paramdiv"}, [_CN("p", {}, ["1 header for line (ex: topic=my cats)", this.params])], this.div);
+    _CN("div", {class:"paramdiv"}, [_CN("p", {}, ["1 parameter for line (ex: topic=my cats)", this.params])], this.div);
     Settings.AutoSaveChanges(this.params);
     
     _CN("button", {style:"margin:1vh;"}, ["SEND HTTPS REQUEST"], this.div).addEventListener("click", ()=>{
@@ -313,7 +313,7 @@ class TabHttps
         else
         {
           AT_CSSLCFG.Write(["SSLVERSION", this.ctxindex.value, this.sslver.value]).then(()=>{
-              AT_SHSSL.Write([this.ctxindex.value, Settings.GetValue("ssl", "name")]).then(()=>{
+              AT_SHSSL.Write([this.ctxindex.value, /*Settings.GetValue("ssl", "name")*/"\"\""]).then(()=>{
                 const url = this.url.value;
                 if((url.match(/./g) || []).length < 2)
                 {

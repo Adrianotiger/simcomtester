@@ -41,6 +41,13 @@ let Settings = new class
       if(v) input.value = v;
       input.addEventListener("change", ()=>{
         localStorage.setItem(t, input.value);
+
+          // update current value
+        this.#group.forEach(g=>{
+          g.options.forEach(o=>{
+            if(t == this.#basename + g.name + "_" + o.name) o.value = val;
+          });
+        });
       });
     }
   }

@@ -12,6 +12,8 @@ const TabInfo = new class
     this.glo_id = _CN("div", {class:"labelInfo"}, [_CN("label", {}, ["Global Identification: "]), _CN("i")], this.div);
     this.rev = _CN("div", {class:"labelInfo"}, [_CN("label", {}, ["Revision: "]), _CN("i")], this.div);
     
+    this.divGit = _CN("div", {class:"box github"}, [], document.body);
+
     this.divImg = _CN("div", {class:"simModule"}, [_CN("span", {}, ["?"])], document.body);
   }
   
@@ -21,6 +23,11 @@ const TabInfo = new class
     window.addEventListener("serial", (data)=>{
       this.#Serial(data.detail);
     });
+
+    setTimeout(()=>{
+      _CN("div", {}, [_CN("a", {href:"https://github.com/Adrianotiger/simcomtester"}, ["Github Project"])], this.divGit);
+      _CN("div", {}, [_CN("i", {}, ["© 2024", _CN("br"), "Adriano Petrucci"])], this.divGit);
+    }, 500);
     
     let i = window.setInterval(()=>{
       if(SIMSerial && SIMSerial.IsConnected())
