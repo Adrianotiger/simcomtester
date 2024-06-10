@@ -138,7 +138,7 @@ class TabCoap
                 this.#ExecuteCoap().then(()=>{
                   
                 }).catch(e=>{this.#Error("COAP Send ERROR", e, true); rej();});
-              }).catch(e=>{this.#Error("AT_CCOAPURL ERROR", e); rej();});
+              }).catch(e=>{this.#Error("AT_CCOAPURL ERROR", e, true); rej();});
             }).catch(e=>{this.#Error("AT_CCOAPINIT ERROR", e); rej();});
           }).catch(e=>{this.#Error("AT_CNACT ERROR", e); rej();});
         }).catch(e=>{this.#Error("AT_CNCFG ERROR", e); rej();});

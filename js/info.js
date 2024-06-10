@@ -25,8 +25,8 @@ const TabInfo = new class
     });
 
     setTimeout(()=>{
-      _CN("div", {}, [_CN("a", {href:"https://github.com/Adrianotiger/simcomtester"}, ["Github Project"])], this.divGit);
-      _CN("div", {}, [_CN("i", {}, ["ver 0.2 - 2024", _CN("br"), "© Adriano Petrucci"])], this.divGit);
+      _CN("div", {}, [_CN("a", {href:"https://github.com/Adrianotiger/simcomtester", target:"_blank"}, ["Github Project"])], this.divGit);
+      _CN("div", {}, [_CN("i", {}, ["ver 0.3 - 2024", _CN("br"), "© Adriano Petrucci"])], this.divGit);
     }, 500);
     
     let i = window.setInterval(()=>{

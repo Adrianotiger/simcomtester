@@ -32,7 +32,7 @@ class TabGnss
         }
         else if(data.detail.cmd?.GetCmd() == "AT+CGNSINF")
         {
-          if(this.isGnssPowered && data.detail.cmd.GetRequestType() == "read")
+          if(this.isGnssPowered && data.detail.cmd.GetRequestType() == "exe")
           {
             this.#GenerateMap(AT_CGNSINF.GetLatitude(), AT_CGNSINF.GetLongitude(), AT_CGNSINF.GetAccuracy());
             console.log(this.#map.map.layers);
