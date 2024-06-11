@@ -21,14 +21,16 @@ let AT_SHSSL = new class extends ATBase
     enumI.push(new ATEnum(5, "index 5"));
     
     this.AddParam("index", enumI, "configure index");
-    this.AddParam("calist", enumI, "ca list");
-    this.AddParam("certname", enumI, "cert name");
-    this.AddParam("lencalist", enumI, "ca list length");
-    this.AddParam("lencertname", enumI, "cert name length");
+    this.AddParam("calist", "string", "ca list");
+    this.AddParam("certname", "string", "cert name");
+    this.AddParam("lencalist", "number", "ca list length");
+    this.AddParam("lencertname", "number", "cert name length");
     
     this.AddWriteSendParam({index:null, calist:null});
     this.AddWriteSendParam({index:null, calist:null, certname:null});
     
     this.AddReadAnswerParam({index:null, calist:null, certname:null});
+
+    this.AddTestAnswerParam({index:null, lencalist:null, lencertname:null});
   }
 };

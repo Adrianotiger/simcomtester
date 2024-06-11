@@ -150,6 +150,12 @@ const SIMSerial = new class
         console.log(port.getInfo());
         let b = _CN("button", {style:"background:linear-gradient(to bottom, #fff, #faa);"}, ["DISCONNECT"], this.div);
         b.addEventListener("click", ()=>{
+          try
+          {
+            const reader = port.readable.getReader();
+            reader.releaseLock();
+          }catch(e){};
+
           port.close().then(()=>{
             this.div.textContent = "Disconnected";
             this.#connected = false;
