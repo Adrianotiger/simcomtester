@@ -3,7 +3,7 @@ This webpage will let you send some simple commands to your SimCom Module.
 
 # Setup
 - Connect your module with your PC (USB or Serial).
-- Open webpage with Edge, Chrome or another browser with Serial-functionality.
+- Open the webpage with Edge, Chrome or another browser with Serial-functionality.
 - Press on "Connect" and select the right serial port on your browser (the first SimTech serial port, on USB)
 - If everything is connected, you should see something like this:
 
@@ -11,12 +11,14 @@ This webpage will let you send some simple commands to your SimCom Module.
 
 
 # How to use
-- You can press on the predefined commands on the left panel
+- You can press any predefined commands on the left panel
 - Or you can write the commands directly in the "chat"
 - If you press on "📃" a tutorial should be visible for that command.
 
 # Issues  
-This webpage is just a preview or alpha. Please do not submit any issues, as I am still working (and probably I will rewrite some parts).  
+This webpage is just a preview or draft. Please do not submit any issues about missing commands, as I am still working (and probably I will rewrite some parts).  
 I am testing a SIM7080 Module, so this page has some 7080-specific commands.
 
 The structure should let me/us to add (without much works) more commands and to add module-specific commands.
+
+The page is not able to parse "unsolicited results". I need to integrate this functionality.
