@@ -26,7 +26,7 @@ const TabInfo = new class
 
     setTimeout(()=>{
       _CN("div", {}, [_CN("a", {href:"https://github.com/Adrianotiger/simcomtester", target:"_blank"}, ["Github Project"])], this.divGit);
-      _CN("div", {}, [_CN("i", {}, ["ver 0.31 - 2024", _CN("br"), "© Adriano Petrucci"])], this.divGit);
+      _CN("div", {}, [_CN("i", {}, ["ver 0.32 - 2024", _CN("br"), "© Adriano Petrucci"])], this.divGit);
     }, 500);
     
     let i = window.setInterval(()=>{
@@ -42,18 +42,47 @@ const TabInfo = new class
     },500);
   }
   
-  #InitModule()
+  #InitModule(retries = 0)
   {
+    let isConnected = false;
+
     AT.Execute().then(()=>{
-      ATE0.Execute().then(()=>{
-        ATI.Execute().then(()=>{
-          AT_GMI.Execute().then(()=>{
-            AT_GMM.Execute().then(()=>{
-              AT_GOI.Execute().then(()=>{
-                AT_GMR.Execute().then(()=>{
-                  this.#moduleInit = true;
-                  this.#InitOver();
-                });
+      isConnected = true;
+    }).catch((e)=>
+    {
+      const event = new CustomEvent("cominfo", { detail: {error:"No answer from module" + (retries<10 ? ", retry... (" + (9-retries) +")":"."), event:e} });
+      window.dispatchEvent(event);
+    });
+
+    if(!isConnected && retries < 10)
+    {
+      setTimeout(()=>{
+        SIMSerial.Disconnect();
+        setTimeout(()=>{
+          if(SIMSerial.IsConnected())
+          {
+            alert("Unable to disconnect port...");
+          }
+          else
+          {
+            SIMSerial.Connect();
+            setTimeout(()=>{
+              this.#InitModule(retries+1);
+            }, 2000);
+          }
+        }, 2000);
+      }, 100);
+      return;
+    }
+    
+    ATE0.Execute().then(()=>{
+      ATI.Execute().then(()=>{
+        AT_GMI.Execute().then(()=>{
+          AT_GMM.Execute().then(()=>{
+            AT_GOI.Execute().then(()=>{
+              AT_GMR.Execute().then(()=>{
+                this.#moduleInit = true;
+                this.#InitOver();
               });
             });
           });
@@ -61,7 +90,7 @@ const TabInfo = new class
       });
     }).catch(()=>
     {
-      alert("Unable to execute AT command");
+      alert("Unable to execute AT* command");
     });
   }
   

@@ -236,6 +236,12 @@ class ATBase
       this.#promiseRej = reject;
     });
     SIMSerial.Send(this.#cmd + "\r\n", this);
+
+    setTimeout(()=>{
+      this.#promiseRej();
+      this.#promise = null;
+    }, this.#timeout);
+
     return this.#promise;
   }
   
@@ -371,6 +377,8 @@ class ATBase
     {
       if(isSuccess) this.#promiseRes(this);
       else this.#promiseRej(str);
+
+      this.#promise = null;
     }
     return this.#answerRaw;
   }

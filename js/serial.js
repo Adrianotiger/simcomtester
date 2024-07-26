@@ -4,6 +4,7 @@ const SIMSerial = new class
   #connected = false;
   #busy = false;
   #data = {cmd:null, req:"", answer:""};
+  #disconnect = true;
   
   constructor()
   {
@@ -30,19 +31,30 @@ const SIMSerial = new class
         this.div.textContent = "Select COM port";
         this.div.appendChild(b);
 
-        _CN("p", {}, ["Select the SimCom port"], document.getElementsByClassName("loading")[0]);
+        const win = document.getElementsByClassName("loading")[0];
+
+        _CN("p", {}, ["Select the SimCom port"], win);
+        let i1 = _CN("select");
+        [9600,14400,19200,38400,47600,115200,128000,256000].forEach(o=>{
+          let o1 = _CN("option", {value:o}, [o], i1);
+          if(o==115200) o1.setAttribute("selected", true);
+        });
         let b2 = _CN("button", {style:"display:block;"}, ["Search Module"]);
         b2.addEventListener("click", ()=>{
           navigator.serial.requestPort().then((port)=>{
-            this.#Connect(port);
+            this.#Connect(port, i1.value);
           });
         });
-        document.getElementsByClassName("loading")[0].appendChild(b2);
+        win.appendChild(i1);
+        win.appendChild(b2);
       }
       else
       {
         this.div.textContent = "Connecting...";
-        this.#Connect(ports[0]);
+        // some browsers are too fast and can't restore serial, after refreshing a page. Leave some extra time
+        setTimeout(()=>{
+          this.#Connect(ports[0]);
+        }, 200);
       }
     }).catch(()=>{
       let b = _CN("h3", {}, ["Error: no serial detected"], document.getElementsByClassName("loading")[0]);
@@ -136,10 +148,11 @@ const SIMSerial = new class
     });
   }
   
-  #Connect(port)
+  #Connect(port, baud=115200)
   {
+    this.#disconnect = false;
     return new Promise((res,rej) => {
-      port.open({ baudRate: 115200 }).then(()=>{
+      port.open({ baudRate: baud }).then(()=>{
         this.#port = port;
         this.#connected = true;
         this.div.textContent = "COM Connected";
@@ -148,27 +161,79 @@ const SIMSerial = new class
           res();
         }, 100);
         console.log(port.getInfo());
+        const event = new CustomEvent("serialactive", { detail: true });
+        window.dispatchEvent(event);
+
         let b = _CN("button", {style:"background:linear-gradient(to bottom, #fff, #faa);"}, ["DISCONNECT"], this.div);
         b.addEventListener("click", ()=>{
-          try
-          {
-            const reader = port.readable.getReader();
-            reader.releaseLock();
-          }catch(e){};
-
-          port.close().then(()=>{
-            this.div.textContent = "Disconnected";
-            this.#connected = false;
-            let b2 = _CN("button", {style:"background:linear-gradient(to bottom, #fff, #afa);"}, ["RE-CONNECT"], this.div);
-            b2.addEventListener("click", ()=>{
-              navigator.serial.requestPort().then((port)=>{
-                this.#Connect(port);
-              });
-            });
-          });
+          this.#disconnect = true;
+          b.enabled = false;
+          b.style.opacity = 0.5;
+          setTimeout(()=>{
+            this.#Disconnect(port);
+          }, 100);
         });
       }).catch(e=>{rej();});
     });
+  }
+
+  Disconnect()
+  {
+    if(this.#port)
+    {
+      this.#disconnect = true;
+      this.#Disconnect(this.#port);
+    }
+  }
+
+  #Disconnect(port)
+  {
+    let successfullyDisconnected = false;
+
+    if(this.#connected)
+    {
+      port.close().then(()=>{
+        this.#connected = false;
+        this.div.textContent = "Disconnected";
+        successfullyDisconnected = true;
+      }).catch(e=>{});
+    }
+
+    if(!this.#connected) successfullyDisconnected = true;
+
+    if(successfullyDisconnected) 
+    {
+      this.#busy = false;
+
+      const event = new CustomEvent("serialactive", { detail: false });
+      window.dispatchEvent(event);
+      
+      const b2 = _CN("button", {style:"background:linear-gradient(to bottom, #fff, #afa);"}, ["RE-CONNECT"], this.div);
+
+      b2.addEventListener("click", ()=>{
+        navigator.serial.requestPort().then((port)=>{
+          this.#Connect(port);
+        });
+      });
+    }
+    else
+    {
+      setTimeout(()=>{this.#Disconnect(port)}, 500);
+    }
+  }
+
+  async #readOrDisconnect(reader) {
+    const timer = setInterval(() => {
+      if(this.#disconnect) reader.releaseLock();
+    }, 200);
+
+    try {
+        const ret = await reader.read()
+        clearInterval(timer);
+        return ret;
+    } finally {
+        clearInterval(timer);
+    }
   }
   
   async #BeginRead()
@@ -179,14 +244,18 @@ const SIMSerial = new class
     const decoder = new TextDecoder();
     console.warn("Begin read serial...");
     
-    while (port.readable) 
+    while (port.readable && !isClosing) 
     {
       const reader = port.readable.getReader();
+      if(this.#disconnect)
+        break;
+      
       try 
       {
         while (true) 
         {
-          const { value, done } = await reader.read();
+          const { value, done } = await this.#readOrDisconnect(reader);
+          if(this.#disconnect) break;
           if (done) 
           {
             // |reader| has been canceled.
@@ -220,14 +289,13 @@ const SIMSerial = new class
         }
       } catch (error) {
         // Handle |error|…
-        console.error("Serial closed", error);
+        if(!this.#disconnect)
+          console.error("Serial closed", error);
         isClosing = true;
-        port.close();
       } finally {
         reader.releaseLock();
         console.warn("Serial closed");
-        if(!isClosing) port.close();
-        this.#connected = false;
+        if(!this.#disconnect) setTimeout(()=>{this.#Disconnect(port);}, 50);
       }
     }
   }

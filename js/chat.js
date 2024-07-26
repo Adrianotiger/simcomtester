@@ -25,6 +25,19 @@ const TabChat = new class
         SIMSerial.Send(this.chat.value + "\r\n", null);
       }
     });
+
+    window.addEventListener("serialactive", (data)=>{
+      if(data.detail)
+      {
+        this.div.style.pointerEvents = "inherit";
+        this.div.style.opacity = 1;
+      }
+      else
+      {
+        this.div.style.pointerEvents = "none";
+        this.div.style.opacity = 0.5;
+      }
+    });
   }
   
   #Serial(data)

@@ -7,7 +7,20 @@ const Tabs = new class
   
   constructor()
   {
-    
+    window.addEventListener("serialactive", (data)=>{
+      if(!this.#div) return;
+
+      if(data.detail)
+      {
+        this.#div.style.pointerEvents = "inherit";
+        this.#div.style.opacity = 1.0;
+      }
+      else
+      {
+        this.#div.style.pointerEvents = "none";
+        this.#div.style.opacity = 0.5;
+      }
+    });
   }
 
   GetDiv()
