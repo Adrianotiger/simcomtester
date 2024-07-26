@@ -26,7 +26,7 @@ const TabInfo = new class
 
     setTimeout(()=>{
       _CN("div", {}, [_CN("a", {href:"https://github.com/Adrianotiger/simcomtester", target:"_blank"}, ["Github Project"])], this.divGit);
-      _CN("div", {}, [_CN("i", {}, ["ver 0.32 - 2024", _CN("br"), "© Adriano Petrucci"])], this.divGit);
+      _CN("div", {}, [_CN("i", {}, ["ver 0.33 - 2024", _CN("br"), "© Adriano Petrucci"])], this.divGit);
     }, 500);
     
     let i = window.setInterval(()=>{
@@ -42,11 +42,11 @@ const TabInfo = new class
     },500);
   }
   
-  #InitModule(retries = 0)
+  async #InitModule(retries = 0)
   {
     let isConnected = false;
 
-    AT.Execute().then(()=>{
+    await AT.Execute().then(()=>{
       isConnected = true;
     }).catch((e)=>
     {
