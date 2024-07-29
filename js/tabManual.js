@@ -16,9 +16,13 @@ class TabManual
       Tabs.OpenManualTab();
       this.OpenTutorial(data.detail);
     });
-
+ 
     setTimeout(()=>{
-      this.#pdf = _CN("iframe", {id:"pdf-js-viewer", style:"width:100%;height:50vh;", src:"./3thparty/pdfjs/web/viewer.html?file=../../../modules/SIM70x0_AT_107.pdf"}, [], this.div);
+      _CN("script", {src:"3thparty/pdfjs/build/pdf.mjs", type:"module"}, [], this.div);
+      _CN("script", {src:"3thparty/pdfjs/web/viewer.mjs", type:"module"}, [], this.div);
+      this.#pdf = _CN("div", {id:"outerContainer", style:"width:100%;height:50vh;"}, [], this.div);
+
+      //this.#pdf = _CN("iframe", {id:"pdf-js-viewer", style:"width:100%;height:50vh;", src:"./3thparty/pdfjs/web/viewer.html?file=../../../modules/SIM70x0_AT_107.pdf"}, [], this.div);
     }, 1000);
   }
   
