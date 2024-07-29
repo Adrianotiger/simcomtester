@@ -18,6 +18,7 @@ class TabManual
     });
  
     setTimeout(()=>{
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "./3thparty/pdfjs/build/pdf.worker.mjs";
       //_CN("script", {src:"./3thparty/pdfjs/build/pdf.mjs", type:"module"}, [], document.head);
       //_CN("script", {src:"3thparty/pdfjs/web/viewer.mjs", type:"module"}, [], this.div);
       console.log(pdfjsLib);
@@ -37,7 +38,7 @@ class TabManual
           canvasContext: context,
           viewport: viewport,
         };
-        
+
         await page.render(renderContext);
         
       });
