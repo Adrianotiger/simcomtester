@@ -16,32 +16,31 @@ class TabManual
       Tabs.OpenManualTab();
       this.OpenTutorial(data.detail);
     });
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "./3thparty/pdfjs/build/pdf.worker.mjs";
  
-    setTimeout(()=>{
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "./3thparty/pdfjs/build/pdf.worker.mjs";
+    setTimeout(async ()=>{
       //_CN("script", {src:"./3thparty/pdfjs/build/pdf.mjs", type:"module"}, [], document.head);
       //_CN("script", {src:"3thparty/pdfjs/web/viewer.mjs", type:"module"}, [], this.div);
-      console.log(pdfjsLib);
+      //console.log(pdfjsLib);
 
       this.#pdf = _CN("canvas", {id:"pdf", style:"width:100%;height:50vh;"}, [], this.div);
 
-      pdfjsLib.getDocument('./modules/SIM70x0_AT_107.pdf').then(async (pdf)=>{
-        let page = await pdf.getPage(1);
-        const scale = 1;
-        const viewport = page.getViewport(scale);
+      let pdf = await pdfjsLib.getDocument('./modules/SIM70x0_AT_107.pdf');
+      let page = await pdf.getPage(1);
+      const scale = 1;
+      const viewport = page.getViewport(scale);
 
-        const context = this.#pdf.getContext('2d');
-        this.#pdf.height = viewport.height;
-        this.#pdf.width = viewport.width;
+      const context = this.#pdf.getContext('2d');
+      this.#pdf.height = viewport.height;
+      this.#pdf.width = viewport.width;
 
-        const renderContext = {
-          canvasContext: context,
-          viewport: viewport,
-        };
+      const renderContext = {
+        canvasContext: context,
+        viewport: viewport,
+      };
 
-        await page.render(renderContext);
-        
-      });
+      await page.render(renderContext);
 
       //this.#pdf = _CN("iframe", {id:"pdf-js-viewer", style:"width:100%;height:50vh;", src:"./3thparty/pdfjs/web/viewer.html?file=../../../modules/SIM70x0_AT_107.pdf"}, [], this.div);
     }, 1000);
