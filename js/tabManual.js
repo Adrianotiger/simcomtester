@@ -24,7 +24,7 @@ class TabManual
       //_CN("script", {src:"3thparty/pdfjs/web/viewer.mjs", type:"module"}, [], this.div);
       //console.log(pdfjsLib);
 
-      this.#pdf = _CN("canvas", {id:"pdf", style:"width:100%;height:50vh;"}, [], this.div);
+      this.#pdf = _CN("canvas", {id:"pdf", style:"width:100%;height:50vh;", width:400, height:700}, [], this.div);
 
       let pdft = pdfjsLib.getDocument('./modules/SIM70x0_AT_107.pdf');
       console.log(pdft);
@@ -33,7 +33,7 @@ class TabManual
         let page = await pdf.getPage(1);
         console.log(page);
         const scale = 1;
-        const viewport = page.getViewport(scale);
+        const viewport = page.getViewport({scale: scale});
 
         const context = this.#pdf.getContext('2d');
         this.#pdf.height = viewport.height;
@@ -43,6 +43,8 @@ class TabManual
           canvasContext: context,
           viewport: viewport,
         };
+
+        console.log(renderContext);
 
         await page.render(renderContext);
       });
