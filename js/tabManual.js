@@ -26,21 +26,26 @@ class TabManual
 
       this.#pdf = _CN("canvas", {id:"pdf", style:"width:100%;height:50vh;"}, [], this.div);
 
-      let pdf = await pdfjsLib.getDocument('./modules/SIM70x0_AT_107.pdf');
-      let page = await pdf.getPage(1);
-      const scale = 1;
-      const viewport = page.getViewport(scale);
+      let pdft = pdfjsLib.getDocument('./modules/SIM70x0_AT_107.pdf');
+      console.log(pdft);
+      pdft.promise.then(async(pdf)=>{
+        console.log(pdf);
+        let page = await pdf.getPage(1);
+        console.log(page);
+        const scale = 1;
+        const viewport = page.getViewport(scale);
 
-      const context = this.#pdf.getContext('2d');
-      this.#pdf.height = viewport.height;
-      this.#pdf.width = viewport.width;
+        const context = this.#pdf.getContext('2d');
+        this.#pdf.height = viewport.height;
+        this.#pdf.width = viewport.width;
 
-      const renderContext = {
-        canvasContext: context,
-        viewport: viewport,
-      };
+        const renderContext = {
+          canvasContext: context,
+          viewport: viewport,
+        };
 
-      await page.render(renderContext);
+        await page.render(renderContext);
+      });
 
       //this.#pdf = _CN("iframe", {id:"pdf-js-viewer", style:"width:100%;height:50vh;", src:"./3thparty/pdfjs/web/viewer.html?file=../../../modules/SIM70x0_AT_107.pdf"}, [], this.div);
     }, 1000);
