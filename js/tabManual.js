@@ -18,7 +18,7 @@ class TabManual
     });
 
     setTimeout(()=>{
-      this.#pdf = _CN("iframe", {id:"pdf-js-viewer", style:"width:100%;height:50vh;", src:"./3thparty/pdfjs/web/viewer.html?file=./modules/SIM70x0_AT_107.pdf"}, [], this.div);
+      this.#pdf = _CN("iframe", {id:"pdf-js-viewer", style:"width:100%;height:50vh;", src:"./3thparty/pdfjs/web/viewer.html?file=../../../modules/SIM70x0_AT_107.pdf"}, [], this.div);
     }, 1000);
   }
   
