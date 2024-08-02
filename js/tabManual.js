@@ -17,14 +17,10 @@ class TabManual
       this.OpenTutorial(data.detail);
     });
 
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "./3thparty/pdfjs/build/pdf.worker.mjs";
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "//mozilla.github.io/pdf.js/build/pdf.worker.mjs";
  
     setTimeout(async ()=>{
-      //_CN("script", {src:"./3thparty/pdfjs/build/pdf.mjs", type:"module"}, [], document.head);
-      //_CN("script", {src:"3thparty/pdfjs/web/viewer.mjs", type:"module"}, [], this.div);
-      //console.log(pdfjsLib);
-
-      this.#pdf = _CN("canvas", {id:"pdf", style:"width:100%;height:50vh;", width:400, height:700}, [], this.div);
+      this.#pdf = _CN("canvas", {id:"pdf", style:"width:40vw;height:56vw;", width:400, height:700}, [], this.div);
 
       let pdft = pdfjsLib.getDocument('./modules/SIM70x0_AT_107.pdf');
       console.log(pdft);
@@ -43,6 +39,34 @@ class TabManual
           canvasContext: context,
           viewport: viewport,
         };
+
+        pdf.getOutline().then(outline=>{
+          console.log(outline);
+// 1.4.4 = '[{"num":898,"gen:0},{"name":"XYZ"},85.6,672.2,0]'
+          pdf.getPageIndex(outline[9].dest[0]).then((destx)=>{
+            console.log("FOUND DESTINATION!", outline[9].dest[0], destx);
+            
+          });
+
+          if (outline) {/*
+            for (let i = 0; i < outline.length; i++) {
+              const desta = outline[i].dest[0];
+              console.log(desta);
+              // Get each page ref
+              pdf.getDestination(desta).then((destx) => {
+                const ref = destx[0];
+                console.log(desta, ref);
+                // And the page id
+                pdf.getPageIndex(ref).then((id) => {
+                  console.log(desta, ref, id);
+                  // page number = index + 1
+                  //pairs.push({ title: outline.title, pageNumber:  parseInt(id) + 1 });
+                  console.log("Outline", outline.title, parseInt(id) + 1)
+                });
+              });
+            }*/
+          }
+        });
 
         console.log(renderContext);
 
