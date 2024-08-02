@@ -6,7 +6,8 @@ let AT_CFSDFILE = new class extends ATBase
     super({
       write: true,
       description: "Delete the File from the Flash",
-      cmd: "AT+CFSDFILE"
+      cmd: "AT+CFSDFILE",
+      doc: "9.2.4"
     }); //false, true, false, false, "Delete the File from the Flash", "", "AT+CFSDFILE", 1000);
     
     let enumI = [];

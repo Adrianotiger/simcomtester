@@ -8,7 +8,8 @@ let AT_CGNSINF = new class extends ATBase
       test: true,
       description: "GNSS Navigation Information Parsed From NMEA",
       example: "+CGNSINF:1,,,0.000000,0.000000,-18.000,,,1,,0.1,0.1,0.1,,,,9999000.0,6144.0",
-      cmd: "AT+CGNSINF"
+      cmd: "AT+CGNSINF",
+      doc: "8.2.2"
     });
     
     let enumR = [];

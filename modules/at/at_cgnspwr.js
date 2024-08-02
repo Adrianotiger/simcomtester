@@ -9,7 +9,8 @@ let AT_CGNSPWR = new class extends ATBase
       test: true,
       description: "GNSS Power Control",
       example: "+CGNSPWR: 0",
-      cmd: "AT+CGNSPWR"
+      cmd: "AT+CGNSPWR",
+      doc: "8.2.1"
     }); 
     
     let enumM = [];

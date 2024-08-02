@@ -9,7 +9,8 @@ let AT_CCOAPHEAD = new class extends ATBase
       test: true,
       description: "Read Head of CoAP Packet",
       example: "+CCOAPHEAD: 1,1,2,0,4.04,1,,,,,,,0,,,,,,,,",
-      cmd: "AT+CCOAPHEAD"
+      cmd: "AT+CCOAPHEAD",
+      doc: "18.2.7"
     });//false, true, false, true, "Read Head of CoAP Packet", "+CCOAPHEAD: 1,1,2,0,4.04,1,,,,,,,0,,,,,,,,", "AT+CCOAPHEAD", 1000);
         
     let enumC = [];

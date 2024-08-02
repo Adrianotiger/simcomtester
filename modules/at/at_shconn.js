@@ -6,7 +6,8 @@ let AT_SHCONN = new class extends ATBase
     super({
       exe: true,
       description: "HTTP(S) Connection",
-      cmd: "AT+SHCONN"
+      cmd: "AT+SHCONN",
+      doc: "13.2.3"
     });
   }
 };

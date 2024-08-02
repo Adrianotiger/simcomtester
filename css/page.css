@@ -135,3 +135,52 @@ textarea
 {
   width: 99%;
 }
+
+.pdfviewer
+{
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 76vmin;
+  height: 100vmin;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(to bottom, #eda, #fed, #eda);
+  z-index: 1010;
+}
+
+.pdfviewer canvas
+{
+  position: absolute;
+  left: 1vmin;
+  bottom: 1vmin;
+  width: 69vmin;
+  height: 98vmin;
+  background-color: white;
+}
+
+.pdfviewer div
+{
+  position: absolute;
+  right: 1vmin;
+  top: 1vmin;
+  width: 4vmin;
+  height: 20vmin;
+}
+
+.pdfviewer span
+{
+  display: inline-block;
+  width: 4vmin;
+  height: 4vmin;
+  font-size: 4vmin;
+  line-height: 4vmin;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 1vmin;
+  margin-top: 2vmin;
+}
+
+.pdfviewer span:hover
+{
+  background-color: #ffa;
+}

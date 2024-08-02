@@ -9,7 +9,8 @@ let AT_CMGS = new class extends ATBase
       description: "Send SMS Messages",
       example: "+CMGS: 213",
       cmd: "AT+CMGS",
-      timeout: 60000
+      timeout: 60000,
+      doc: "4.2.5"
     });// true, true, false, true, "Enter/Read PIN", "+CPIN: READY", "AT+CPIN", 5000);
     
     this.AddParam("da", "string", "destination address");

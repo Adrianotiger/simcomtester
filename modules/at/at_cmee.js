@@ -9,7 +9,8 @@ let AT_CMEE = new class extends ATBase
       test: true,
       description: "Report Mobile Equipment Error",
       example: "+CMEE: 0",
-      cmd: "AT+CMEE"
+      cmd: "AT+CMEE",
+      doc: "3.2.8"
     }); //true, true, false, true, "Report Mobile Equipment Error", "+CMEE: 0", "AT+CMEE", 1000);
     
     let enumC = [];

@@ -10,7 +10,8 @@ let AT_CGATT = new class extends ATBase
       description: "Attach or Detach from GPRS Service",
       example: "+CGATT: 0",
       cmd: "AT+CGATT",
-      timeout: 75000
+      timeout: 75000,
+      doc: "6.2.1"
     }); //true, true, false, true, "Attach or Detach from GPRS Service", "+CGATT: 0", "AT+CGATT", 75000);
     
     let enumS = [];

@@ -10,7 +10,8 @@ let AT_COPS = new class extends ATBase
       description: "Operator Selection",
       example: "+COPS:0,0,\"CHINA MOBILE\"",
       cmd: "AT+COPS",
-      timeout: 120000
+      timeout: 120000,
+      doc: "3.2.9"
     }); //true, true, false, true, "Operator Selection", "+COPS:0,0,\"CHINA MOBILE\"", "AT+COPS", 120000);
     
     let enumM = [];

@@ -12,7 +12,8 @@ let AT_CCOAPACTION = new class extends ATBase
       test: true,
       description: "Operate CoAP Object",
       example: "+CCOAPACTION: 0,1",
-      cmd: "AT+CCOAPACTION"
+      cmd: "AT+CCOAPACTION",
+      doc: "18.2.6"
     });//false, true, true, true, "Operate CoAP Object", "+CCOAPACTION: 0,1", "AT+CCOAPACTION", 1000);
     
     let enumT = [];

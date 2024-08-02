@@ -7,7 +7,8 @@ let ATI = new class extends ATBase
       exe: true,
       description: "Display Product Identification Information",
       example: "R1951.01",
-      cmd: "ATI"
+      cmd: "ATI",
+      doc: "2.2.5"
     });
   }
 };

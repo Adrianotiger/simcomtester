@@ -8,7 +8,8 @@ let AT_CPAS = new class extends ATBase
       test: true,
       description: "Phone Activity Status",
       example: "+CAPS: 0",
-      cmd: "AT+CPAS"
+      cmd: "AT+CPAS",
+      doc: "3.2.10"
     });// true, true, false, true, "Enter/Read PIN", "+CPIN: READY", "AT+CPIN", 5000);
     //this.STATES = ["UNKNOWN", "READY", "SIM PIN", "SIM PUK", "PH_SIM PIN", "PH_SIM PUK", "PH_NET PIN", "SIM PIN2", "SIM PUK2"];
     let enumS = [];

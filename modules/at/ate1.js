@@ -6,7 +6,8 @@ let ATE1 = new class extends ATBase
     super({
       exe: true,
       description: "Set echo on",
-      cmd: "ATE1"
+      cmd: "ATE1",
+      doc: "2.2.3"
     });
   }
 };

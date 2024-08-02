@@ -9,7 +9,8 @@ let AT_SHAHEAD = new class extends ATBase
       test: true,
       description: "Add Head",
       example: "+SHAHEAD: 0,0",
-      cmd: "AT+SHAHEAD"
+      cmd: "AT+SHAHEAD",
+      doc: "13.2.5"
     });
     
     this.AddParam("type", "string", "type");

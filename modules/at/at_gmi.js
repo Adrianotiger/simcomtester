@@ -8,7 +8,8 @@ let AT_GMI = new class extends ATBase
       test: true,
       description: "Request Manufacturer Identification",
       example: "SIMCOM_Ltd",
-      cmd: "AT+GMI"
+      cmd: "AT+GMI",
+      doc: "2.2.25"
     });
   }
 };

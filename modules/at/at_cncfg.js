@@ -9,7 +9,8 @@ let AT_CNCFG = new class extends ATBase
       test: true,
       description: "PDP Config",
       example: "+CNCFG: 0,0,\"\",\"\",\"\",0",
-      cmd: "AT+CNCFG"
+      cmd: "AT+CNCFG",
+      doc: "7.2.2"
     }); //true, true, false, true, "PDP Config", "+CNCFG: 0,0,\"\",\"\",\"\",0", "AT+CNCFG", 1000);
     
     let enumIdx = [];

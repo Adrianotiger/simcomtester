@@ -7,7 +7,8 @@ let AT_CCOAPURL = new class extends ATBase
       write: true,
       test: true,
       description: "Configure CoAP URL",
-      cmd: "AT+CCOAPURL"
+      cmd: "AT+CCOAPURL",
+      doc: "18.2.4"
     }); //false, true, false, true, "Configure CoAP URL", "", "AT+CCOAPURL", 1000);
     
     this.AddParam("url", "string", "scheme://host:port/uri");

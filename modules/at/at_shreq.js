@@ -9,7 +9,8 @@ let AT_SHREQ = new class extends ATBase
       test: true,
       description: "Set Request Type",
       example: "+SHREQ: ,0",
-      cmd: "AT+SHREQ"
+      cmd: "AT+SHREQ",
+      doc: "13.2.10"
     });
     
     let enumT = [];

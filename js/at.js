@@ -81,6 +81,7 @@ class ATBase
   #exe = false;
   #test = false;
   #description = "NO DESCRIPTION";
+  #doc = "";
   #example = "+AT";
   #cmd = "AT";
   #timeout = 1000;
@@ -110,6 +111,7 @@ class ATBase
     this.#example = options.example??"";
     this.#cmd = options.cmd??"INVALID_AT";
     this.#timeout = options.timeout??1000;
+    this.#doc = options.doc??"0";
     
     ATs[this.#cmd] = this;
     
@@ -165,6 +167,11 @@ class ATBase
   GetRawValue()
   {
     return this.#answerRaw;
+  }
+
+  GetDoc()
+  {
+    return this.#doc;
   }
   
   CanTest()

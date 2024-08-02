@@ -7,7 +7,8 @@ let AT_CCOAPPARA = new class extends ATBase
       write: true,
       test: true,
       description: "Assembling CoAP Data Packet",
-      cmd: "AT+CCOAPPARA"
+      cmd: "AT+CCOAPPARA",
+      doc: "18.2.5"
     }); //false, true, false, true, "Assembling CoAP Data Packet", "", "AT+CCOAPPARA", 1000);
     
     let enumC = [];

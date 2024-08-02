@@ -8,7 +8,8 @@ let AT_GOI = new class extends ATBase
       test: true,
       description: "Global Object Identification",
       example: "SIM7080",
-      cmd: "AT+GOI"
+      cmd: "AT+GOI",
+      doc: "2.2.28"
     });
   }
 };

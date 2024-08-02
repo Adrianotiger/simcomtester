@@ -9,7 +9,8 @@ let AT_SHSSL = new class extends ATBase
       test: true,
       description: "Select SSL Configure",
       example: "+SHSSL: 0,\"\",\"\"",
-      cmd: "AT+SHSSL"
+      cmd: "AT+SHSSL",
+      doc: "13.2.2"
     });
     
     let enumI = [];

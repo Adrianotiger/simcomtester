@@ -6,7 +6,8 @@ let AT_CFSWFILE = new class extends ATBase
     super({
       write: true,
       description: "Write File to the Flash Buffer Allocated by CFSINIT",
-      cmd: "AT+CFSWFILE"
+      cmd: "AT+CFSWFILE",
+      doc: "9.2.2"
     }); //false, true, false, false, "Write File to the Flash Buffer Allocated by CFSINIT", "", "AT+CFSWFILE", 1000);
     
     let enumI = [];

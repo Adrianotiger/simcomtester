@@ -9,7 +9,8 @@ let AT_CMGD = new class extends ATBase
       description: "Delete SMS Message",
       example: "+CMGD: (0,1,2),(0-4)",
       cmd: "AT+CMGD",
-      timeout: 25000
+      timeout: 25000,
+      doc: "4.2.1"
     });// true, true, false, true, "Enter/Read PIN", "+CPIN: READY", "AT+CPIN", 5000);
     
     let enumD = [];

@@ -8,7 +8,8 @@ let AT_CSSLCFG = new class extends ATBase
       write: true,
       test: true,
       description: "Configure SSL Parameters of a Context Identifier",
-      cmd: "AT+CSSLCFG"
+      cmd: "AT+CSSLCFG",
+      doc: "11.2.1"
     }); //true, true, false, false, "Configure SSL Parameters of a Context Identifier", "", "AT+CSSLCFG", 1000);
     
     let enumC = [];

@@ -9,7 +9,8 @@ let AT_CREG = new class extends ATBase
       test: true,
       description: "Network Registration",
       example: "+CREG: 0,2",
-      cmd: "AT+CREG"
+      cmd: "AT+CREG",
+      doc: "3.2.14"
     }); //true, true, false, true, "Network Registration", "+CREG: 0,2", "AT+CREG", 1000);
     
     let enumN = [];

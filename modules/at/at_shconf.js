@@ -9,7 +9,8 @@ let AT_SHCONF = new class extends ATBase
       test: true,
       description: "Set HTTP(S) Parameter",
       example: "+SHCONF: URL: 0.0.0.0:80",
-      cmd: "AT+SHCONF"
+      cmd: "AT+SHCONF",
+      doc: "13.2.1"
     });
     
     let enumC = [];

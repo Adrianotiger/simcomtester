@@ -8,7 +8,8 @@ let AT_CGNAPN = new class extends ATBase
       test: true,
       description: "Get Network APN in CAT-M or NB-IoT",
       example: "+CGNAPN: 0,\"\"",
-      cmd: "AT+CGNAPN"
+      cmd: "AT+CGNAPN",
+      doc: "5.2.20"
     }); //false, false, true, true, "Get Network APN in CAT-M or NB-IoT", "+CGNAPN: 0,\"\"", "AT+CGNAPN", 1000);
     
     let enumV = [];

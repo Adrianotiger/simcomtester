@@ -6,7 +6,8 @@ let AT_SHDISC = new class extends ATBase
     super({
       exe: true,
       description: "Disconnect HTTP(S)",
-      cmd: "AT+SHDISC"
+      cmd: "AT+SHDISC",
+      doc: "13.2.12"
     });
   }
 };

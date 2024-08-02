@@ -9,7 +9,8 @@ let AT_CNMP = new class extends ATBase
       test: true,
       description: "Preferred Mode Selection",
       example: "+CNMP: 38",
-      cmd: "AT+CNMP"
+      cmd: "AT+CNMP",
+      doc: "5.2.16"
     }); //true, true, false, true, "Preferred Mode Selection", "+CNMP: 38", "AT+CNMP", 1000);
     
     let enumMode = [];

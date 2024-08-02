@@ -9,7 +9,8 @@ let AT_CMNB = new class extends ATBase
       test: true,
       description: "Preferred Selection between CAT-M and NB-IoT",
       example: "+CMNB: 2",
-      cmd: "AT+CMNB"
+      cmd: "AT+CMNB",
+      doc: "5.2.17"
     }); //true, true, false, true, "Preferred Selection between CAT-M and NB-IoT", "+CMNB: 2", "AT+CMNB", 1000);
     
     let enumMode = [];

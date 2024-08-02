@@ -8,7 +8,8 @@ let AT_SHREAD = new class extends ATBase
       test: true,
       description: "Read Response Value",
       example: "+SHREAD: (0-307200),(1-307200)",
-      cmd: "AT+SHREAD"
+      cmd: "AT+SHREAD",
+      doc: "13.2.11"
     });
     
     this.AddParam("startaddress", "number", "start address");

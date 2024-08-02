@@ -7,7 +7,8 @@ let AT_SHSTATE = new class extends ATBase
       read: true,
       description: "Query HTTP(S) Connection Status",
       example: "+SHSTATE: 0",
-      cmd: "AT+SHSTATE"
+      cmd: "AT+SHSTATE",
+      doc: "13.2.8"
     });
     
     let enumS = [];

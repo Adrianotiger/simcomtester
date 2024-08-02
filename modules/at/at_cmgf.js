@@ -9,7 +9,8 @@ let AT_CMGF = new class extends ATBase
       test: true,
       description: "Select SMS Message Format",
       example: "+CMGF: 1",
-      cmd: "AT+CMGF"
+      cmd: "AT+CMGF",
+      doc: "4.2.2"
     });// true, true, false, true, "Enter/Read PIN", "+CPIN: READY", "AT+CPIN", 5000);
     //this.STATES = ["UNKNOWN", "READY", "SIM PIN", "SIM PUK", "PH_SIM PIN", "PH_SIM PUK", "PH_NET PIN", "SIM PIN2", "SIM PUK2"];
     let enumM = [];

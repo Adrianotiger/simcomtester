@@ -9,7 +9,8 @@ let AT_CCLK = new class extends ATBase
       test: true,
       description: "Clock",
       example: "+CCLK: \"80/01/06,00:37:28+00\"",
-      cmd: "AT+CCLK"
+      cmd: "AT+CCLK",
+      doc: "3.2.20"
     });
     
     this.AddParam("time", "string", "time");

@@ -6,7 +6,8 @@ let AT = new class extends ATBase
       exe: true,
       description: "Echo Test Command",
       example: "+AT",
-      cmd: "AT"
+      cmd: "AT",
+      doc: "2.2.1"
     });
   }
 };

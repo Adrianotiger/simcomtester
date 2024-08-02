@@ -80,6 +80,11 @@ const TabInfo = new class
         AT_GMI.Execute().then(()=>{
           AT_GMM.Execute().then(()=>{
             AT_GOI.Execute().then(()=>{
+              let module = AT_GOI.GetValue();
+              if(module.search(/70[0-9]+0/))
+              {
+                PDFManual.LoadPDF("./modules/SIM70x0_AT_107.pdf");
+              }
               AT_GMR.Execute().then(()=>{
                 this.#moduleInit = true;
                 this.#InitOver();

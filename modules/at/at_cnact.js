@@ -10,7 +10,8 @@ let AT_CNACT = new class extends ATBase
       test: true,
       description: "APP Network Active",
       example: "+CNACT: 0,0,\"0.0.0.0\"",
-      cmd: "AT+CNACT"
+      cmd: "AT+CNACT",
+      doc: "7.2.1"
     }); //true, true, false, true, "APP Network Active", "+CNACT: 0,0,\"0.0.0.0\"", "AT+CNACT", 1000);
     
     let enumIdx = [];

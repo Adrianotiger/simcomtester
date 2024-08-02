@@ -6,7 +6,8 @@ let AT_CFSGFRS = new class extends ATBase
     super({
       read: true,
       description: "Get the Size of File System",
-      cmd: "AT+CFSGFRS"
+      cmd: "AT+CFSGFRS",
+      doc: "9.2.7"
     });
     
     this.AddParam("n", "number", "bytes");

@@ -8,7 +8,8 @@ let AT_CSQ = new class extends ATBase
       test: true,
       description: "Signal Quality Report",
       example: "+CSQ: 24,0",
-      cmd: "AT+CSQ"
+      cmd: "AT+CSQ",
+      doc: "3.2.16"
     }); //false, false, true, true, "Signal Quality Report", "+CSQ: 24,0", "AT+CSQ", 1000);
         
     this.AddParam("rssi", "number", "Radio Signal Strength");

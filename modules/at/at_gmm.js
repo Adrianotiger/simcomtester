@@ -8,7 +8,8 @@ let AT_GMM = new class extends ATBase
       test: true,
       description: "Request Model Identification",
       example: "SIMCOM_SIM7080G",
-      cmd: "AT+GMM"
+      cmd: "AT+GMM",
+      doc: "2.2.26"
     });
   }
 };

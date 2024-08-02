@@ -8,7 +8,8 @@ let AT_CPSI = new class extends ATBase
       test: true,
       description: "Inquiring UE System Information",
       example: "+CPSI: LTE NB-IOT,Online,460-11,0x5AE1,187212754,82, EUTRAN-BAND5,2506,0,0,-7,-115,-110,13",
-      cmd: "AT+CPSI"
+      cmd: "AT+CPSI",
+      doc: "5.2.19"
     }); //true, false, false, true, "Inquiring UE System Information", "+CPSI: LTE NB-IOT,Online,460-11,0x5AE1,187212754,82, EUTRAN-BAND5,2506,0,0,-7,-115,-110,13", "AT+CPSI", 1000);
     
     let enumSMode = [];

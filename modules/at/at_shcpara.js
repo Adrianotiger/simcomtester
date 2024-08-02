@@ -6,7 +6,8 @@ let AT_SHCPARA = new class extends ATBase
     super({
       exe: true,
       description: "HTTP(S) Clear Parameters",
-      cmd: "AT+SHCPARA"
+      cmd: "AT+SHCPARA",
+      doc: "13.2.7"
     });
   }
 };

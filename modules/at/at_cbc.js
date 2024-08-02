@@ -8,7 +8,8 @@ let AT_CBC = new class extends ATBase
       test: true,
       description: "Battery Charge",
       example: "+CBC: 0,62,3810",
-      cmd: "AT+CBC"
+      cmd: "AT+CBC",
+      doc: "3.2.22"
     });// false, false, true, true, "Battery Charge", "+CBC: 0,62,3810", "AT+CBC", 1000);
     
     let enumBcs = [];

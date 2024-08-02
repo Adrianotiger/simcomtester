@@ -1,8 +1,6 @@
 class TabManual
 {
   Title = "Manual";
-  #table = {};
-  #pdf = null;
   
   constructor()
   {
@@ -16,65 +14,6 @@ class TabManual
       Tabs.OpenManualTab();
       this.OpenTutorial(data.detail);
     });
-
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "//mozilla.github.io/pdf.js/build/pdf.worker.mjs";
- 
-    setTimeout(async ()=>{
-      this.#pdf = _CN("canvas", {id:"pdf", style:"width:40vw;height:56vw;", width:400, height:700}, [], this.div);
-
-      let pdft = pdfjsLib.getDocument('./modules/SIM70x0_AT_107.pdf');
-      console.log(pdft);
-      pdft.promise.then(async(pdf)=>{
-        console.log(pdf);
-        let page = await pdf.getPage(1);
-        console.log(page);
-        const scale = 1;
-        const viewport = page.getViewport({scale: scale});
-
-        const context = this.#pdf.getContext('2d');
-        this.#pdf.height = viewport.height;
-        this.#pdf.width = viewport.width;
-
-        const renderContext = {
-          canvasContext: context,
-          viewport: viewport,
-        };
-
-        pdf.getOutline().then(outline=>{
-          console.log(outline);
-// 1.4.4 = '[{"num":898,"gen:0},{"name":"XYZ"},85.6,672.2,0]'
-          pdf.getPageIndex(outline[9].dest[0]).then((destx)=>{
-            console.log("FOUND DESTINATION!", outline[9].dest[0], destx);
-            
-          });
-
-          if (outline) {/*
-            for (let i = 0; i < outline.length; i++) {
-              const desta = outline[i].dest[0];
-              console.log(desta);
-              // Get each page ref
-              pdf.getDestination(desta).then((destx) => {
-                const ref = destx[0];
-                console.log(desta, ref);
-                // And the page id
-                pdf.getPageIndex(ref).then((id) => {
-                  console.log(desta, ref, id);
-                  // page number = index + 1
-                  //pairs.push({ title: outline.title, pageNumber:  parseInt(id) + 1 });
-                  console.log("Outline", outline.title, parseInt(id) + 1)
-                });
-              });
-            }*/
-          }
-        });
-
-        console.log(renderContext);
-
-        await page.render(renderContext);
-      });
-
-      //this.#pdf = _CN("iframe", {id:"pdf-js-viewer", style:"width:100%;height:50vh;", src:"./3thparty/pdfjs/web/viewer.html?file=../../../modules/SIM70x0_AT_107.pdf"}, [], this.div);
-    }, 1000);
   }
   
   Init()
@@ -85,6 +24,8 @@ class TabManual
   OpenTutorial(cmd)
   {
     this.manual.innerHTML = "";
+    let manualDiv = _CN("div" ,{style:"opacity:0.4;transition:all 0.3s;"}, ["loading manual..."], this.manual);
+    
     _CN("h1", {}, [cmd.GetCmd()], this.manual);
     
     let timeout = "-";
@@ -92,6 +33,27 @@ class TabManual
     {
       timeout = (cmd.GetTimeout() / 1000) + "s";
     }
+    setTimeout(()=>{
+      let ch = PDFManual.GetChapter(cmd.GetDoc());
+      if(ch)
+      {
+        manualDiv.textContent = "";
+        _CN("span", {style:"cursor:pointer;color:#700;"}, [_CN("img", {src:"./modules/pdf.png", style:"height:18px;vertical-align:middle;"}), " View on SimCom manual"], manualDiv).addEventListener("click", ()=>{
+          PDFManual.OpenChapter(ch);
+        });
+        _CN("span", {style:"padding:0px 10px;"}, [" - "], manualDiv);
+        _CN("span", {style:"cursor:pointer;color:#700;"}, [_CN("img", {src:"./modules/pdf.png", style:"height:18px;vertical-align:middle;"}), " Open on new page"], manualDiv).addEventListener("click", ()=>{
+          PDFManual.GetChapterPage(ch, (p)=>{
+            window.open(PDFManual.pdfFile + "#page=" + p, "new");
+          });
+        });
+        manualDiv.style.opacity = 1;
+      }
+      else
+      {
+        manualDiv.textContent = "No SimCom manual found.";
+      }
+    }, 100)
 
     _CN("p", {}, [cmd.GetDescription()], this.manual);
         

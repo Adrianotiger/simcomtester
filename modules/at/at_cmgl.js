@@ -12,7 +12,8 @@ let AT_CMGL = new class extends ATBase
       description: "List SMS Messages from Preferred Store",
       example: "+CMGL: 1,2,,18",
       cmd: "AT+CMGL",
-      timeout: 20000
+      timeout: 20000,
+      doc: "4.2.3"
     });// true, true, false, true, "Enter/Read PIN", "+CPIN: READY", "AT+CPIN", 5000);
     
     let enumS = [];
