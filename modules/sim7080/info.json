@@ -1,0 +1,15 @@
+{
+  "name" : "7080",
+  "path" : "sim7080",
+  "manual" : "SIM70x0_AT_107.pdf",
+  "firmware" :
+  {
+    "base" : "1951B05SIM7080",
+    "version": "1951B([0-9]{2})SIM70[7-9]0",
+    "last" : "17"
+  },
+  "simcom" : 
+  {
+    "link" : "https://www.simcom.com/product/SIM7080G.html"
+  }
+}

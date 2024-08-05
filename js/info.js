@@ -1,6 +1,7 @@
 const TabInfo = new class
 {
   #moduleInit = false;
+  #moduleInfo = {};
   
   constructor()
   {
@@ -10,7 +11,7 @@ const TabInfo = new class
     this.man_id = _CN("div", {class:"labelInfo"}, [_CN("label", {}, ["Manufacturer Identification: "]), _CN("i")], this.div);
     this.mod_id = _CN("div", {class:"labelInfo"}, [_CN("label", {}, ["Model Identification: "]), _CN("i")], this.div);
     this.glo_id = _CN("div", {class:"labelInfo"}, [_CN("label", {}, ["Global Identification: "]), _CN("i")], this.div);
-    this.rev = _CN("div", {class:"labelInfo"}, [_CN("label", {}, ["Revision: "]), _CN("i")], this.div);
+    this.rev = _CN("div", {class:"labelInfo"}, [_CN("label", {}, ["Firmware: "]), _CN("i")], this.div);
     
     this.divGit = _CN("div", {class:"box github"}, [], document.body);
 
@@ -26,7 +27,7 @@ const TabInfo = new class
 
     setTimeout(()=>{
       _CN("div", {}, [_CN("a", {href:"https://github.com/Adrianotiger/simcomtester", target:"_blank"}, ["Github Project"])], this.divGit);
-      _CN("div", {}, [_CN("i", {}, ["ver 0.41 - 2024", _CN("br"), "© Adriano Petrucci"])], this.divGit);
+      _CN("div", {}, [_CN("i", {}, ["ver 0.42 - 2024", _CN("br"), "© Adriano Petrucci"])], this.divGit);
     }, 500);
     
     let i = window.setInterval(()=>{
@@ -42,6 +43,7 @@ const TabInfo = new class
     },500);
   }
   
+  // Start inquiring module and possible commands
   async #InitModule(retries = 0)
   {
     let isConnected = false;
@@ -68,9 +70,9 @@ const TabInfo = new class
             SIMSerial.Connect();
             setTimeout(()=>{
               this.#InitModule(retries+1);
-            }, 2000);
+            }, 1000);
           }
-        }, 2000);
+        }, 1000);
       }, 100);
       return;
     }
@@ -83,9 +85,45 @@ const TabInfo = new class
               let module = AT_GOI.GetValue();
               if(module.search(/70[0-9]+0/))
               {
-                PDFManual.LoadPDF("./modules/SIM70x0_AT_107.pdf");
+                fetch("modules/sim7080/info.json").then(r=>{return r.json();}).then(j=>{this.#moduleInfo = j});
+                addATCommands("modules/sim7080/at.json");
+                PDFManual.LoadPDF("./modules/manuals/SIM70x0_AT_107.pdf");
+
+                window.dispatchEvent(
+                  new CustomEvent("cominfo", { detail: {info:"Module 70*0 found! Loading extended AT commands and manual."} })
+                );
               }
+              else
+              {
+                window.dispatchEvent(
+                  new CustomEvent("cominfo", { detail: {error:"Module " + module + " not found in this project."} })
+                );
+              }
+
               AT_GMR.Execute().then(()=>{
+                let revision = AT_GMR.GetValue();
+                if(this.#moduleInfo.firmware)
+                {
+                  console.log(this.#moduleInfo.firmware, revision);
+                  const reg = new RegExp(this.#moduleInfo.firmware.version, 'g');
+                  let m;
+                  if ((m = reg.exec(revision)) !== null)
+                  {
+                    if(m.length == 2 && parseInt(m[2]) < parseInt(this.#moduleInfo.firmware.last))
+                    {
+                      window.dispatchEvent(
+                        new CustomEvent("cominfo", { detail: {error:"Module firmware (" + m[1] + ") is out of date, there is a newer firmware: " + this.#moduleInfo.firmware.last} })
+                      );
+                    }
+                    else if(m.length == 2)
+                    {
+                      window.dispatchEvent(
+                        new CustomEvent("cominfo", { detail: {info:"Module firmware is " + m[1] + ". Up to date."} })
+                      );
+                    }
+                  }
+                }
+
                 this.#moduleInit = true;
                 this.#InitOver();
               });

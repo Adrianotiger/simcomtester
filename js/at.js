@@ -537,24 +537,26 @@ class ATBase
 };
 
 let ATs = [];
+let ATTotScripts = 0;
+let ATScriptsLoaded = 0;
 
 window.addEventListener("load", ()=>{
-  let totScripts = 1;
-  let scriptsLoaded = 0;
-  
-  fetch("modules/at.json").then(r=>{
+  // Load base AT commands
+  addATCommands("modules/at.json");
+});
+
+function addATCommands(jsonFile)
+{
+  fetch(jsonFile).then(r=>{
     return r.json();
   }).then(j=>{
     console.log(j);
-    totScripts = j.length;
+    ATTotScripts += j.length;
     j.forEach(cmd=>{
-      let atIndex = cmd.toUpperCase();
       cmd = cmd.replace("+", "_");
-      let s = _CN("script", {src:`modules/at/${cmd}.js?v=94`+parseInt(new Date().getTime() / 5000)}, [], document.head);
-      s.addEventListener("load", ()=>{
-        scriptsLoaded++;
+      _CN("script", {src:`modules/at/${cmd}.js?v=95`}, [], document.head).addEventListener("load", ()=>{
+        ATScriptsLoaded++;
       });
     });
   });
-  
-});
+}
