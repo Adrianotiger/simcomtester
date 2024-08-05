@@ -1,5 +1,12 @@
 # SimCom Tester
-This webpage will let you send some simple commands to your SimCom Module.
+This webpage will let you send some simple commands to your SimCom Module. 
+- Send AT-Commands to you SimCom module directly over the webpage
+- No downloads or installation
+- Description of every command, with integrated help and AT-manual
+- Check module and firmware
+  
+❕ Actually, only the **SIM7080G** (SIM7070G and SIM7090G) is implemented. Other modules can be implemented in future without much work.  
+
 
 # Setup
 - Connect your module with your PC (USB or Serial).
@@ -7,8 +14,7 @@ This webpage will let you send some simple commands to your SimCom Module.
 - Press on "Connect" and select the right serial port on your browser (the first SimTech serial port, on USB)
 - If everything is connected, you should see something like this:
 
-![image](https://github.com/Adrianotiger/simcomtester/assets/7373079/88cc843a-c464-4d38-9cb9-864479e6c234)
-
+![image](https://github.com/user-attachments/assets/89ba27e9-5835-451b-8933-629ae4760c6c)
 
 # How to use
 - You can press any predefined commands on the left panel
@@ -16,7 +22,6 @@ This webpage will let you send some simple commands to your SimCom Module.
 - If you press on "📃" a tutorial should be visible for that command.
 
 # Issues  
-This webpage is just a preview or draft. Please do not submit any issues about missing commands, as I am still working (and probably I will rewrite some parts).  
 I am testing a SIM7080 Module, so this page has some 7080-specific commands.
 
 The structure should let me/us to add (without much works) more commands and to add module-specific commands.
