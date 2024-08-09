@@ -27,7 +27,11 @@ let AT_CCLK = new class extends ATBase
     
     if(this.GetRequestType() == "read")
     {
-      _CN("span", {}, ["time: " + value.time.replace(/"/g,'')], div);
+      let dt = GetTime();
+      const optionsDate = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+      const optionsTime = { timeZoneName: "short", hour: "2-digit", minute: "2-digit", second: "2-digit" };
+      _CN("span", {}, [dt.toLocaleDateString(undefined, optionsDate)], div);
+      _CN("span", {}, [dt.toLocaleTimeString(undefined, optionsTime)], div);
     }
   }
   
