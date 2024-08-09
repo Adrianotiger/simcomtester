@@ -28,3 +28,10 @@ I am testing a SIM7080 Module, so this page has some 7080-specific commands.
 The structure should let me/us to add (without much works) more commands and to add module-specific commands.
 
 The page is not able to parse "unsolicited results". I need to integrate this functionality.
+
+# Credits
+[Web Serial Port API (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/API/SerialPort)  
+[Javascript PDFLib for (github.com)](https://github.com/mozilla/pdf.js)  
+[SimCom Module (simcom.com)](https://www.simcom.com/product/SIM7080G.html)  
+
+Too complicated or module does not answer? Try a Web Serial Terminal: https://www.serialterminal.com/
