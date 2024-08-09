@@ -14,7 +14,8 @@ This webpage will let you send some simple commands to your SimCom Module.
 - Press on "Connect" and select the right serial port on your browser (the first SimTech serial port, on USB)
 - If everything is connected, you should see something like this:
 
-![image](https://github.com/user-attachments/assets/89ba27e9-5835-451b-8933-629ae4760c6c)
+![image](https://github.com/user-attachments/assets/194d2c5b-7a57-4671-8e90-c0ede48043d3)
+
 
 # How to use
 - You can press any predefined commands on the left panel
