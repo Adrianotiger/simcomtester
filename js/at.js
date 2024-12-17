@@ -554,7 +554,7 @@ async function addATCommands(jsonFile)
     ATTotScripts += j.length;
     j.forEach(cmd=>{
       cmd = cmd.replace("+", "_");
-      _CN("script", {src:`modules/at/${cmd}.js?v=96`}, [], document.head).addEventListener("load", ()=>{
+      _CN("script", {src:`modules/at/${cmd}.js?v=97`}, [], document.head).addEventListener("load", ()=>{
         ATScriptsLoaded++;
       });
     });
