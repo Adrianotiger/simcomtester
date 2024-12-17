@@ -37,6 +37,7 @@ const Tabs = new class
       {name:"tabCommands"}, 
       {name:"tabCoap"},
       {name:"tabHttps"},
+      {name:"tabTcpUdp"},
       {name:"tabSms"},
       {name:"tabGnss"},
       {name:"tabManual"}
@@ -73,7 +74,7 @@ const Tabs = new class
     const j = 100 - this.#tabPos.zIndex;
     this.#tabPos.left += this.#tabPos.offsetX;
     this.#tabPos.zIndex--;
-    if(this.#tabPos.left > 40)
+    if(this.#tabPos.left > 34)
     {
       this.#tabPos.T++;
       this.#tabPos.left = 2 + (this.#tabPos.T % 2) * (this.#tabPos.W * 0.5);
@@ -128,4 +129,5 @@ const Tabs = new class
     
     return div;
   }
+
 };

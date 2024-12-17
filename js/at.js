@@ -466,7 +466,7 @@ class ATBase
     return this.#requestType;
   }
   
-  GetParamDiv(param, description, defaultVal)
+  GetParamDiv(param, description, defaultVal="")
   {
     let ret = {div:null, inp:null};
     ret.div = _CN("div", {class:"paramdiv"}, [_CN("p", {}, [description])]);
@@ -479,11 +479,11 @@ class ATBase
     
     if(p.GetType() == "string" || p.GetType() == "url")
     {
-      ret.inp = _CN("input", {type:"text", value:""}, [], ret.div);
+      ret.inp = _CN("input", {type:"text", value:defaultVal}, [], ret.div);
     }
     else if(p.GetType() == "number")
     {
-      ret.inp = _CN("input", {type:"number", value:""}, [], ret.div);
+      ret.inp = _CN("input", {type:"number", value:defaultVal}, [], ret.div);
     }
     else if(typeof p.GetType() == "object")
     {
@@ -545,9 +545,9 @@ window.addEventListener("load", ()=>{
   addATCommands("modules/at.json");
 });
 
-function addATCommands(jsonFile)
+async function addATCommands(jsonFile)
 {
-  fetch(jsonFile).then(r=>{
+  await fetch(jsonFile).then(r=>{
     return r.json();
   }).then(j=>{
     console.log(j);

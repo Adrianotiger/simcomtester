@@ -73,7 +73,7 @@ const SIMSerial = new class
     const writer = port.writable.getWriter();
     
     wchar[0] = intVal;
-    console.log("Serial data", "0x" + intVal.toString(16));
+    console.log("Serial send ", "0x" + intVal.toString(16));
 
     writer.write(wchar).then(()=>{
       writer.releaseLock();
@@ -86,7 +86,7 @@ const SIMSerial = new class
     const encoder = new TextEncoder();
     const writer = port.writable.getWriter();
     
-    console.log("Serial data", str.length + " bytes");
+    console.log("Serial send ", str.length + " bytes");
 
     writer.write(encoder.encode(str)).then(()=>{
       writer.releaseLock();

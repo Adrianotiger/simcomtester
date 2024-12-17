@@ -73,6 +73,7 @@ let Settings = new class
           if(this.#idle) return;
           
           this.#idle = true;
+          o.value = i.value;
           localStorage.setItem(cla, i.value);
           setTimeout(()=>{
             [...document.getElementsByClassName(cla)].forEach((oc)=>{
@@ -90,6 +91,7 @@ let Settings = new class
           if(this.#idle) return;
           
           this.#idle = true;
+          o.value = i.value;
           localStorage.setItem(cla, i.value);
           setTimeout(()=>{
             [...document.getElementsByClassName(cla)].forEach((oc)=>{

@@ -5,7 +5,7 @@ This webpage will let you send some simple commands to your SimCom Module.
 - Description of every command, with integrated help and AT-manual
 - Check module and firmware
   
-❕ Actually, only the **SIM7080G** (SIM7070G and SIM7090G) is implemented. Other modules can be implemented in future without much work.  
+❕ Actually, only the **SIM7080G** (SIM7070G and SIM7090G) is implemented. Other modules can be used if compatible or can be implemented in future without much work.  
 
 
 # Setup
@@ -21,6 +21,12 @@ This webpage will let you send some simple commands to your SimCom Module.
 - You can press any predefined commands on the left panel
 - Or you can write the commands directly in the "chat"
 - If you press on "📃" a tutorial should be visible for that command.
+
+# How to edit/test
+- Create a workspace in GitHub
+- Add extension "Live Preview" from Microsoft
+- Open index.html and press on the right/top button "show preview", opening the browser-tab in a new window
+- Edit and test it until you have a working version.
 
 # Issues  
 I am testing a SIM7080 Module, so this page has some 7080-specific commands.
