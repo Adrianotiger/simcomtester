@@ -241,6 +241,7 @@ const SIMSerial = new class
     const port = this.#port;
     let serialMsg = "";
     let isClosing = false;
+    let newCmd = null;
     const decoder = new TextDecoder();
     console.warn("Begin read serial...");
     
@@ -267,6 +268,10 @@ const SIMSerial = new class
           setTimeout(()=>{
             if(oldMsg == serialMsg)
             {
+              // todo: rewrite this if for unsolicited result!
+              // 1. every line must be parsed separately
+              // 2. if a line contains payload data, the "Parse()"-function should return the quantity of data expected.
+              // 3. if OK is parsed, this.#data.cmd can be confirmed with OK as the command probably executed the command.
               if(this.#data.cmd)
               {
                 if(this.#data.cmd.HoldUp(serialMsg))
@@ -275,10 +280,20 @@ const SIMSerial = new class
                   return;
                 }
               }
+              else
+              {
+                console.warn("Is this an Unsolicited Result?");
+                console.warn(serialMsg);
+              }
               this.#busy = false;
               this.#data.answer = serialMsg;
               if(this.#data.cmd)
+              {
                 this.#data.cmd.Parse(serialMsg);
+                // reset command, for unsolicited result
+                this.#data.cmd = null;
+                this.#data.req = null;
+              }
               const event = new CustomEvent("serial", { detail: this.#data });
               serialMsg = "";
               window.dispatchEvent(event);
