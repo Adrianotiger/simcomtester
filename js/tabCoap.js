@@ -67,54 +67,14 @@ class TabCoap
     const event = new CustomEvent("cominfo", { detail: {info:""} });
     
     return new Promise((res, rej) => {
-      event.detail.info = "Check PIN";
-      window.dispatchEvent(event);
+      ATScripts.CheckPIN(Settings.GetValue("pin", "pin")).then(()=>{
+        ATScripts.CheckNetwork().then(()=>{
+          
+          ATScripts.CheckAPN(Settings.GetValue("apn", "url"), this.pdpidx.value).then(()=>{
+            res(); // successfully tested pin, network and apn
+          }).catch(e=>{this.#Error("NO APN", e); rej();});
 
-      // Check Pin
-      AT_CPIN.Read().then(()=>{
-
-        if(AT_CPIN.GetState() == "READY")
-        {
-          event.detail.info = "Check Network";
-          window.dispatchEvent(event);
-          // Check Signal
-          AT_CSQ.Execute().then(()=>{
-            if(AT_CSQ.GetRSSI_dBm() >= -100)
-            {
-              // Check Network
-              this.#AttachGPRS().then(()=>{
-                // Check Operator
-                AT_COPS.Read().then(()=>{
-                  if(AT_COPS.GetOperator().length > 1)
-                  {
-                    event.detail.info = "Check Apn";
-                    window.dispatchEvent(event);
-                    AT_CGNAPN.Execute().then(()=>{
-                      if(Settings.GetValue("apn", "url") == AT_CGNAPN.GetApn())
-                      {
-                        event.detail.info = "COAP successfully tested. Ready to be used.";
-                        window.dispatchEvent(event);
-                        res();
-                      }
-                      else
-                      {
-                        rej();
-                      }
-                    }).catch(e=>{this.#Error("NO APN", e); rej();});
-                  }
-                  else
-                  {
-                    rej();
-                  }
-                }).catch(e=>{this.#Error("NO OPERATOR", e); rej();});
-              }).catch(e=>{this.#Error("NO GPRS", e); rej();});
-            }
-            else
-            {
-              rej();
-            }
-          }).catch(e=>{this.#Error("NO SIGNAL", e); rej();});
-        }
+        }).catch(e=>{this.#Error("NO CONNECTION", e); rej();});
       }).catch(e=>{this.#Error("PIN ERROR", e); rej();});
     });
   }
@@ -125,23 +85,23 @@ class TabCoap
     
     return new Promise((res, rej)=>{
       this.CheckStatus().then(()=>{
+
         event.detail.info = "Activate PDP";
         window.dispatchEvent(event);
-        // configure apn
-        AT_CNCFG.Write([this.pdpidx.value, this.iptype.value, Settings.GetValue("apn", "url")]).then(()=>{
-          // activate pdp
-          this.#ActivatePDP().then(()=>{
-            event.detail.info = "Send PDP on idx " + this.pdpidx.value + ", ip: " + AT_CNACT.GetIp(parseInt(this.pdpidx.value));
-            window.dispatchEvent(event);
-            AT_CCOAPINIT.Execute().then(()=>{
-              AT_CCOAPURL.Write([Settings.GetValue("coap", "url")]).then(()=>{
-                this.#ExecuteCoap().then(()=>{
-                  
-                }).catch(e=>{this.#Error("COAP Send ERROR", e, true); rej();});
-              }).catch(e=>{this.#Error("AT_CCOAPURL ERROR", e, true); rej();});
-            }).catch(e=>{this.#Error("AT_CCOAPINIT ERROR", e); rej();});
-          }).catch(e=>{this.#Error("AT_CNACT ERROR", e); rej();});
-        }).catch(e=>{this.#Error("AT_CNCFG ERROR", e); rej();});
+
+        // activate pdp
+        this.#ActivatePDP().then(()=>{
+          event.detail.info = "Send PDP on idx " + this.pdpidx.value + ", ip: " + AT_CNACT.GetIp(parseInt(this.pdpidx.value));
+          window.dispatchEvent(event);
+          AT_CCOAPINIT.Execute().then(()=>{
+            AT_CCOAPURL.Write([Settings.GetValue("coap", "url")]).then(()=>{
+              this.#ExecuteCoap().then(()=>{
+                
+              }).catch(e=>{this.#Error("COAP Send ERROR", e, true); rej();});
+            }).catch(e=>{this.#Error("AT_CCOAPURL ERROR", e, true); rej();});
+          }).catch(e=>{this.#Error("AT_CCOAPINIT ERROR", e, true); rej();});
+        }).catch(e=>{this.#Error("AT_CNACT ERROR", e); rej();}); 
+
       }).catch(e=>{this.#Error("CHECK ERROR", e); rej();});
     });
   }
@@ -151,24 +111,16 @@ class TabCoap
     let index = parseInt(this.pdpidx.value);
     
     return new Promise((res, rej)=>{
-      // Check if already active
-      AT_CNACT.Read().then(()=>{
-        if(AT_CNACT.IsActive(parseInt(this.pdpidx.value)))
-        {
-          res();
-        }
-        else // not active, try to activate
-        {
-          AT_CNACT.Write([index, 1]).then(()=>{
-            AT_CNACT.Read().then(()=>{
-              if(AT_CNACT.IsActive(index))
-              {
-                res();
-              }
-            }).catch(e=>{this.#Error("AT_CNACT ERROR", e); rej();});
-          }).catch(e=>{this.#Error("AT_CNACT ERROR", e); rej();});
-        }
-      }).catch(e=>{this.#Error("AT_CNACT ERROR", e); rej();});
+      if(AT_CNACT.IsActive(index))
+      {
+        res();
+      }
+      else // not active, try to activate
+      {
+        ATScripts.CheckAPN(Settings.GetValue("apn", "url"), index).then(()=>{
+          res(); // successfully tested pin, network and apn
+        }).catch(e=>{this.#Error("NO APN", e); rej();});
+      }
     });
   }
   
@@ -211,33 +163,6 @@ class TabCoap
           }).catch((e)=>{this.#Error("AT_COAPHEAD ERROR", e, true); rej();});
         }).catch((e)=>{this.#Error("AT_COAPACTION ERROR", e, true); rej();});
       }).catch((e)=>{this.#Error("AT_CCOAPPARA ERROR", e, true); rej();});
-    });
-  }
-  
-  #AttachGPRS()
-  {
-    return new Promise((acc, rej)=>{
-      AT_CGATT.Read().then(()=>{
-        if(AT_CGATT.IsAttached())
-        {
-          acc();
-        }
-        else
-        {
-          AT_CGATT.Attach().then(()=>{
-            AT_CGATT.Read().then(()=>{
-              if(AT_CGATT.IsAttached())
-              {
-                acc();
-              }
-              else
-              {
-                rej();
-              }
-            }).catch(()=>rej());
-          }).catch(()=>rej());
-        }
-      }).catch(()=>rej());
     });
   }
   

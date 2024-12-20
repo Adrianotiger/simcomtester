@@ -30,33 +30,7 @@ class TabCommands
       Tabs.AddCmd(
         "Reboot", 
         ()=>{
-          AT_CREBOOT.Execute().then(()=>{
-            let step = 0;
-            const event = new CustomEvent("cominfo", { detail: {info:"Reconnecting Module..."} });
-            window.dispatchEvent(event);
-            let i = setInterval(()=>{
-              if(step == 0)
-              {
-                if(!SIMSerial.IsConnected())
-                {
-                  SIMSerial.Connect();
-                  step = 1;
-                }
-              }
-              else if(step == 1)
-              {
-                if(SIMSerial.IsConnected())
-                {
-                  step = 2;
-                  clearInterval(i);
-                  ATE0.Execute().then(()=>{
-                    event.detail.info = "Connected!";
-                    window.dispatchEvent(event);
-                  });
-                }
-              }
-            }, 2000);
-          });
+          ATScripts.Reboot().then(()=>{});
         },
         AT_CREBOOT)
     );

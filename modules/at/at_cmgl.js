@@ -53,50 +53,31 @@ let AT_CMGL = new class extends ATBase
   Parse(str)
   {
     super.Parse(str);
+    let line = this.GetLines().length;
     
-    str = str.trim();
-    const cmgls = str.substring(0, str.length - (str.endsWith("OK")?4:0)).trim().split("+CMGL:");
-    
-    this.#messages = [];
+    if(line == 1) this.#messages = [];
+    if(str == "OK") return;
+    if((line % 2) == 1)
+    {
+      this.#messages.push({raw: str, data:{...this.GetValue()}, msg:""});
+    }
+    else
+    {
+      this.#messages[(line - 2) / 2].msg = str.trim();
+    }
     
     console.log("CMGL:", str);
-    
-    cmgls.forEach(cmgl=>{
-      if(cmgl.trim().length > 5)
-      {
-        let cmg = cmgl.trim().split("\n");
-        let cmg0 = super.Comma2List(cmg[0].trim());
-        let o = {};
-        o.raw = cmgl;
-        o.index = cmg0[0];
-        o.stat = cmg0[1];
-        o.from = cmg0[2];
-        o.alpha = cmg0[3];
-        o.time = cmg0[4];
-        o.msg = "";
-        for(let k=1;k<cmg.length;k++) 
-        {
-          if(k > 1) o.msg += "\n";
-          o.msg += cmg[k].trim();
-        }
-        console.log(cmgl, o);
-        this.#messages.push(o);
-      }
-    });
   }
   
   ShowChat(div)
   {
     super.ShowChat(div);
-    
-    const value = this.GetValue();
-    
+        
     if(this.GetRequestType() == "write" || this.GetRequestType() == "read")
     {
-      _CN("span", {}, [this.GetParam("stat").GetValue(value.stat.replace(/"/g,''))?.GetDescription()], div);
+      
     }
-  }
-  
+  }  
   
   GetMessages()
   {    

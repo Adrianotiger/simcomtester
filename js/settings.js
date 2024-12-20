@@ -8,6 +8,7 @@ let Settings = new class
     this.#group.push({name:"apn", info:"APN", options:[{name:"url", type:"url", info:"Url", value:""}]});
     this.#group.push({name:"coap", info:"COAP", options:[{name:"url", type:"url", info:"Url", value:""}]});
     this.#group.push({name:"ssl", info:"SSL Certificate", options:[{name:"cer", type:"text", info:"certificate", value:""}, {name:"name", type:"url", info:"Filename", value:""}]});
+    this.#group.push({name:"pin", info:"PINs", options:[{name:"pin", type:"number", info:"PIN 1", value:""}, {name:"puk", type:"number", info:"PUK", value:""}]});
   }
   
   Init()
@@ -65,10 +66,10 @@ let Settings = new class
     _CN("h2", {}, [group.info + " settings"], sdiv);
     group.options.forEach(o=>{
       const cla = this.#basename + group.name + "_" + o.name;
-      if(o.type=="url" || o.type=="string")
+      if(o.type=="url" || o.type=="string" || o.type=="number")
       {
         _CN("label", {}, [o.info + ": "], sdiv);
-        let i = _CN("input", {type:"text", value:o.value, class:cla}, [], sdiv);
+        let i = _CN("input", {type:o.type=="number"?"number":(o.type=="url"?"url":"text"), value:o.value, class:cla}, [], sdiv);
         i.addEventListener("change", ()=>{
           if(this.#idle) return;
           
@@ -101,6 +102,7 @@ let Settings = new class
           setTimeout(()=>{this.#idle = false;}, 200);
         });
       }
+      _CN("br", {}, [], sdiv);
     });
     
     return sdiv;

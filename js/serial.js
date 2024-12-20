@@ -107,9 +107,17 @@ const SIMSerial = new class
         console.log("SEARCH FOR " + cmdat);
         if(ATs[cmdat])
         {
-          //cmdat = cmdat.replace("+", "_");
-          console.log("command found!");
           obj = ATs[cmdat];
+          console.log("command found, regenerate request.", cmd.substr(cmdat.length, 2));
+          switch(cmd.substr(cmdat.length, 1))
+          {
+            case '=': 
+              if(cmd.substr(cmdat.length + 1, 1) == '?') return ATs[cmdat].Test();
+              else return ATs[cmdat].Write(ATs[cmdat].Comma2List(cmd.substr(cmdat.length + 1)));
+            case '?': return ATs[cmdat].Read();
+            default: return ATs[cmdat].Execute();
+          }
+          
         }
       }
       this.#busy = true;
@@ -253,6 +261,9 @@ const SIMSerial = new class
       
       try 
       {
+        const regex1 = RegExp(/\+([A-Z]+)\:/, 'g');
+        let dataToRead = 0;
+
         while (true) 
         {
           const { value, done } = await this.#readOrDisconnect(reader);
@@ -268,10 +279,122 @@ const SIMSerial = new class
           setTimeout(()=>{
             if(oldMsg == serialMsg)
             {
+              let serialPos = -1;
+              let serialLine = "";
+              /* NEW: Unsolicited result code */
+              while((serialPos = serialMsg.indexOf("\r")) >= 0)
+              {
+                serialLine = serialMsg.substring(0, serialPos).trim();
+                serialMsg = serialMsg.slice(serialPos + 1);
+                if(serialLine.length == 0) continue;
+                console.log(">>>>PARSE LINE>>>> " + serialLine);
+                let cmdArr = regex1.exec(serialLine);
+                  // is it a command answer line? (+ATXXXX:) ?
+                if(cmdArr != null && cmdArr.index===0 && typeof cmdArr[1] != 'undefined')
+                {
+                  console.log("CMD Serial line: ", serialLine/*, cmdArr*/);
+                  const ATx = ATs["AT+" + cmdArr[1]];
+                    // It is AT is valid and was found in the list
+                  if(typeof ATx !== 'undefined')
+                  {
+                    if(this.#data.cmd == null) // this is a unsolicited result
+                    {
+                      console.warn("Unsolicited Result!");
+
+                      this.#data.req = "";
+                      this.#data.answer = serialLine;
+                      this.#data.cmd = ATx;
+                      this.#data.cmd.Unsolicited();
+                      this.#data.cmd.Parse(serialLine);
+                    }
+                    else
+                    {
+                      dataToRead = ATx.Parse(serialLine);
+                    }
+                    if(dataToRead > 0)
+                    {
+                      console.error("Not yet implemented, AT has more data to read as payload....");
+                    }
+                  }
+                    // AT is not valid but an AT-command sent this request
+                  else if(this.#data.cmd)
+                  {
+                    window.dispatchEvent(
+                      new CustomEvent("cominfo", { detail: {error:"Command " + "AT+" + cmdArr[1] + " is not registered (1)"}})
+                    );
+                    console.warn("Undefined command, should not happens.", cmdArr[1], serialLine);
+                    this.#data.cmd.Parse();
+                  }
+                    // AT is not valid
+                  else
+                  {
+                    window.dispatchEvent(
+                      new CustomEvent("cominfo", { detail: {error:"Command " + "AT+" + cmdArr[1] + " is not registered (2)"}})
+                    );
+                    console.error("Undefined command, should not happens.", cmdArr[1], serialLine);
+                  }
+                }
+                else
+                {
+                  console.log("TXT Serial line: ", serialLine/*, cmdArr*/);
+                  if(this.#data.cmd)
+                  {
+                    this.#data.cmd.Parse(serialLine);
+                      // Command answer is terminated
+                    if(serialLine.trim() == "OK" || serialLine.trim().startsWith("ERROR"))
+                    {
+                      this.#data.answer = this.#data.cmd.GetLines().join("\r\n");
+
+                      const clonedData = {...this.#data};
+                      const event = new CustomEvent("serial", { detail: clonedData });
+                      window.dispatchEvent(event);
+
+                      console.log("ANSWER WITH CLONED DATA", clonedData);
+
+                      console.log("resetting AT request");
+
+                      this.#data.cmd = null;
+                      this.#data.req = "";
+                      this.#data.answer = "";
+                    }
+                  }
+                  else
+                  {
+                    console.warn("No command requested this line: ", serialLine);
+                    window.dispatchEvent(
+                      new CustomEvent("cominfo", { detail: {error:"No command requested this line: " + serialLine}})
+                    );
+                  }
+                }
+              }
+
+              if(this.#data.cmd != null)
+              {
+                console.log("Didn't got an OK or ERROR");
+
+                const clonedData = {...this.#data};
+                const event = new CustomEvent("serial", { detail: clonedData });
+                window.dispatchEvent(event);
+              }
+
+              this.#busy = false;
+              this.#data.answer = oldMsg;
+
+              serialMsg = "";
+              if(this.#data.cmd)
+              {
+                // reset command, for unsolicited result
+                this.#data.cmd = null;
+                this.#data.req = null;
+              }
+
+              //serialMsg = oldMsg;
+
               // todo: rewrite this if for unsolicited result!
               // 1. every line must be parsed separately
               // 2. if a line contains payload data, the "Parse()"-function should return the quantity of data expected.
               // 3. if OK is parsed, this.#data.cmd can be confirmed with OK as the command probably executed the command.
+              /*
               if(this.#data.cmd)
               {
                 if(this.#data.cmd.HoldUp(serialMsg))
@@ -286,17 +409,12 @@ const SIMSerial = new class
                 console.warn(serialMsg);
               }
               this.#busy = false;
-              this.#data.answer = serialMsg;
+              this.#data.answer = oldMsg;
               if(this.#data.cmd)
               {
-                this.#data.cmd.Parse(serialMsg);
-                // reset command, for unsolicited result
-                this.#data.cmd = null;
-                this.#data.req = null;
+                //this.#data.cmd.Parse(serialMsg);
               }
-              const event = new CustomEvent("serial", { detail: this.#data });
-              serialMsg = "";
-              window.dispatchEvent(event);
+              */
             }
           }, 300);
           console.log("Serial received", serialMsg);

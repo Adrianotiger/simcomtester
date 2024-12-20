@@ -1,6 +1,8 @@
 let AT_CNACT = new class extends ATBase
 {
+    // Active Networks (up to 4 can be active)
   #acts = [];
+
   constructor()
   {
         //read, write, exe, test, description, example, cmd, timeout)
@@ -43,31 +45,20 @@ let AT_CNACT = new class extends ATBase
         
     for(var j=0;j<4;j++)
     {
-      this.#acts.push({active:0, ip:""});
+      this.#acts.push({active:false, ip:""});
     }
   }
   
   Parse(str)
   {
-    let value = super.Parse(str);
+    super.Parse(str);
     
-    let index = 0;
-    this.GetLines().forEach(l=>{
-      if(l.indexOf("+CNACT:") === 0)
-      {
-        if(this.GetRequestType() == "read")
-        {
-          const values = l.substring(this.GetCmd().length-1).trim().split(",");
-          if(values.length >= 3)
-          {
-            this.#acts[index].active = parseInt(values[1]);
-            this.#acts[index].ip = values[2].replace(/\"/g, "").trim();
-          }
-        }
-        index++;
-      }
-    });
-    return value;
+    if(str.split(",").length > 2)
+    {
+      let v = this.GetValue();
+      this.#acts[parseInt(v.pdpidx)].active = (parseInt(v.statusx) == 1);
+      this.#acts[parseInt(v.pdpidx)].ip = this.#acts[parseInt(v.pdpidx)].active ? v.addressx : "";
+    }
   }
     
   IsActive(index)
@@ -77,6 +68,6 @@ let AT_CNACT = new class extends ATBase
   
   GetIp(index)
   {
-    return this.#acts[index].ip;
+    return this.IsActive(index) ? this.#acts[index].ip : "";
   }
 };
