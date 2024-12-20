@@ -35,6 +35,7 @@ const Tabs = new class
     let scripts = [
       {name:"tabModule"}, 
       {name:"tabCommands"}, 
+      {name:"tabSim"}, 
       {name:"tabCoap"},
       {name:"tabHttps"},
       {name:"tabTcpUdp"},

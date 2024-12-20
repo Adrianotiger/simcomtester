@@ -38,7 +38,6 @@ let AT_CCOAPACTION = new class extends ATBase
     this.AddWriteAnswerParam({type:null});
     
     this.AddExeAnswerParam({errorcode:null, mid:null});
-    
   }
   
   HoldUp(str)
@@ -57,32 +56,6 @@ let AT_CCOAPACTION = new class extends ATBase
       return stringIncomplete;
     }
     return false;
-  }
-  
-  Parse(str)
-  {
-    super.Parse(str);
-        
-    this.GetLines().forEach(l=>{
-      if(this.value == "") this.value = l;
-      if(l.trim().length > 4)
-      {
-        const values = l.substring(this.GetCmd().length-1).trim().split(",");
-        
-        if(this.GetRequestType() == "exe")
-        {
-          if(values.length >= 2)
-          {
-           if(l.startsWith("+CCOAPRECV:") && values.length >= 3)
-            {
-              this.#packSize = parseInt(values[1].trim());
-              this.#payloadSize = parseInt(values[2].trim());
-            }
-          }
-        }
-      }
-    });
-    return this.value;
   }
   
   ShowChat(div)
@@ -114,5 +87,45 @@ let AT_CCOAPACTION = new class extends ATBase
     const value = this.GetValue();
     return value.mid;
   }
+
+  SetPackSize(pack, payload)
+  {
+    this.#packSize = pack;
+    this.#payloadSize = payload;
+  }
   
+};
+
+ 
+let _CCOAPRECV = new class extends ATBase
+{
+  constructor()
+  {
+    super({
+      write: false, 
+      exe: false,
+      test: false,
+      description: "COAPACTION Response",
+      example: "+CCOAPRECV: 0,120,115",
+      cmd: "AT+CCOAPRECV", /* must be defined as AT, as this is the text used to find commands */
+      doc: "18.2.6"
+    });
+    
+    this.AddParam("mid", "number", "message id");
+    this.AddParam("packsize", "number", "packet size");
+    this.AddParam("payloadsize", "number", "payload size");
+    
+    this.AddUnsolicitedAnswerParam({mid:null, packsize:null, payloadsize:null});
+  }
+
+  Parse(str)
+  {
+    super.Parse(str);
+
+    const v = this.GetValue();
+    AT_CCOAPACTION.SetPackSize(v.packsize, v.payloadsize);
+
+    // As this is not a normal command, emulate the OK
+    //super.Parse("OK");
+  }
 };

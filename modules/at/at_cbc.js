@@ -33,7 +33,7 @@ let AT_CBC = new class extends ATBase
     if(this.GetRequestType() == "exe")
     {
       _CN("span", {}, [this.GetParam("bcs").GetValue(value.bcs)?.GetDescription()], div);
-      _CN("span", {}, ["charge: " + value.bcl + "%"], div);
+      _CN("span", {}, [TabChat.DrawGauge(0,100,parseInt(value.bcl)), "charge: " + value.bcl + "%"], div);
       _CN("span", {}, ["voltage: " + value.voltage + "mV"], div);
     }
   }

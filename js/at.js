@@ -96,6 +96,7 @@ class ATBase
   #sendParams = [];
   #exeParams = [];
   #testParams = [];
+  #unsolicitedParams = [];
   #requestType = "";
   #answerValue = {};
   #answerRaw = "";
@@ -152,6 +153,11 @@ class ATBase
   AddExeAnswerParam(paramList)
   {
     this.#exeParams.push(paramList);
+  }
+
+  AddUnsolicitedAnswerParam(paramList)
+  {
+    this.#unsolicitedParams.push(paramList);
   }
   
   GetCmd()
@@ -213,7 +219,8 @@ class ATBase
       test: this.#testParams,
       read: this.#readParams,
       write: {set: this.#sendParams, get: this.#writeParams},
-      exe: this.#exeParams
+      exe: this.#exeParams,
+      unsolicited: this.#unsolicitedParams
     };
     return o;
   }
@@ -237,6 +244,7 @@ class ATBase
     this.#requestType = "exe";
     this.#lines = [];
     this.#answer = "";
+    this.#answerRaw = "";
     this.#promise = new Promise((resolve, reject)=>{
       
       this.#promiseRes = resolve;
@@ -265,6 +273,7 @@ class ATBase
     this.#requestType = "read";
     this.#lines = [];
     this.#answer = "";
+    this.#answerRaw = "";
     this.#promise = new Promise((resolve, reject)=>{
       
       this.#promiseRes = resolve;
@@ -294,6 +303,9 @@ class ATBase
     {
       if(Object.keys(this.#findRightParamList(values.toString(), this.#sendParams)).length != values.length)
       {
+        window.dispatchEvent(
+          new CustomEvent("cominfo", { detail: {error:"PARAMS COUNTS ERROR FOR " + this.#cmd}})
+        );
         console.error("PARAMS COUNTS ERROR FOR " + this.#cmd, this.#findRightParamList(values.toString(), this.#sendParams));
         return;
       }
@@ -302,19 +314,27 @@ class ATBase
     this.#requestType = "write";
     this.#lines = [];
     this.#answer = "";
-    this.#promise = new Promise((resolve, reject)=>{
-      
+    this.#answerRaw = "";
+    let cmd = this.#cmd + "=";
+    const newPromise = new Promise((resolve, reject)=> {
+
+      for(var j=0;j<values.length;j++)
+      {
+        if(j > 0) cmd += ",";
+        cmd += (values[j] + "").trim();
+      }
+
+      // if the promise is still in use, probably the command was executed too fast, leave some time before removing the old promise
+      setTimeout(()=>{
+        this.#promise = newPromise;
+        SIMSerial.Send(cmd + "\r\n", this);
+      }, this.#promise == null ? 0 : 100);
+
       this.#promiseRes = resolve;
       this.#promiseRej = reject;
     });
-    let cmd = this.#cmd + "=";
-    for(var j=0;j<values.length;j++)
-    {
-      if(j > 0) cmd += ",";
-      cmd += (values[j] + "").trim();
-    }
-    SIMSerial.Send(cmd + "\r\n", this);
-    return this.#promise;
+    
+    return newPromise;
   }
   
   Test()
@@ -327,6 +347,7 @@ class ATBase
     this.#requestType = "test";
     this.#lines = [];
     this.#answer = "";
+    this.#answerRaw = "";
     this.#promise = new Promise((resolve, reject)=>{
       
       this.#promiseRes = resolve;
@@ -335,62 +356,93 @@ class ATBase
     SIMSerial.Send(this.#cmd + "=?\r\n", this);
     return this.#promise;
   }
-  
-  Parse(str)
+
+  Unsolicited()
   {
-    let isSuccess = false;
-    this.#answerRaw = "";
-    this.value = "";
-    this.#answer = str;
-    this.#answerValue = null;
+    this.#requestType = "unsolicited";
     this.#lines = [];
-    const lines = str.split("\r");
-    for(var j=0;j<lines.length;j++)
+    this.#answer = "";
+    this.#answerRaw = "";
+
+    this.#promise = new Promise((resolve, reject)=>{
+      this.#promiseRes = resolve;
+      this.#promiseRej = reject;
+    });
+    return this.#promise;
+  }
+  
+  Parse(strLine)
+  {
+    let isLastLine = false;
+    let dataExptected = 0;
+    this.#answer += strLine;
+    this.#lines.push(strLine);
+    
+    if(strLine == "OK" || strLine.startsWith("ERROR")) 
     {
-      if(lines[j].trim().length > 0) 
-      {
-        const line = lines[j].trim();
-        this.#lines.push(line);
-        if(line == "OK") isSuccess = true;
-        if(line.startsWith(this.#cmd.replace("AT+", "+") + ":"))
-        {
-          switch(this.#requestType)
-          {
-            case "exe": this.#answerValue = this.#findRightParamList(line, this.#exeParams); break;
-            case "write": this.#answerValue = this.#findRightParamList(line, this.#writeParams); break;
-            case "read": this.#answerValue = this.#findRightParamList(line, this.#readParams); break;
-            case "test": this.#answerValue = this.#findRightParamList(line, this.#testParams); break;
-          }
-          if(this.#answerValue != null)
-          {
-            let vals = this.Comma2List(line);//line.substring(line.indexOf(":") + 1).trim().split(/"+(.*?)"|(.*?)(,|$)/gm);
-            let valsIndex = 0;
-            const keys = Object.keys(this.#answerValue);
-            if(keys.length == vals.length)
-            {
-              keys.forEach(k=>{
-                this.#answerValue[k] = vals[valsIndex++];
-              });
-            }
-            else
-            {
-              console.error("Values count is different from command parameters");
-            }
-          }
-          this.#answerRaw = line;
-        }
-        if(this.#answerRaw == "" && line!= this.#cmd) this.#answerRaw = line;
-      }
+      if(this.#answerValue == "") this.#answerValue = strLine;
+      if(this.#lines.length == 1) this.#answer = strLine;
+      isLastLine = true;
     }
-    if(this.#answerValue == null) this.#answerValue = this.#answerRaw;
+    else if(strLine.startsWith(this.#cmd.replace("AT+", "+") + ":"))
+    {
+      switch(this.#requestType)
+      {
+        case "unsolicited": this.#answerValue = this.#findRightParamList(strLine, this.#unsolicitedParams); break;
+        case "exe": this.#answerValue = this.#findRightParamList(strLine, this.#exeParams); break;
+        case "write": this.#answerValue = this.#findRightParamList(strLine, this.#writeParams); break;
+        case "read": this.#answerValue = this.#findRightParamList(strLine, this.#readParams); break;
+        case "test": this.#answerValue = this.#findRightParamList(strLine, this.#testParams); break;
+      }
+      if(this.#answerValue != null)
+      {
+        let vals = this.Comma2List(strLine);//line.substring(line.indexOf(":") + 1).trim().split(/"+(.*?)"|(.*?)(,|$)/gm);
+        let valsIndex = 0;
+        const keys = Object.keys(this.#answerValue);
+        if(keys.length == vals.length)
+        {
+          keys.forEach(k=>{
+            this.#answerValue[k] = vals[valsIndex++];
+          });
+        }
+        else
+        {
+          console.error("Values count is different from command parameters");
+        }
+      }
+      this.#answerRaw = strLine;
+    }
+    else
+    {
+      this.value = strLine;
+      this.#answerValue = strLine;
+    }
+
+
     if(this.#promise != null) 
     {
-      if(isSuccess) this.#promiseRes(this);
-      else this.#promiseRej(str);
+      if(strLine == "OK") 
+      {
+        console.log("- RESOLVE PROMISE - OK - " + this.GetCmd())
+        this.#promiseRes(this);
+      }
+      else if(strLine.startsWith("ERROR")) 
+      {
+        console.log("- RESOLVE PROMISE - ERROR - " + this.GetCmd())
 
-      setTimeout(()=>{this.#promise = null;}, 50);
+        this.#promiseRej(strLine);
+      }
+      else if(this.#requestType == "unsolicited") 
+      {
+        console.log("- RESOLVE PROMISE - Unsolicited - " + this.GetCmd())
+        isLastLine = true;
+        this.#promiseRes(this);
+      }
+
+      if(isLastLine) setTimeout(()=>{this.#promise = null;}, 50);
     }
-    return this.#answerRaw;
+
+    return dataExptected;
   }
   
   Comma2List(line)

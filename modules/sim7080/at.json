@@ -48,5 +48,6 @@
   "at+cgnspwr",
   "at+cgnsinf",
   "at+caopen",
-  "at+caserver"
+  "at+caserver",
+  "at+clck"
 ]

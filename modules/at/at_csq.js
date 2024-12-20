@@ -38,15 +38,22 @@ let AT_CSQ = new class extends ATBase
     const value = this.GetValue();
     
     let strength = "unknown";
+    let gauge = 0;
     if(value.rssi == 0) strength = "-115dBm (bad)";
     else if(value.rssi == 1) strength = "-111dBm (poor)";
-    else if(value.rssi < 31) strength = (-110 + parseInt((110-54) * (value.rssi - 2) / 28)) + "dBm (" + (value.rssi < 15 ? "ok" : "good") + ")";
-    else if(value.rssi == 31) strength = ">-52dBm (excellent)";
+    else if(value.rssi < 31) { 
+      strength = (-110 + parseInt((110-54) * (value.rssi - 2) / 28)) + "dBm (" + (value.rssi < 15 ? "ok" : "good") + ")";
+      gauge = 5 + value.rssi * 3;
+    }
+    else if(value.rssi == 31) {
+      strength = ">-52dBm (excellent)";
+      gauge= 100
+    }
     else if(value.rssi == 99) strength = "-Unknown-";
     else strength = "Invalid - " + value.rssi;
 
     let ber = "-Unknown-";
-    switch(value.ber)
+    switch(parseInt(value.ber))
     {
       case 0: ber = "<0.2%"; break;
       case 1: ber = "0.2%-0.4%"; break;
@@ -56,11 +63,11 @@ let AT_CSQ = new class extends ATBase
       case 5: ber = "3.2%-6.4%"; break;
       case 6: ber = "6.4%-12.8%"; break;
       case 7: ber = ">12.8%"; break;
-      case 99: "-Unknown-";
+      case 99: "-Unknown-"; break;
       default: ber = "INVALID"; break;
     }
     
-    _CN("span", {}, ["rssi: " + strength], div);
+    _CN("span", {}, [TabChat.DrawGauge(0,100,gauge), "rssi: " + strength], div);
     _CN("span", {}, ["ber: " + ber], div);
   }
 };

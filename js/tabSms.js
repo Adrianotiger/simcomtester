@@ -74,6 +74,7 @@ class TabSms
        AT_CMGL.Write(["\"ALL\"", 1]).then(()=>{
          let first = true;
          AT_CMGL.GetMessages().forEach(m=>{
+           console.log(m);
            this.AddTableRow(m, first);
            first = false;
          });
@@ -123,16 +124,16 @@ class TabSms
     const smstypes = ["✉", "💌","📤","📩","🗂️"];
     let row = {el:null, data:null, open:false};
     let tds = [];
-    let stat = data.stat.replace(/"/g, '');
+    let stat = data.data.stat.replace(/"/g, '');
     let smstype = smstypes[4];
     if(stat == 0 || stat == "REC UNREAD") smstype = smstypes[0];
     else if(stat == 1 || stat == "REC READ") smstype = smstypes[1];
     else if(stat == 2 || stat == "STO UNSENT") smstype = smstypes[2];
     else if(stat == 3 || stat == "STO SENT") smstype = smstypes[3];
-    tds.push(_CN("th", {}, [data.index]));
+    tds.push(_CN("th", {}, [data.data.index]));
     tds.push(_CN("td", {title:stat}, [smstype]));
-    tds.push(_CN("td", {}, [data.from]));
-    tds.push(_CN("td", {}, [data.time]));
+    tds.push(_CN("td", {}, [data.data.oada]));
+    tds.push(_CN("td", {}, [data.data.scts]));
     row.data = data;
     row.el = _CN("tr", {}, tds, this.#table.el);
     row.el.addEventListener("click", ()=>{
@@ -152,11 +153,11 @@ class TabSms
   {
     row.open = true;
     let remove = _CN("a", {style:"color:#a00;float:right;"}, ["🗑️"]);
-    let nrow = _CN("tr", {}, [_CN("td",{},[]), _CN("td",{colspan:3},[row.data.msg,_CN("br"),remove])]);
+    let nrow = _CN("tr", {}, [_CN("td",{},[]), _CN("td",{colspan:3},[row.data.msg, _CN("br"),remove])]);
     this.#table.el.insertBefore(nrow, row.el.nextSibling)
     
     remove.addEventListener("click", ()=>{
-      AT_CMGD.Write([row.data.index, 0]).then(()=>{
+      AT_CMGD.Write([row.data.data.index, 0]).then(()=>{
         this.#table.el.removeChild(nrow.previousSibling);
         this.#table.el.removeChild(nrow);
       }).catch((e)=>{this.#Error("Unable to set delete message", e);});

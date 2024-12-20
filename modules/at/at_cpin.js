@@ -30,6 +30,11 @@ let AT_CPIN = new class extends ATBase
     this.AddParam("newpin", "string", "newpin");
     
     this.AddReadAnswerParam({code:null});
+
+    this.AddWriteSendParam({pin:null});
+    this.AddWriteSendParam({pin:null, newpin:null});
+
+    this.AddUnsolicitedAnswerParam({code:null});
   }
   
   ShowChat(div)
