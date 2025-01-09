@@ -160,7 +160,8 @@ const SIMSerial = new class
   {
     this.#disconnect = false;
     return new Promise((res,rej) => {
-      port.open({ baudRate: baud, dataTerminalReady: true, requestToSend: false }).then(()=>{
+      port.setSignals({ dataTerminalReady: false, requestToSend: false }).then(()=>{}).catch(()=>{});
+      port.open({ baudRate: baud }).then(()=>{
         this.#port = port;
         this.#connected = true;
         this.div.textContent = "COM Connected";
