@@ -36,6 +36,8 @@ const TabInfo = new class
         console.log("Serial ready!");
         window.clearInterval(i);
         document.body.removeChild(document.getElementsByClassName("loading")[0]);
+
+        SIMSerial.SendData("\r\n\r\n"); 
         setTimeout(()=>{
           this.#InitModule();
         }, 500);
