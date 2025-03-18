@@ -139,6 +139,14 @@ const SIMSerial = new class
     {
       console.error("Serial not ready!");
     }
+
+    let p = new Promise((succ, rej)=>{
+      setTimeout(()=>{
+        if(this.#connected && !this.#busy) succ();
+        else rej();
+      }, 10);
+    });
+    return p;
   }
   
   Connect()
