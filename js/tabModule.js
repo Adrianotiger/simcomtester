@@ -32,7 +32,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Product Id", 
+        "Product Id (ATI)", 
         ()=>{
           ATI.Execute().then(()=>{});
         },
@@ -41,7 +41,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Model Id", 
+        "Model Id (GMM)", 
         ()=>{
           AT_GMM.Execute().then(()=>{});
         },
@@ -50,7 +50,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "TA Revision", 
+        "TA Revision (GMR)", 
         ()=>{
           AT_GMR.Execute().then(()=>{});
         },
@@ -59,7 +59,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "S/N Id", 
+        "S/N Id (GSN)", 
         ()=>{
           AT_GSN.Execute().then(()=>{});
         },
@@ -68,7 +68,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Mobile Subscriber", 
+        "Mobile Subscriber (CIMI)", 
         ()=>{
           AT_CIMI.Execute().then(()=>{});
         },
@@ -77,7 +77,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Pin Status", 
+        "Pin Status (CPIN)", 
         ()=>{
           AT_CPIN.Read().then(()=>{});
         },
@@ -86,7 +86,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Show ICCID", 
+        "Show ICCID (CCID)", 
         ()=>{
           AT_CCID.Execute().then(()=>{});
         },
@@ -100,7 +100,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Network Registration", 
+        "Network Registration (CREG)", 
         ()=>{
           AT_CREG.Read().then(()=>{});
         },
@@ -109,7 +109,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Signal Quality", 
+        "Signal Quality (CSQ)", 
         ()=>{
           AT_CSQ.Execute().then(()=>{});
         },
@@ -118,7 +118,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Mode Selection", 
+        "Mode Selection (CNMP)", 
         ()=>{
           AT_CNMP.Read().then(()=>{});
         },
@@ -127,7 +127,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "CAT/NB Selection", 
+        "CAT/NB Selection (CMNB)", 
         ()=>{
           AT_CMNB.Read().then(()=>{});
         },
@@ -136,11 +136,29 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Inquiring UE", 
+        "Inquiring UE (CPSI)", 
         ()=>{
           AT_CPSI.Read().then(()=>{});
         },
         AT_CPSI)
+    );
+
+    this.div.appendChild(
+      Tabs.AddCmd(
+        "GPRS Attachment (CGATT)", 
+        ()=>{
+          AT_CGATT.Read().then(()=>{});
+        },
+        AT_CGATT)
+    );
+
+    this.div.appendChild(
+      Tabs.AddCmd(
+        "PDP Context (CGDCONT)", 
+        ()=>{
+          AT_CGDCONT.Read().then(()=>{});
+        },
+        AT_CGDCONT)
     );
   }
   
