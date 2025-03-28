@@ -116,14 +116,17 @@ const Tabs = new class
   
   AddCmd(text, cmd, cmdObj)
   {
-    let title = text;
+    let title = text.replace(/\([.]*\)/g, "");
     if(cmdObj) 
     {
       title = cmdObj.GetDescription();
       title += " [" + cmdObj?.GetCmd() + "]";
     }
+    const regex = /\([.]*\)/g;
+    const found = text.match(regex);
+    
     let butt = _CN("button", {}, ["?"]);
-    let div = _CN("div", {class:"singlecmd", title:title}, [_CN("span", {}, [text]), butt]);
+    let div = _CN("div", {class:"singlecmd", title:title}, [_CN("span", {}, [text.replace(/\([.]*\)/g, ""), _CN("sup",{}, [found])]), butt]);
     butt.addEventListener("click", ()=>{
       cmd();
     });
