@@ -1,4 +1,4 @@
-let AT_GSN = new class extends ATBase
+let AT_CGSN = new class extends ATBase
 {
   constructor()
   {
@@ -6,10 +6,11 @@ let AT_GSN = new class extends ATBase
     super({
       exe: true,
       test: true,
-      description: "Request Product Serial Number Identification",
+      description: "Request Product Serial Number Identification (GSN)",
       example: "869951030006302",
-      cmd: "AT+GSN",
-      doc: "2.2.29"
+      cmd: "AT+CGSN",
+      doc: "3.2.4"
     });
   }
+  
 };
