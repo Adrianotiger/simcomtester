@@ -126,7 +126,7 @@ const Tabs = new class
     const found = text.match(regex);
     
     let butt = _CN("button", {}, ["?"]);
-    let div = _CN("div", {class:"singlecmd", title:title}, [_CN("span", {}, [text.replace(/\([.]*\)/g, ""), _CN("sup",{}, [found])]), butt]);
+    let div = _CN("div", {class:"singlecmd", title:title}, [_CN("span", {}, [text.replace(/\([.]*\)/g, ""), found?_CN("sup",{}, [found])]):"", butt]);
     butt.addEventListener("click", ()=>{
       cmd();
     });
