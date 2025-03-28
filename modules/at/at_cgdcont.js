@@ -47,6 +47,7 @@ let AT_CGDCONT = new class extends ATBase
     this.AddParam("ipv4_ctrl", enumIP, "ipv4 information");
     this.AddParam("emergency_flag", enumEFlag, "emergency flag");
 
+    this.AddReadAnswerParam({cid:null, pdp_type:null, apn:null, pdp_addr:null, d_comp:null, h_comp:null, ipv4_ctrl:null});
     this.AddReadAnswerParam({cid:null, pdp_type:null, apn:null, pdp_addr:null, d_comp:null, h_comp:null, ipv4_ctrl:null, emergency_flag:null});
   }
 };
