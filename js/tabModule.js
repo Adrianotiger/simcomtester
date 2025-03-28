@@ -154,6 +154,15 @@ class TabModule
 
     this.div.appendChild(
       Tabs.AddCmd(
+        "Operator Selection (COPS)", 
+        ()=>{
+          AT_COPS.Read().then(()=>{});
+        },
+        AT_COPS)
+    );
+
+    this.div.appendChild(
+      Tabs.AddCmd(
         "PDP Context (CGDCONT)", 
         ()=>{
           AT_CGDCONT.Read().then(()=>{});
