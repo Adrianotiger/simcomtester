@@ -219,6 +219,15 @@ class TabModule
         },
         AT_CCLK)
     );
+
+    this.div.appendChild(
+      Tabs.AddCmd(
+        "Report Configuration (CURCCFG)", 
+        ()=>{
+          AT_CURCCFG.Read().then(()=>{});
+        },
+        AT_CURCCFG)
+    );
   }
 };
 
