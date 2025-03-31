@@ -101,7 +101,7 @@ const TabChat = new class
                 val = _CN("select", {style:"font-size:x-small"});
                 px.GetType().forEach(t=>{
                   let o = _CN("option", {}, [t.GetValue() + " - " + t.GetDescription()], val);
-                  if(vals.replace('"', '')==t.GetValue()) o.selected = true;
+                  if(vals.replace(/\"/g, '')==t.GetValue()) o.selected = true;
                 });
               }
               _CN("tr",{}, [
