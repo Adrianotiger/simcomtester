@@ -17,6 +17,7 @@
   "at+cgpaddr",
   "at+cgdcont",
   "at+cgreg",
+  "at+cbandcfg",
   "at+cops",
   "at+cgnapn",
   "at+cncfg",

@@ -169,6 +169,15 @@ class TabModule
         },
         AT_CGDCONT)
     );
+
+    this.div.appendChild(
+      Tabs.AddCmd(
+        "Band (CBANDCFG)", 
+        ()=>{
+          AT_CBANDCFG.Read().then(()=>{});
+        },
+        AT_CBANDCFG)
+    );
   }
   
   #InitModuleInfo()
@@ -177,7 +186,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Phone Activity", 
+        "Phone Activity (CPAS)", 
         ()=>{
           AT_CPAS.Execute().then(()=>{});
         },
@@ -186,7 +195,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Battery Charge", 
+        "Battery Charge (CBC)", 
         ()=>{
           AT_CBC.Execute().then(()=>{});
         },
@@ -195,7 +204,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Free Memory", 
+        "Free Memory (CFSGFRS)", 
         ()=>{
           AT_CFSGFRS.Read().then(()=>{});
         },
@@ -204,7 +213,7 @@ class TabModule
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Get Clock", 
+        "Get Clock (CCLK)", 
         ()=>{
           AT_CCLK.Read().then(()=>{});
         },

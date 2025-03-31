@@ -28,7 +28,7 @@ class TabCommands
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Reboot", 
+        "Reboot (CREBOOT)", 
         ()=>{
           ATScripts.Reboot().then(()=>{});
         },
@@ -46,7 +46,7 @@ class TabCommands
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Echo Off", 
+        "Echo Off (ATE0)", 
         ()=>{
           ATE0.Execute().then(()=>{});
         },
@@ -55,7 +55,7 @@ class TabCommands
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Echo On", 
+        "Echo On (ATE1)", 
         ()=>{
           ATE1.Execute().then(()=>{});
         },
@@ -64,7 +64,7 @@ class TabCommands
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Show Error messages", 
+        "Show Error messages (CMEE)", 
         ()=>{
           AT_CMEE.Write([2]).then(()=>{});
         },
@@ -73,7 +73,7 @@ class TabCommands
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Disable Error messages", 
+        "Disable Error messages (CMEE)", 
         ()=>{
           AT_CMEE.Write([0]).then(()=>{});
         },
@@ -82,7 +82,7 @@ class TabCommands
     
     this.div.appendChild(
       Tabs.AddCmd(
-        "Set Time", 
+        "Set Time (CCLK)", 
         ()=>{
           let f = AT_CCLK.ConvertTime(new Date());
           AT_CCLK.Write([f]).then(()=>{});
