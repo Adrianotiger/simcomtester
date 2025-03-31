@@ -70,6 +70,7 @@ const TabChat = new class
         const cmdd = data.answer.trim().split("\r")[0].trim();
         let info = _CN("span", {class:"msg_a"}, ["i"], div);
         let bubble = null;
+        if(cmd.GetRequestType() == 'unsolicited') msg.classList.add("msg_u");
         info.addEventListener("mouseenter",(e)=>{
           if(bubble == null)
           {

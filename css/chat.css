@@ -121,6 +121,11 @@
   text-align: right;
 }
 
+.msg_u
+{
+  background: linear-gradient(to bottom, #fff, #eed) !important;
+}
+
 .msg_r span
 {
   display: block;
