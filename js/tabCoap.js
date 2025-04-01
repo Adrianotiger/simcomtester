@@ -154,15 +154,21 @@ class TabCoap
         // Send Coap
         AT_CCOAPACTION.Execute().then(()=>{
           // Wait for the response
-          
-          // Get and parse header
-          AT_CCOAPHEAD.Write([AT_CCOAPACTION.GetMid(), 1]).then(()=>{
+          let ai = setInterval(()=>{
+            if(AT_CCOAPACTION.IsCoapReceived())
+            {
+              clearInterval(ai);
 
-            // Everything ok! Terminate Coap and close
-            AT_CCOAPTERM.Execute().then(()=>{
-              res();
-            }).catch(()=>{res();});
-          }).catch((e)=>{this.#Error("AT_COAPHEAD ERROR", e, true); rej();});
+              // Get and parse header
+              AT_CCOAPHEAD.Write([AT_CCOAPACTION.GetMid(), 1]).then(()=>{
+
+                // Everything ok! Terminate Coap and close
+                AT_CCOAPTERM.Execute().then(()=>{
+                  res();
+                }).catch(()=>{res();});
+              }).catch((e)=>{this.#Error("AT_COAPHEAD ERROR", e, true); rej();});
+            }
+          }, 500);
         }).catch((e)=>{this.#Error("AT_COAPACTION ERROR", e, true); rej();});
       }).catch((e)=>{this.#Error("AT_CCOAPPARA ERROR", e, true); rej();});
     });

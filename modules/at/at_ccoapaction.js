@@ -2,6 +2,7 @@ let AT_CCOAPACTION = new class extends ATBase
 {
   #packSize = 0;
   #payloadSize = 0;
+  #coapReceived = false;
   
   constructor()
   {
@@ -87,11 +88,8 @@ let AT_CCOAPACTION = new class extends ATBase
     super.ShowChat(div);
     
     _CN("span", {}, ["mid: " + this.GetMid()], div);
-    if(this.GetRequestType() == "exe" && l.startsWith("+CCOAPRECV:"))
-    {
-      _CN("span", {}, ["pack size: " + this.#packSize], div);
-      _CN("span", {}, ["payload size: " + this.#payloadSize], div);
-    }
+    _CN("span", {}, ["pack size: " + this.#packSize], div);
+    _CN("span", {}, ["payload size: " + this.#payloadSize], div);
   }
   
   GetMid()
@@ -104,8 +102,13 @@ let AT_CCOAPACTION = new class extends ATBase
   {
     this.#packSize = pack;
     this.#payloadSize = payload;
+    this.#coapReceived = true;
   }
-  
+
+  IsCoapReceived()
+  {
+    return this.#coapReceived;
+  }
 };
 
  
@@ -114,9 +117,6 @@ let _CCOAPRECV = new class extends ATBase
   constructor()
   {
     super({
-      write: false, 
-      exe: false,
-      test: false,
       description: "COAPACTION Response",
       example: "+CCOAPRECV: 0,120,115",
       cmd: "+CCOAPRECV", 
@@ -138,7 +138,7 @@ let _CCOAPRECV = new class extends ATBase
     AT_CCOAPACTION.SetPackSize(v.packsize, v.payloadsize);
 
     // As this is not a normal command, emulate the OK
-    //super.Parse("OK");
+    super.Parse("OK");
   }
 
   ShowChat(div)
