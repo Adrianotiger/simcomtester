@@ -345,6 +345,7 @@ const SIMSerial = new class
                 }
                 else
                 {
+                  // Unsolicited result?
                   console.log("TXT Serial line: ", serialLine/*, cmdArr*/);
                   if(this.#data.cmd)
                   {
@@ -366,6 +367,16 @@ const SIMSerial = new class
                       this.#data.req = "";
                       this.#data.answer = "";
                     }
+                  }
+                  else if(serialLine.indexOf(":") > 0 && typeof(ATs[serialLine.substring(0, serialLine.indexOf(":")).trim()]) !== 'undefined')
+                  {
+                    console.warn("Unsolicited Result!");
+
+                    this.#data.req = "";
+                    this.#data.answer = serialLine;
+                    this.#data.cmd = ATx;
+                    this.#data.cmd.Unsolicited();
+                    this.#data.cmd.Parse(serialLine);
                   }
                   else
                   {
