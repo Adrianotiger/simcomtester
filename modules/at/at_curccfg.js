@@ -60,6 +60,6 @@ let _QCIMGBOOTTYPE = new class extends ATBase
     //AT_CCOAPACTION.SetPackSize(v.packsize, v.payloadsize);
 
     // As this is not a normal command, emulate the OK
-    super.Parse("OK");
+    //super.Parse("OK");
   }
 };

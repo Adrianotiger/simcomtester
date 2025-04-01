@@ -64,7 +64,7 @@ const TabChat = new class
 
     if(data.cmd)
     {
-      if(data.answer.trim().startsWith("+"))
+      if(data.answer.trim().startsWith("+") || data.cmd.GetRequestType() == "unsolicited")
       {
         const cmd = data.cmd;
         const cmdd = data.answer.trim().split("\r")[0].trim();
