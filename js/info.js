@@ -27,7 +27,7 @@ const TabInfo = new class
 
     setTimeout(()=>{
       _CN("div", {}, [_CN("a", {href:"https://github.com/Adrianotiger/simcomtester", target:"_blank"}, ["Github Project"])], this.divGit);
-      _CN("div", {}, [_CN("i", {}, ["ver 0.60 - 2025", _CN("br"), "© Adriano Petrucci"])], this.divGit);
+      _CN("div", {}, [_CN("i", {}, ["ver 0.61 - 2025", _CN("br"), "© Adriano Petrucci"])], this.divGit);
     }, 500);
     
     let i = window.setInterval(()=>{

@@ -20,6 +20,8 @@ let AT_CMNB = new class extends ATBase
     this.AddParam("mode", enumMode, "mode");
     
     this.AddReadAnswerParam({mode:null});
+
+    this.AddWriteSendParam({mode:null});
   }
   
   ShowChat(div)

@@ -1,5 +1,7 @@
 [
   "at+clts",
+  "at+castate",
+  "at+caclose",
 
   "at+caopen",
   "at+caserver",

@@ -56,6 +56,23 @@ class TabTcpUdp
     _CN("button", {style:"margin:1vh;"}, ["Connect Server"], this.div).addEventListener("click", ()=>{
       this.#ConnectServer();
     });
+
+    let cstate = _CN("button", {style:"margin:1vh;"}, ["Query State"]);
+    cstate.addEventListener("click", ()=>{
+      AT_CASTATE.Read();
+    });
+
+    let cclose = _CN("button", {style:"margin:1vh;"}, ["Close Connection"]);
+    cclose.addEventListener("click", ()=>{
+      AT_CACLOSE.Write([this.cid]);
+    });
+
+    _CN("table", {}, [
+      _CN("tr", {}, [
+        _CN("td", {}, [cstate]),
+        _CN("td", {}, [cclose])
+      ])
+    ], this.div);
   }
   
   Select()
