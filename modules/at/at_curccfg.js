@@ -51,15 +51,15 @@ let _QCIMGBOOTTYPE = new class extends ATBase
 
     this.AddUnsolicitedAnswerParam({img_boot_type:null});
   }
-/*
+
   Parse(str)
   {
     super.Parse(str);
 
-    const v = this.GetValue();
-    AT_CCOAPACTION.SetPackSize(v.packsize, v.payloadsize);
+    //const v = this.GetValue();
+    //AT_CCOAPACTION.SetPackSize(v.packsize, v.payloadsize);
 
     // As this is not a normal command, emulate the OK
-    //super.Parse("OK");
-  }*/
+    super.Parse("OK");
+  }
 };
