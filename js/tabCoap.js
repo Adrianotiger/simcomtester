@@ -153,6 +153,8 @@ class TabCoap
       AT_CCOAPPARA.Write(params).then(()=>{
         // Send Coap
         AT_CCOAPACTION.Execute().then(()=>{
+          // Wait for the response
+          
           // Get and parse header
           AT_CCOAPHEAD.Write([AT_CCOAPACTION.GetMid(), 1]).then(()=>{
 

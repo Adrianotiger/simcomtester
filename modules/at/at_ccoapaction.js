@@ -65,8 +65,8 @@ let AT_CCOAPACTION = new class extends ATBase
     this.GetLines().forEach(l=>{
       if(l.trim().length > 1)
       {
-        const p = this.GetParams(false);
-        _CN("span", {}, [l], div);
+        //const p = this.GetParams(false);
+        //_CN("span", {}, [l], div);
 
         const values = l.substring(this.GetCmd().length-1).trim().split(",");
         if(values.length >= 2)
@@ -80,6 +80,18 @@ let AT_CCOAPACTION = new class extends ATBase
         }
       }
     });
+  }
+
+  ShowChatDetail(div)
+  {
+    super.ShowChat(div);
+    
+    _CN("span", {}, ["mid: " + this.GetMid()], div);
+    if(this.GetRequestType() == "exe" && l.startsWith("+CCOAPRECV:"))
+    {
+      _CN("span", {}, ["pack size: " + this.#packSize], div);
+      _CN("span", {}, ["payload size: " + this.#payloadSize], div);
+    }
   }
   
   GetMid()
@@ -127,5 +139,10 @@ let _CCOAPRECV = new class extends ATBase
 
     // As this is not a normal command, emulate the OK
     //super.Parse("OK");
+  }
+
+  ShowChat(div)
+  {
+    AT_CCOAPACTION.ShowChatDetail(div);
   }
 };
