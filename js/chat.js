@@ -85,7 +85,9 @@ const TabChat = new class
               default: params = cmd.GetAllParams().all;; break;
             }
 
-            bubble = _CN("div", {class:"msg_bubble", style:`left:${e.layerX}px;`}, [], div);
+            let layerX = e.layerX;
+            if(layerX < 400) layerX = 400;
+            bubble = _CN("div", {class:"msg_bubble", style:`left:${layerX}px;`}, [], div);
             _CN("b", {}, [cmd.GetDescription()], bubble);
             let table = _CN("table", {border:1}, [], bubble);
             const lst = cmd.Comma2List(cmdd.substring(cmdd.indexOf(":") + 1));

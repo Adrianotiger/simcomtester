@@ -22,11 +22,12 @@ let AT_CBANDCFG = new class extends ATBase
     for(var j=1;j<20;j++) this.AddParam("band" + j, "integer", "band");
     
     let o = {mode:null, band:null};
-    this.AddReadAnswerParam(o);
-    this.AddWriteSendParam(o);
+    let o0 = {...o};
+    this.AddReadAnswerParam(o0);
+    this.AddWriteSendParam(o0);
     for(var j=1;j<20;j++) {
+      o["band" + j] = null;
       let ox = {...o};
-      ox["band" + j] = null;
       this.AddReadAnswerParam(ox); 
       this.AddWriteSendParam(ox); 
     } 
