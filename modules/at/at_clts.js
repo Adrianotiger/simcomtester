@@ -72,8 +72,8 @@ let _DST = new class extends ATBase
   {
     super({
       description: "Time Daylight Saving Report (see AT+CLTS)",
-      example: "+DST: \"1\"",
-      cmd: "+DST",
+      example: "DST: \"1\"",
+      cmd: "DST",
       doc: "5.2.49"
     });
 
