@@ -116,32 +116,7 @@ let _CFUN = new class extends ATBase
   }
 };
 
-let _CPIN = new class extends ATBase
-{
-  constructor()
-  {
-    super({
-      description: "SIMCARD Report (see AT+CURCCFG)",
-      example: "+CPIN: READY",
-      cmd: "+CPIN",
-      doc: "5.2.49"
-    });
-    
-    let enumCode = [];
-    enumCode.push(new ATEnum("READY", "not pending for any pass"));
-    enumCode.push(new ATEnum("SIM PIN", "waiting SIM PIN"));
-    enumCode.push(new ATEnum("SIM PUK", "waiting SIM PUK"));
-    enumCode.push(new ATEnum("PH_SIM PIN", "Antiheft SIM"));
-    enumCode.push(new ATEnum("PH_SIM PUK", "Antiheft PUK"));
-    enumCode.push(new ATEnum("PH_NET PIN", "Password personalisation"));
-    enumCode.push(new ATEnum("SIM PIN2", "wait for PIN2"));
-    enumCode.push(new ATEnum("SIM PUK2", "wait for PUK2"));
-    this.AddParam("code", enumCode, "Code");
-
-    this.AddUnsolicitedAnswerParam({code:null});
-  }
-};
-
+/* _CPIN is already set on AT+CPIN */
 
 let _SMSREADY = new class extends ATBase
 {
