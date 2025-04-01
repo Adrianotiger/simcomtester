@@ -107,7 +107,7 @@ let _CCOAPRECV = new class extends ATBase
       test: false,
       description: "COAPACTION Response",
       example: "+CCOAPRECV: 0,120,115",
-      cmd: "AT+CCOAPRECV", /* must be defined as AT, as this is the text used to find commands */
+      cmd: "+CCOAPRECV", 
       doc: "18.2.6"
     });
     
