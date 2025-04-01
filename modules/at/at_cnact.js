@@ -71,3 +71,27 @@ let AT_CNACT = new class extends ATBase
     return this.IsActive(index) ? this.#acts[index].ip : "";
   }
 };
+
+let _APP_PDP = new class extends ATBase
+{
+  constructor()
+  {
+    super({
+      description: "APP Network Active (see AT+CNACT)",
+      example: "+APP PDP: 0,ACTIVE",
+      cmd: "+APP PDP",
+      doc: "7.2.1"
+    });
+    
+    let enumPdp = [];
+    enumPdp.push(new ATEnum(0, ""));
+    enumPdp.push(new ATEnum(1, ""));
+    enumPdp.push(new ATEnum(2, ""));
+    enumPdp.push(new ATEnum(3, ""));
+    this.AddParam("pdpidx", enumPdp, "pdpidx");
+
+    this.AddParam("active", "string", "active");
+
+    this.AddUnsolicitedAnswerParam({pdpidx:null, active:null});
+  }
+};

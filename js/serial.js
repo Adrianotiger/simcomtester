@@ -302,7 +302,8 @@ const SIMSerial = new class
                 if(cmdArr != null && cmdArr.index===0 && typeof cmdArr[1] != 'undefined')
                 {
                   console.log("CMD Serial line: ", serialLine/*, cmdArr*/);
-                  const ATx = ATs["AT+" + cmdArr[1]];
+                  //const ATx = ATs["AT+" + cmdArr[1]];
+                  const ATx = serialLine.indexOf(":") > 0 ? ATs[serialLine.substring(0, serialLine.indexOf(":")).trim()] : ATs["AT+" + cmdArr[1]];
                     // It is AT is valid and was found in the list
                   if(typeof ATx !== 'undefined')
                   {
