@@ -154,11 +154,9 @@ class TabCoap
         // Send Coap
         AT_CCOAPACTION.Execute().then(()=>{
           // Wait for the response
-          let ai = setInterval(()=>{
+          setTimeout(()=>{
             if(AT_CCOAPACTION.IsCoapReceived())
             {
-              clearInterval(ai);
-
               // Get and parse header
               AT_CCOAPHEAD.Write([AT_CCOAPACTION.GetMid(), 1]).then(()=>{
 
@@ -167,6 +165,11 @@ class TabCoap
                   res();
                 }).catch(()=>{res();});
               }).catch((e)=>{this.#Error("AT_COAPHEAD ERROR", e, true); rej();});
+            }
+            else
+            {
+              this.#Error("COAP No Answer Received", NULL, true);
+              rej();
             }
           }, 500);
         }).catch((e)=>{this.#Error("AT_COAPACTION ERROR", e, true); rej();});

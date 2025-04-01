@@ -45,16 +45,7 @@ let AT_CCOAPACTION = new class extends ATBase
   {
     if(this.GetRequestType() == "exe")
     {
-      const regex = /CCOAPRECV:|CCOAPACTION: [1-9]/gm;
-      let m;
-      let stringIncomplete = true;
-      while ((m = regex.exec(str)) !== null) {
-        m.forEach((match, groupIndex) => {
-          stringIncomplete = false;
-        });
-      }
-      console.log("String incomplete", stringIncomplete);
-      return stringIncomplete;
+      return !this.#coapReceived;
     }
     return false;
   }
@@ -84,9 +75,7 @@ let AT_CCOAPACTION = new class extends ATBase
   }
 
   ShowChatDetail(div)
-  {
-    super.ShowChat(div);
-    
+  {    
     _CN("span", {}, ["mid: " + this.GetMid()], div);
     _CN("span", {}, ["pack size: " + this.#packSize], div);
     _CN("span", {}, ["payload size: " + this.#payloadSize], div);
@@ -143,6 +132,8 @@ let _CCOAPRECV = new class extends ATBase
 
   ShowChat(div)
   {
+    super.ShowChat(div);
+
     AT_CCOAPACTION.ShowChatDetail(div);
   }
 };
