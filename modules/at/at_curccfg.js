@@ -30,6 +30,67 @@ let AT_CURCCFG = new class extends ATBase
     
     this.AddWriteSendParam({urc_type:null, enable:null});
     this.AddReadAnswerParam({urc_type:null, enable:null});
-    
   }
+};
+
+let _QCIMGBOOTTYPE = new class extends ATBase
+{
+  constructor()
+  {
+    super({
+      description: "URC Report for QUALCOMM",
+      example: "QCIMGBOOTTYPE : 1",
+      cmd: "AT+QCIMGBOOTTYPE", /* must be defined as AT, as this is the text used to find commands */
+      doc: "5.2.49"
+    });
+    
+    let enumBoot = [];
+    enumBoot.push(new ATEnum(1, "Modem full image boot"));
+    enumBoot.push(new ATEnum(2, "Modem page-only image boot"));
+    this.AddParam("img_boot_type", enumBoot, "boot type");
+
+    this.AddUnsolicitedAnswerParam({img_boot_type:null});
+  }
+/*
+  Parse(str)
+  {
+    super.Parse(str);
+
+    const v = this.GetValue();
+    AT_CCOAPACTION.SetPackSize(v.packsize, v.payloadsize);
+
+    // As this is not a normal command, emulate the OK
+    //super.Parse("OK");
+  }*/
+};
+
+let _QCIMGBOOTTYPE2 = new class extends ATBase
+{
+  constructor()
+  {
+    super({
+      description: "URC Report for QUALCOMM 2",
+      example: "QCIMGBOOTTYPE : 1",
+      cmd: "ATQCIMGBOOTTYPE", /* must be defined as AT, as this is the text used to find commands */
+      doc: "5.2.49"
+    });
+    
+    let enumBoot = [];
+    enumBoot.push(new ATEnum(1, "Modem full image boot"));
+    enumBoot.push(new ATEnum(2, "Modem page-only image boot"));
+    this.AddParam("img_boot_type", enumBoot, "boot type");
+
+    this.AddUnsolicitedAnswerParam({img_boot_type:null});
+  }
+/*
+  Parse(str)
+  {
+    super.Parse(str);
+
+    const v = this.GetValue();
+    AT_CCOAPACTION.SetPackSize(v.packsize, v.payloadsize);
+
+    // As this is not a normal command, emulate the OK
+    //super.Parse("OK");
+  }*/
 };
