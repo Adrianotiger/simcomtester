@@ -374,7 +374,7 @@ const SIMSerial = new class
 
                     this.#data.req = "";
                     this.#data.answer = serialLine;
-                    this.#data.cmd = ATx;
+                    this.#data.cmd = ATs[serialLine.substring(0, serialLine.indexOf(":")).trim()];
                     this.#data.cmd.Unsolicited();
                     this.#data.cmd.Parse(serialLine);
                   }
