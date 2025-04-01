@@ -303,10 +303,21 @@ const SIMSerial = new class
                 {
                   console.log("CMD Serial line: ", serialLine/*, cmdArr*/);
                   //const ATx = ATs["AT+" + cmdArr[1]];
-                  const ATx = serialLine.indexOf(":") > 0 ? ATs[serialLine.substring(0, serialLine.indexOf(":")).trim()] : ATs["AT+" + cmdArr[1]];
                     // It is AT is valid and was found in the list
-                  if(typeof ATx !== 'undefined')
+                  if(typeof ATs[serialLine.substring(0, serialLine.indexOf(":")).trim()] !== 'undefined')
                   {
+                    const ATx = ATs[serialLine.substring(0, serialLine.indexOf(":")).trim()];
+                    console.warn("Unsolicited Result!");
+
+                    this.#data.req = "";
+                    this.#data.answer = serialLine;
+                    this.#data.cmd = ATx;
+                    this.#data.cmd.Unsolicited();
+                    this.#data.cmd.Parse(serialLine);
+                  }
+                  else if(typeof ATs["AT+" + cmdArr[1]] !== 'undefined')
+                  {
+                    const ATx = ATs["AT+" + cmdArr[1]];
                     if(this.#data.cmd == null) // this is a unsolicited result
                     {
                       console.warn("Unsolicited Result!");
