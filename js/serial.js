@@ -140,10 +140,10 @@ const SIMSerial = new class
       console.error("Serial not ready!");
     }
 
-    let p = new Promise((succ, rej)=>{
+    let p = new Promise((succ)=>{
       setTimeout(()=>{
         if(this.#connected && !this.#busy) succ();
-        else rej();
+        /*else rej();*/
       }, 10);
     });
     return p;
