@@ -18,6 +18,9 @@ const TabChat = new class
     window.addEventListener("cominfo", (data)=>{
       this.#Info(data.detail);
     });
+    window.addEventListener("terminal", (data)=>{
+      this.#Terminal(data.detail);
+    });
     
     this.chat.addEventListener("keypress", (k)=>{
       if(k.key === "Enter")
@@ -190,6 +193,14 @@ const TabChat = new class
     {
       _CN("div", {class:"msg_i"}, [data.info], div);
     }
+  }
+
+  #Terminal(data)
+  {
+    let div = _CN("div", {class:"msg_g"}, [], this.div);
+    let msg = _CN("div", {class:"msg_r", style:"background:#000;color:springgreen;"}, [], div);
+
+    _CN("p", {}, [data], msg);
   }
 };
 

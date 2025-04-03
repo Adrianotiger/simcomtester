@@ -354,15 +354,8 @@ const SIMSerial = new class
                     );
                     console.error("Undefined command, should not happens.", cmdArr[1], serialLine);
 
-                    const clonedData = {...this.#data};
-                    clonedData.req = "";
-                    clonedData.answer = serialLine;
-                    clonedData.cmd = ATs["AT_X"];
-                    clonedData.cmd.Unsolicited();
-                    //clonedData.cmd.Parse(serialLine);
-
                     window.dispatchEvent(
-                      new CustomEvent("serial", { detail: clonedData})
+                      new CustomEvent("terminal", { detail: serialLine})
                     );
                   }
                 }
