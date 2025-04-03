@@ -79,6 +79,37 @@ let _QCSRVCINFO = new class extends ATBase
   }
 };
 
+let _QCJDSTATE = new class extends ATBase
+{
+  constructor()
+  {
+    super({
+      description: "QUALCOMM Report (see AT+CURCCFG)",
+      example: "$QCJDSTATE : 9,1 0",
+      cmd: "$QCJDSTATE",
+      doc: "5.2.49"
+    });
+    
+    let enumRat = [];
+    enumRat.push(new ATEnum(0, "GSM"));
+    enumRat.push(new ATEnum(7, "CAT-M"));
+    enumRat.push(new ATEnum(9, "NB-IOT"));
+    this.AddParam("rat_type", enumRat, "radio access technology");
+
+    let enumJam = [];
+    enumJam.push(new ATEnum("0 0", "Not Jamming"));
+    enumJam.push(new ATEnum("0 1", "Soft Jamming"));
+    enumJam.push(new ATEnum("1 0", "Jamming"));
+    enumJam.push(new ATEnum("1 1", "Jamming"));
+    enumJam.push(new ATEnum("2 0", "Unknown"));
+    enumJam.push(new ATEnum("2 1", "Unknown Jamming"));
+    this.AddParam("jamming_status", enumJam, "jamming status");
+
+    this.AddUnsolicitedAnswerParam({rat_type:null, enumJam:null});
+  }
+};
+
+
 let _RDY = new class extends ATBase
 {
   constructor()

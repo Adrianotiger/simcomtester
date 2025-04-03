@@ -4,7 +4,8 @@ let AT_CACLOSE = new class extends ATBase
   {
         //read, write, exe, test, description, example, cmd, timeout)
     super({
-      read: true,
+      test: true,
+      write: true,
       description: "Close TCP/UDP Connection",
       example: "AT+CACLOSE=1",
       cmd: "AT+CACLOSE",
