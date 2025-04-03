@@ -250,7 +250,11 @@ class ATBase
       this.#promiseRes = resolve;
       this.#promiseRej = reject;
     });
-    SIMSerial.Send(this.#cmd + "\r\n", this);
+    SIMSerial.Send(this.#cmd + "\r\n", this).then(()=>{
+    }).catch(()=>{
+      console.error("Error sending " + this.#cmd);
+      this.#promiseRej();
+    });
 
     setTimeout(()=>{
       if(this.#answer == "" && this.#promise != null)
@@ -279,7 +283,11 @@ class ATBase
       this.#promiseRes = resolve;
       this.#promiseRej = reject;
     });
-    SIMSerial.Send(this.#cmd + "?\r\n", this);
+    SIMSerial.Send(this.#cmd + "?\r\n", this).then(()=>{
+    }).catch(()=>{
+      console.error("Error sending " + this.#cmd);
+      this.#promiseRej();
+    });
     return this.#promise;
   }
   
@@ -327,7 +335,10 @@ class ATBase
       // if the promise is still in use, probably the command was executed too fast, leave some time before removing the old promise
       setTimeout(()=>{
         this.#promise = newPromise;
-        SIMSerial.Send(cmd + "\r\n", this);
+        SIMSerial.Send(cmd + "\r\n", this).then(()=>{
+        }).catch(()=>{
+          console.error("Error sending " + cmd);
+        });
       }, this.#promise == null ? 0 : 100);
 
       this.#promiseRes = resolve;
@@ -353,7 +364,11 @@ class ATBase
       this.#promiseRes = resolve;
       this.#promiseRej = reject;
     });
-    SIMSerial.Send(this.#cmd + "=?\r\n", this);
+    SIMSerial.Send(this.#cmd + "=?\r\n", this).then(()=>{
+    }).catch(()=>{
+      console.error("Error sending " + this.#cmd);
+      this.#promiseRej();
+    });
     return this.#promise;
   }
 

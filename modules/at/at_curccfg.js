@@ -105,7 +105,7 @@ let _QCJDSTATE = new class extends ATBase
     enumJam.push(new ATEnum("2 1", "Unknown Jamming"));
     this.AddParam("jamming_status", enumJam, "jamming status");
 
-    this.AddUnsolicitedAnswerParam({rat_type:null, enumJam:null});
+    this.AddUnsolicitedAnswerParam({rat_type:null, jamming_status:null});
   }
 };
 
