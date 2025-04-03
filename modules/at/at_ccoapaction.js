@@ -40,6 +40,14 @@ let AT_CCOAPACTION = new class extends ATBase
     
     this.AddExeAnswerParam({errorcode:null, mid:null});
   }
+
+  Execute()
+  {
+    this.#coapReceived = false;
+    this.#packSize = -1;
+    this.#payloadSize = -1;
+    super.Execute();
+  }
   
   HoldUp(str)
   {
