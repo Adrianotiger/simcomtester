@@ -357,7 +357,7 @@ const SIMSerial = new class
                     const clonedData = {...this.#data};
                     clonedData.req = "";
                     clonedData.answer = serialLine;
-                    clonedData.cmd = ATs["AT+X"];
+                    clonedData.cmd = ATs["AT_X"];
                     clonedData.cmd.Unsolicited();
                     //clonedData.cmd.Parse(serialLine);
 
