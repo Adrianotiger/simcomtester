@@ -2,6 +2,7 @@
   "at+clts",
   "at+castate",
   "at+caclose",
+  "at+x",
 
   "at+caopen",
   "at+caserver",
