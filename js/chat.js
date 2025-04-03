@@ -198,9 +198,7 @@ const TabChat = new class
   #Terminal(data)
   {
     let div = _CN("div", {class:"msg_g"}, [], this.div);
-    let msg = _CN("div", {class:"msg_r", style:"background:#000;color:springgreen;"}, [], div);
-
-    _CN("p", {}, [data], msg);
+    let msg = _CN("div", {class:"msg_r", style:"background:linear-gradient(to bottom, #445, #112, #445);color:springgreen;"}, [data], div);
   }
 };
 

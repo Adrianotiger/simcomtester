@@ -397,9 +397,14 @@ const SIMSerial = new class
                   else
                   {
                     console.warn("No command requested this line: ", serialLine);
+                    
+                    window.dispatchEvent(
+                      new CustomEvent("terminal", { detail: serialLine})
+                    );
+                    /*
                     window.dispatchEvent(
                       new CustomEvent("cominfo", { detail: {error:"No command requested this line: " + serialLine}})
-                    );
+                    );*/
                   }
                 }
               }
