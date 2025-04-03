@@ -238,6 +238,9 @@ class ATBase
   {
     if(!this.#exe)
     {
+      window.dispatchEvent(
+        new CustomEvent("cominfo", { detail: {error:`'${this.#cmd}' has no execution command`}})
+      );
       console.error("NO EXECUTION AVAILABLE FOR COMMAND " + this.#cmd);
       return;
     }
@@ -267,6 +270,9 @@ class ATBase
   {
     if(!this.#read)
     {
+      window.dispatchEvent(
+        new CustomEvent("cominfo", { detail: {error:`'${this.#cmd}' has no read command`}})
+      );
       console.error("NO READ AVAILABLE FOR COMMAND " + this.#cmd);
       return;
     }
@@ -287,6 +293,9 @@ class ATBase
   {
     if(!this.#write)
     {
+      window.dispatchEvent(
+        new CustomEvent("cominfo", { detail: {error:`'${this.#cmd}' has no write command`}})
+      );
       console.error("NO WRITE AVAILABLE FOR COMMAND " + this.#cmd);
       return;
     }
@@ -295,6 +304,9 @@ class ATBase
     {
       if(values.length > 0)
       {
+        window.dispatchEvent(
+          new CustomEvent("cominfo", { detail: {error:`'${this.#cmd}' does not have any parameters`}})
+        );
         console.error("NO PARAMS EXPECTED FOR " + this.#cmd);
         return;
       }

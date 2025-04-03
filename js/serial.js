@@ -353,6 +353,17 @@ const SIMSerial = new class
                       new CustomEvent("cominfo", { detail: {error:"Command " + "AT+" + cmdArr[1] + " is not registered (2)"}})
                     );
                     console.error("Undefined command, should not happens.", cmdArr[1], serialLine);
+
+                    const clonedData = {...this.#data};
+                    clonedData.req = "";
+                    clonedData.answer = serialLine;
+                    clonedData.cmd = cmdArr[1];
+                    //clonedData.cmd.Unsolicited();
+                    //clonedData.cmd.Parse(serialLine);
+
+                    window.dispatchEvent(
+                      new CustomEvent("serial", { detail: clonedData})
+                    );
                   }
                 }
                 else
