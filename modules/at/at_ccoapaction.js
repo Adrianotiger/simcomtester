@@ -46,7 +46,8 @@ let AT_CCOAPACTION = new class extends ATBase
     this.#coapReceived = false;
     this.#packSize = -1;
     this.#payloadSize = -1;
-    super.Execute();
+    
+    return super.Execute();
   }
   
   HoldUp(str)
