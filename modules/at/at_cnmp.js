@@ -19,8 +19,12 @@ let AT_CNMP = new class extends ATBase
     enumMode.push(new ATEnum(38, "LTE only"));
     enumMode.push(new ATEnum(51, "GSM and LTE only"));
     this.AddParam("mode", enumMode, "mode");
+
+    //+CNMP: ((2-Automatic),(13-GSM Only),(38-LTE Only),(51-GSM And LTE Only))
     
     this.AddReadAnswerParam({mode:null});
+
+    this.AddWriteSendParam({mode:null});
   }
   
   ShowChat(div)

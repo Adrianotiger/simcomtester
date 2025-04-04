@@ -27,7 +27,7 @@ const TabInfo = new class
 
     setTimeout(()=>{
       _CN("div", {}, [_CN("a", {href:"https://github.com/Adrianotiger/simcomtester", target:"_blank"}, ["Github Project"])], this.divGit);
-      _CN("div", {}, [_CN("i", {}, ["ver 0.62 - 2025", _CN("br"), "© Adriano Petrucci"])], this.divGit);
+      _CN("div", {}, [_CN("i", {}, ["ver 0.63 - 2025", _CN("br"), "© Adriano Petrucci"])], this.divGit);
     }, 500);
     
     let i = window.setInterval(()=>{
@@ -86,13 +86,15 @@ const TabInfo = new class
       ATI.Execute().then(()=>{
         AT_GMI.Execute().then(()=>{
           AT_GMM.Execute().then(()=>{
-            AT_GOI.Execute().then(()=>{
+            AT_GOI.Execute().then(async ()=>{
               let module = AT_GOI.GetValue();
               if(module.search(/70[0-9]+0/))
               {
                 fetch("modules/sim7080/info.json").then(r=>{return r.json();}).then(j=>{this.#moduleInfo = j});
-                addATCommands("modules/sim7080/at.json");
+                await addATCommands("modules/sim7080/at.json");
                 PDFManual.LoadPDF("./modules/manuals/SIM70x0_AT_107.pdf");
+
+                console.log("extended AT commands loaded", ATs);
 
                 window.dispatchEvent(
                   new CustomEvent("cominfo", { detail: {info:"Module 70*0 found! Loading extended AT commands and manual."} })
@@ -104,6 +106,11 @@ const TabInfo = new class
                   new CustomEvent("cominfo", { detail: {error:"Module " + module + " not found in this project."} })
                 );
               }
+
+              setTimeout(()=>{
+                this.#moduleInit = true;
+                this.#InitOver();
+              }, 500);
 
               AT_GMR.Execute().then(()=>{
                 let revision = AT_GMR.GetValue();
@@ -128,9 +135,6 @@ const TabInfo = new class
                     }
                   }
                 }
-
-                this.#moduleInit = true;
-                this.#InitOver();
               });
             });
           });

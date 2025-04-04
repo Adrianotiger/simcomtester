@@ -10,6 +10,7 @@ class TabCoap
     this.code = null;
     this.path = "";
     this.query = "";
+    this.mid = null;
     this.payload = "";
     
     setTimeout(()=>{
@@ -36,12 +37,16 @@ class TabCoap
     addDiv = AT_CCOAPPARA.GetParamDiv("code", "Message request type", 2);
     this.div.appendChild(addDiv.div);
     this.code = addDiv.inp;
+
+    addDiv = AT_CCOAPPARA.GetParamDiv("mid", "Message Id", 10);
+    this.div.appendChild(addDiv.div);
+    this.mid = addDiv.inp;
         
     addDiv = AT_CCOAPPARA.GetParamDiv("uripath", "Query relative URL (ex:'home/dir')");
     this.div.appendChild(addDiv.div);
     this.path = addDiv.inp;
     
-    addDiv = AT_CCOAPPARA.GetParamDiv("uriquery", "Queries (ex:'topic=event&page=4')");
+    addDiv = AT_CCOAPPARA.GetParamDiv("uriquery", "Queries (ex:'topic=event&page=4')", "t=test");
     this.div.appendChild(addDiv.div);
     this.query = addDiv.inp;
     
@@ -143,6 +148,13 @@ class TabCoap
       params.push(0); // ascii
       params.push(this.query.value.trim());
     }
+
+    if(this.mid.value.trim().length > 0)
+    {
+      params.push("mid");
+      params.push(this.mid.value);
+      this.mid.value++;
+    }
     
     params.push("payload");
     params.push(0); // ascii
@@ -168,7 +180,7 @@ class TabCoap
             }
             else
             {
-              this.#Error("COAP No Answer Received", NULL, true);
+              this.#Error("COAP No Answer Received", null, true);
               rej();
             }
           }, 500);
