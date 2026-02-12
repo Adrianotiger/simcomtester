@@ -18,6 +18,7 @@ This webpage will let you send some simple commands to your SimCom Module.
 
 
 # How to use
+- Open the project webpage (https://adrianotiger.github.io/simcomtester/)
 - You can press any predefined commands on the left panel
 - Or you can write the commands directly in the "chat"
 - If you press on "📃" a tutorial should be visible for that command.

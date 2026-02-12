@@ -49,5 +49,13 @@ let AT_CGDCONT = new class extends ATBase
 
     this.AddReadAnswerParam({cid:null, pdp_type:null, apn:null, pdp_addr:null, d_comp:null, h_comp:null, ipv4_ctrl:null});
     this.AddReadAnswerParam({cid:null, pdp_type:null, apn:null, pdp_addr:null, d_comp:null, h_comp:null, ipv4_ctrl:null, emergency_flag:null});
+
+    this.AddWriteSendParam({cid:null, pdp_type:null});
+    this.AddWriteSendParam({cid:null, pdp_type:null, apn:null});
+    this.AddWriteSendParam({cid:null, pdp_type:null, apn:null, pdp_addr:null});
+    this.AddWriteSendParam({cid:null, pdp_type:null, apn:null, pdp_addr:null, d_comp:null});
+    this.AddWriteSendParam({cid:null, pdp_type:null, apn:null, pdp_addr:null, d_comp:null, h_comp:null});
+    this.AddWriteSendParam({cid:null, pdp_type:null, apn:null, pdp_addr:null, d_comp:null, h_comp:null, ipv4_ctrl:null});
+    this.AddWriteSendParam({cid:null, pdp_type:null, apn:null, pdp_addr:null, d_comp:null, h_comp:null, ipv4_ctrl:null, emergency_flag:null});
   }
 };
