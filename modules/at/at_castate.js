@@ -14,7 +14,7 @@ let AT_CASTATE = new class extends ATBase
     let enumS = [];
     enumS.push(new ATEnum(0, "Closed"));
     enumS.push(new ATEnum(1, "Connected"));
-    enumS.push(new ATEnum(1, "Listening"));
+    enumS.push(new ATEnum(2, "Listening"));
     
     
     let enumId = [];

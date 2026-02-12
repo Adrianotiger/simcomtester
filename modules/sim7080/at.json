@@ -5,6 +5,7 @@
   "at+x",
 
   "at+caopen",
+  "at+carecv",
   "at+caserver",
   "at+cbandcfg",
   "at+cbc",
