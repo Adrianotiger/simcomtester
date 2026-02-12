@@ -6,6 +6,7 @@ let AT_CGDCONT = new class extends ATBase
     super({
       test: true,
       read: true,
+      write: true,
       description: "Define PDP Context",
       example: "+CGDCONT: 1,\"IPV4V6\",\"\",\"\",0,0,0",
       cmd: "AT+CGDCONT",
