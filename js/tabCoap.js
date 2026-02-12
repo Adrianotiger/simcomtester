@@ -6,7 +6,6 @@ class TabCoap
   {
     this.div = _CN("div", {class:"box tab"}, [_CN("h2", {}, ["COAP"])], Tabs.GetDiv());
     this.pdpidx = null;
-    this.iptype = null;
     this.code = null;
     this.path = "";
     this.query = "";
@@ -29,11 +28,7 @@ class TabCoap
     let addDiv = AT_CNCFG.GetParamDiv("pdpidx", "Select PDPidx (Packet Data Protocol Identifier) to use for this COAP");
     this.div.appendChild(addDiv.div);
     this.pdpidx = addDiv.inp;
-    
-    addDiv = AT_CNCFG.GetParamDiv("iptype", "Select IP type", 1);
-    this.div.appendChild(addDiv.div);
-    this.iptype = addDiv.inp;
-    
+        
     addDiv = AT_CCOAPPARA.GetParamDiv("code", "Message request type", 2);
     this.div.appendChild(addDiv.div);
     this.code = addDiv.inp;

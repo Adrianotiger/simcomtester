@@ -68,10 +68,12 @@ let AT_CARECV = new class extends ATBase
   {
     super.ShowChat(div);
     
-    
-    _CN("span", {}, ["[len: " + this.#len + "]"], div);
-    if(parseInt(this.#len) > 0)
-      _CN("span", {style:"font-style:italic;"}, [this.#out], div);
+    if(this.GetRequestType() == "write")
+    {
+      _CN("span", {}, ["[len: " + this.#len + "]"], div);
+      if(parseInt(this.#len) > 0)
+        _CN("span", {style:"font-style:italic;"}, [this.#out], div);
+    }
     
   }
   

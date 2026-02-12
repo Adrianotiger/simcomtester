@@ -41,35 +41,63 @@ class TabTcpUdp
     this.div.appendChild(this.answer.div);
 
     this.connTypeServer = AT_CASERVER.GetParamDiv("conn_type", "Connection Type", "UDP");
-    this.div.appendChild(this.connTypeServer.div);
 
-    _CN("button", {style:"margin:1vh;"}, ["Create Server"], this.div).addEventListener("click", ()=>{
+    let createServerButt = _CN("button", {style:"margin:1vh;"}, ["Create Server"]);
+    createServerButt.addEventListener("click", ()=>{
       this.#CreateServer();
     });
 
+    _CN("table", {}, [
+      _CN("tr", {}, [
+        _CN("td", {}, [this.connTypeServer.div])
+      ]),
+      _CN("tr", {}, [
+        _CN("td", {}, [createServerButt])
+      ])
+    ], this.div);
+
     this.server = AT_CAOPEN.GetParamDiv("server", "Server name or IP", "TestServer");
-    this.div.appendChild(this.server.div);
+    //this.div.appendChild(this.server.div);
 
     this.connTypeClient = AT_CAOPEN.GetParamDiv("conn_type", "Connection Type", "TCP");
-    this.div.appendChild(this.connTypeClient.div);
+    //this.div.appendChild(this.connTypeClient.div);
 
-    _CN("button", {style:"margin:1vh;"}, ["Connect Server"], this.div).addEventListener("click", ()=>{
+    let connServerButt = _CN("button", {style:"margin:1vh;"}, ["Connect Server"]);
+    connServerButt.addEventListener("click", ()=>{
       this.#ConnectServer();
     });
+
+    _CN("table", {}, [
+      _CN("tr", {}, [
+        _CN("td", {}, [this.server.div])
+      ]),
+      _CN("tr", {}, [
+        _CN("td", {}, [this.connTypeClient.div])
+      ]),
+      _CN("tr", {}, [
+        _CN("td", {}, [connServerButt])
+      ])
+    ], this.div);
 
     let cstate = _CN("button", {style:"margin:1vh;"}, ["Query State"]);
     cstate.addEventListener("click", ()=>{
       AT_CASTATE.Read();
     });
 
+    let crecv = _CN("button", {style:"margin:1vh;"}, ["+CARECV"]);
+    crecv.addEventListener("click", ()=>{
+      AT_CARECV.Write([this.cid.inp.value, 1024]);
+    });
+
     let cclose = _CN("button", {style:"margin:1vh;"}, ["Close Connection"]);
     cclose.addEventListener("click", ()=>{
-      AT_CACLOSE.Write([this.cid]);
+      AT_CACLOSE.Write([this.cid.inp.value]);
     });
 
     _CN("table", {}, [
       _CN("tr", {}, [
         _CN("td", {}, [cstate]),
+        _CN("td", {}, [crecv]),
         _CN("td", {}, [cclose])
       ])
     ], this.div);
