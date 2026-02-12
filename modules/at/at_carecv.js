@@ -30,7 +30,8 @@ let AT_CARECV = new class extends ATBase
     this.AddParam("data", "string", "Output Data");
     
     this.AddWriteSendParam({cid:null, readlen:null});
-        
+    
+    this.AddWriteAnswerParam({recvlen:null});
     this.AddWriteAnswerParam({recvlen:null, data:null});
     this.AddWriteAnswerParam({recvlen:null, remote_ip:null, remote_port:null, data:null});
   }
@@ -69,7 +70,8 @@ let AT_CARECV = new class extends ATBase
     
     
     _CN("span", {}, ["[len: " + this.#len + "]"], div);
-    _CN("span", {style:"font-style:italic;"}, [this.#out], div);
+    if(parseInt(this.#len) > 0)
+      _CN("span", {style:"font-style:italic;"}, [this.#out], div);
     
   }
   
