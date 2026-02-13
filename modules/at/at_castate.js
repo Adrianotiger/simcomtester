@@ -36,7 +36,7 @@ let AT_CASTATE = new class extends ATBase
     //if(this.GetRequestType() == "read")
     {
       _CN("span", {}, ["CID: " + value.cid], div);
-      _CN("span", {}, ["State: " + this.getParam("state").GetValue(value.state).GetDescription()], div);
+      _CN("span", {}, ["State: " + this.GetParam("state").GetValue(value.state).GetDescription()], div);
     }
   }
   

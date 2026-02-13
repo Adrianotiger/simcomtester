@@ -39,6 +39,7 @@ let AT_CARECV = new class extends ATBase
   {
     super.Parse(str);
     this.#ip = "";
+    this.#len = 0;
         
     this.GetLines().forEach(l=>{
       if(this.value == "") this.value = l;
@@ -55,7 +56,7 @@ let AT_CARECV = new class extends ATBase
         else
         {
           this.#len = parseInt(values[0]);
-          this.#out = values[3];
+          this.#out = values[1];
         }
       }
       
