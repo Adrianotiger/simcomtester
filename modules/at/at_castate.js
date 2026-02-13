@@ -26,5 +26,18 @@ let AT_CASTATE = new class extends ATBase
 
     this.AddReadAnswerParam({cid:null, state:null});
   }
+
+  ShowChat(div)
+  {
+    super.ShowChat(div);
+    
+    const value = this.GetValue();
+    
+    //if(this.GetRequestType() == "read")
+    {
+      _CN("span", {}, ["CID: " + value.cid], div);
+      _CN("span", {}, ["State: " + this.getParam("state").GetValue(value.state).GetDescription()], div);
+    }
+  }
   
 };

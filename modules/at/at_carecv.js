@@ -1,6 +1,5 @@
 let AT_CARECV = new class extends ATBase
-{  
-  #cid = 0;
+{ 
   #len = 0;
   #ip = "";
   #ipport = 0;

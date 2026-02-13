@@ -117,3 +117,39 @@ let AT_CASERVER = new class extends ATBase
   }
   
 };
+
+/* Unsolicited Result - Answer to AT+CASERVER if a client connects */
+let _CANEW = new class extends ATBase
+{
+  constructor()
+  {
+    super({
+      description: "CASERVER Response",
+      example: "+CANEW: 0,0,10.10.10.122,4445",
+      cmd: "+CANEW", 
+      doc: "12.2.4"
+    });
+    
+    this.AddParam("server_cid", "number", "Server identifier");
+    this.AddParam("client_cid", "number", "Client identifier");
+    this.AddParam("client_ip", "string", "Client IP");
+    this.AddParam("client_port", "number", "Client port");
+    
+    this.AddUnsolicitedAnswerParam({server_cid:null, client_cid:null, client_ip:null, client_port:null});
+  }
+
+  Parse(str)
+  {
+    super.Parse(str);
+
+    // As this is not a normal command, emulate the OK
+    super.Parse("OK");
+  }
+/*
+  ShowChat(div)
+  {
+    super.ShowChat(div);
+
+    AT_CCOAPACTION.ShowChatDetail(div);
+  }*/
+};

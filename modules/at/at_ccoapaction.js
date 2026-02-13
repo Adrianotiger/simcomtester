@@ -109,7 +109,7 @@ let AT_CCOAPACTION = new class extends ATBase
   }
 };
 
- 
+/* Unsolicited Result - Answer to AT+CCOAPACTION */
 let _CCOAPRECV = new class extends ATBase
 {
   constructor()

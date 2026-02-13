@@ -119,3 +119,81 @@ let AT_CAOPEN = new class extends ATBase
   }
   
 };
+
+/* Unsolicited Result - Answer to AT+CAOPEN if recv_mode==0 */
+let _CADATAIND = new class extends ATBase
+{
+  constructor()
+  {
+    super({
+      description: "CAOPEN Response",
+      example: "+CADATAIND: 0",
+      cmd: "+CADATAIND", 
+      doc: "12.2.3"
+    });
+    
+    this.AddParam("cid", "number", "Command identifier");
+    
+    this.AddUnsolicitedAnswerParam({cid:null});
+  }
+
+  Parse(str)
+  {
+    super.Parse(str);
+
+    // As this is not a normal command, emulate the OK
+    super.Parse("OK");
+  }
+/*
+  ShowChat(div)
+  {
+    super.ShowChat(div);
+
+    AT_CCOAPACTION.ShowChatDetail(div);
+  }*/
+};
+
+/* Unsolicited Result - Answer to AT+CAOPEN if something was received */
+let _CAURC = new class extends ATBase
+{
+  constructor()
+  {
+    super({
+      description: "CAOPEN Response",
+      example: "+CAURC: buffer full,0",
+      cmd: "+CAURC", 
+      doc: "12.2.3"
+    });
+    
+    this.AddParam("desc", "string", "Description");
+    this.AddParam("cid", "number", "Description");
+
+    this.AddParam("len", "number", "Buffer Len");
+    this.AddParam("ip", "string", "IP");
+    this.AddParam("port", "number", "Port");
+    this.AddParam("data", "string", "Data");
+    
+    this.AddUnsolicitedAnswerParam({desc:null});
+    this.AddUnsolicitedAnswerParam({desc:null, cid:null});
+
+    this.AddUnsolicitedAnswerParam({desc:"recv", cid:null, len:null});
+    this.AddUnsolicitedAnswerParam({desc:"recv", cid:null, len:null, ip:null, port:null});
+    this.AddUnsolicitedAnswerParam({desc:"recv", cid:null, len:null, ip:null, port:null, data:null});
+  }
+
+  Parse(str)
+  {
+    super.Parse(str);
+
+    // As this is not a normal command, emulate the OK
+    super.Parse("OK");
+  }
+/*
+  ShowChat(div)
+  {
+    super.ShowChat(div);
+
+    AT_CCOAPACTION.ShowChatDetail(div);
+  }*/
+};
+
