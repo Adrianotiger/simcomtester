@@ -177,6 +177,7 @@ let _CAURC = new class extends ATBase
     this.AddUnsolicitedAnswerParam({desc:null, cid:null});
 
     this.AddUnsolicitedAnswerParam({desc:"recv", cid:null, len:null});
+    this.AddUnsolicitedAnswerParam({desc:"recv", cid:null, len:null, data:null});
     this.AddUnsolicitedAnswerParam({desc:"recv", cid:null, len:null, ip:null, port:null});
     this.AddUnsolicitedAnswerParam({desc:"recv", cid:null, len:null, ip:null, port:null, data:null});
   }
