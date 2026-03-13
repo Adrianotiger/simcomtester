@@ -2,10 +2,10 @@ const TabChat = new class
 {
   constructor()
   {
-    let buttShell = _CN("button", {title:"SHELL", style:"position:sticky;left:22vw;top:0px;z-index:500;transform:translate(0px, -8px);"}, ["💻"], this.div);
-    let buttChat = _CN("button", {title:"CMD", style:"position:sticky;left:22vw;top:0px;z-index:500;transform:translate(0px, -8px);"}, ["💬"], this.div);
-    let buttClearShell = _CN("button", {title:"Clear", style:"position:sticky;left:26vw;top:0px;z-index:500;transform:translate(0px, -8px);"}, ["🧹"], this.div);
-    let buttClearChat = _CN("button", {title:"Clear", style:"position:sticky;left:26vw;top:0px;z-index:500;transform:translate(0px, -8px);"}, ["🧹"], this.div);
+    let buttShell = _CN("button", {title:"SHELL", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(-20px, -8px);"}, ["💻"], this.div);
+    let buttChat = _CN("button", {title:"CMD", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(-20px, -8px);"}, ["💬"], this.div);
+    let buttClearShell = _CN("button", {title:"Clear", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(20px, -8px);"}, ["🧹"], this.div);
+    let buttClearChat = _CN("button", {title:"Clear", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(20px, -8px);"}, ["🧹"], this.div);
 
     this.div = _CN("div", {class:"box chat"}, [buttShell, buttClearChat, _CN("h2", {}, ["Chat"])]);
     this.shell = _CN("div", {title:"CHAT", class:"box chat", style:"display:none;opacity:0.0;"}, [buttChat, buttClearShell, _CN("h2", {}, ["Commands"])]);

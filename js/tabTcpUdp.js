@@ -54,7 +54,7 @@ class TabTcpUdp
     let divServer = _CN("div", {style:"display:none;width:100%;"});
     let divClient = _CN("div", {style:"display:none;width:100%;"});
     let divData = _CN("div", {style:"display:none;width:100%;"});
-    let divOptions = _CN("div", {style:"display:none;width:100%;"});
+    let divOptions = _CN("div", {style:"display:block;width:100%;"});
 
     buttServer.addEventListener("click", ()=>{
       divServer.style.display = "block";

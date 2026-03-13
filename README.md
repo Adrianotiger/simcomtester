@@ -1,6 +1,6 @@
-# SimCom Tester
+# Online SimCom Tester
 This webpage will let you send some simple commands to your SimCom Module. 
-- Send AT-Commands to you SimCom module directly over the webpage
+- Send AT-Commands to your SimCom module directly over the webpage
 - No downloads or installation
 - Description of every command, with integrated help and AT-manual
 - Check module and firmware
@@ -14,7 +14,7 @@ This webpage will let you send some simple commands to your SimCom Module.
 - Press on "Connect" and select the right serial port on your browser (the first SimTech serial port, on USB)
 - If everything is connected, you should see something like this:
 
-![image](https://github.com/user-attachments/assets/194d2c5b-7a57-4671-8e90-c0ede48043d3)
+![Screenshot](screenshots/image_base.png)
 
 
 # How to use
@@ -22,6 +22,48 @@ This webpage will let you send some simple commands to your SimCom Module.
 - You can press any predefined commands on the left panel
 - Or you can write the commands directly in the "chat"
 - If you press on "📃" a tutorial should be visible for that command.
+
+## Chat with the module
+![chat](screenshots/image-1.png)
+Like Whatsapp, write what you want to ask and the module will reply with a response. The answer is well formatted and the question has a description.  
+#### Buttons
+❓ - Test command on the module  
+⚡ - Execute command on the module
+✍ - Write command on the module using the command editor  
+📖 - Read command on the module  
+📃 - Open the PDF-manual on the right page  
+𝓲 - Command info (tooltip-window)  
+💻 - Hide chat and open the Prompt-like window  
+💬 - Hide prompt and open the chat  
+🧹 - Clear chat or prompt window  
+
+#### Command editor
+![Command editor](screenshots/image-5.png)
+BY pressing ✍ on the chat, a command editor will be opened and you can create a command with the right parameters.
+
+## Tabs
+![Tabs](screenshots/image-2.png)
+Functionality are grouped in TABS:  
+Module : base functionality  
+Commands: execution of commands  
+SIM: SIM-related commands, like PIN  
+COAP: Create server/client and COAP-messages  
+HTTPS: Create server/client  
+TCP/UDP: Create server/client and messages  
+SMS: SMS-functionality (MT/MO)  
+GNSS: Some base funtionality  
+Manual: See `Manual`  
+Scripts: See `Scripts`  
+
+## Manual
+![Manual](screenshots/image-3.png)
+Every known AT-command has some specific read/write parameters. You can find them on this tab, by pressing 📃 in the chat.  
+You can also open the PDF on the right page, so you don't need to find it inside the document.  
+
+## Scripts
+![Scripts](screenshots/image-4.png)
+Simple text editor with syntax highlightings, allow you to send the commands and wait for the OK each time.  
+Use `#` to comment a line and `WAIT X` to sleep X seconds.
 
 # How to edit/test
 - Create a workspace in GitHub
