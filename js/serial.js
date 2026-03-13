@@ -412,7 +412,11 @@ const SIMSerial = new class
               if(this.#data.cmd != null)
               {
                 console.log("Didn't got an OK or ERROR");
-
+                if(this.#data.cmd.HoldUp(serialMsg))
+                {
+                  console.log("Hold AT for response...", serialMsg, this.#data.cmd);
+                  return;
+                }
                 const clonedData = {...this.#data};
                 const event = new CustomEvent("serial", { detail: clonedData });
                 window.dispatchEvent(event);

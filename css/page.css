@@ -22,6 +22,12 @@ button, select, input, textarea
   cursor: pointer;
 }
 
+button:hover 
+{
+  background: linear-gradient(to bottom, #fff, #dff);
+  box-shadow: 0px 0px 3px 1px #ff0;
+}
+
 select, input, textarea
 {
   background: linear-gradient(to bottom, #fff, #ffe);
@@ -183,4 +189,15 @@ textarea
 .pdfviewer span:hover
 {
   background-color: #ffa;
+}
+
+.bgoverlay
+{
+  width:100vw;
+  height:100vh;
+  background:rgba(0,0,0,0.5);
+  display:block;
+  position:0px 0px;
+  position:absolute;
+  z-index:1010;
 }

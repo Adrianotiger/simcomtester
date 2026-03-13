@@ -2,13 +2,51 @@ const TabChat = new class
 {
   constructor()
   {
-    this.div = _CN("div", {class:"box chat"}, [_CN("h2", {}, ["Chat"])]);
-    this.chat = _CN("input", {type:"text", placeholder:"custom AT commands"}, [], this.div);
+    let buttShell = _CN("button", {title:"SHELL", style:"position:sticky;left:22vw;top:0px;z-index:500;transform:translate(0px, -8px);"}, ["💻"], this.div);
+    let buttChat = _CN("button", {title:"CMD", style:"position:sticky;left:22vw;top:0px;z-index:500;transform:translate(0px, -8px);"}, ["💬"], this.div);
+    let buttClearShell = _CN("button", {title:"Clear", style:"position:sticky;left:26vw;top:0px;z-index:500;transform:translate(0px, -8px);"}, ["🧹"], this.div);
+    let buttClearChat = _CN("button", {title:"Clear", style:"position:sticky;left:26vw;top:0px;z-index:500;transform:translate(0px, -8px);"}, ["🧹"], this.div);
+
+    this.div = _CN("div", {class:"box chat"}, [buttShell, buttClearChat, _CN("h2", {}, ["Chat"])]);
+    this.shell = _CN("div", {title:"CHAT", class:"box chat", style:"display:none;opacity:0.0;"}, [buttChat, buttClearShell, _CN("h2", {}, ["Commands"])]);
+    this.chat = _CN("input", {type:"text", class:"chatinput", placeholder:"custom AT commands"}, []);
+    
+    buttShell.addEventListener("click", ()=>{
+      this.div.style.opacity = 0.0;
+      this.div.style.filter = "blur(2px)";
+      this.div.style.display = "block";
+      this.shell.style.display = "block";
+      this.shell.style.filter = "blur(0px)";
+      setTimeout(()=>{this.shell.style.opacity = 1.0;}, 200);
+      setTimeout(()=>{this.div.style.display = "none";}, 800);
+    });
+    buttChat.addEventListener("click", ()=>{
+      this.shell.style.opacity = 0.0;
+      this.shell.style.filter = "blur(2px)";
+      this.div.style.display = "block";
+      this.shell.style.display = "block";
+      this.div.style.filter = "blur(0px)";
+      setTimeout(()=>{this.div.style.opacity = 1.0;}, 200);
+      setTimeout(()=>{this.shell.style.display = "none";}, 600);
+    });
+
+    const shellBaseElements = this.div.childNodes.length;
+    buttClearShell.addEventListener("click", ()=>{
+      while(this.shell.childNodes.length > shellBaseElements) this.shell.removeChild(this.shell.childNodes[shellBaseElements]);
+    });
+
+    buttClearChat.addEventListener("click", ()=>{
+      while(this.div.childNodes.length > shellBaseElements) this.div.removeChild(this.div.childNodes[shellBaseElements]);
+    });
+
   }
   
   Init()
   {
     document.body.appendChild(this.div);
+    document.body.appendChild(this.shell);
+    document.body.appendChild(this.chat);
+
     window.addEventListener("serial", (data)=>{
       this.#Serial(data.detail);
     });
@@ -21,16 +59,20 @@ const TabChat = new class
     window.addEventListener("terminal", (data)=>{
       this.#Terminal(data.detail);
     });
-    
-    this.chat.addEventListener("keypress", (k)=>{
-      if(k.key === "Enter")
+
+    let chatKeyPress = ((value,e)=>{
+      if(e.key === "Enter")
       {
-        SIMSerial.Send(this.chat.value + "\r\n", null).then(()=>{
+        SIMSerial.Send(value + "\r\n", null).then(()=>{
           // Successfully sent.
         }).catch(err=>{
           console.warn("ERROR SENDING OVER CHAT:", err);
         });
       }
+    });
+    
+    this.chat.addEventListener("keypress", (k)=>{
+      chatKeyPress(this.chat.value, k);
     });
 
     window.addEventListener("serialactive", (data)=>{
@@ -65,6 +107,11 @@ const TabChat = new class
     let div = _CN("div", {class:"msg_g"}, [], this.div);
     let msg = _CN("div", {class:"msg_r"}, [], div);
 
+    data.answer.split("\n").forEach(lne=>{
+      _CN("div", {}, ["\xa0\xa0\xa0\xa0" + lne], this.shell);
+    });
+    this.shell.scrollTo({top: parseInt(this.shell.scrollHeight), behavior:"smooth"});
+
     if(data.cmd)
     {
       if(data.answer.trim().startsWith("+") || data.cmd.GetRequestType() == "unsolicited")
@@ -97,25 +144,28 @@ const TabChat = new class
             let lstindex = 0;
             let defi = 0;
             for(let j=0;j<params.length;j++) if(Object.keys(params[j]).length == lst.length) defi = j;
-            Object.keys(params[defi]).forEach(pk=>{
-              console.log(cmd.GetParam(pk));
-              const px = cmd.GetParam(pk);
-              let val = lst[lstindex++];
-              if(Array.isArray(px.GetType()))
-              {
-                let vals = val;
-                val = _CN("select", {style:"font-size:x-small"});
-                px.GetType().forEach(t=>{
-                  let o = _CN("option", {}, [t.GetValue() + " - " + t.GetDescription()], val);
-                  if(vals.replace(/\"/g, '')==t.GetValue()) o.selected = true;
-                });
-              }
-              _CN("tr",{}, [
-                _CN("td",{}, [px.GetName()]),
-                _CN("td",{}, [val]),
-                _CN("td",{}, [px.GetDescription()])
-              ], table);
-            });
+            if(Array.isArray(params) && typeof params[0] !== 'undefined')
+            {
+              Object.keys(params[defi]).forEach(pk=>{
+                console.log(cmd.GetParam(pk));
+                const px = cmd.GetParam(pk);
+                let val = lst[lstindex++];
+                if(Array.isArray(px.GetType()))
+                {
+                  let vals = val;
+                  val = _CN("select", {style:"font-size:x-small"});
+                  px.GetType().forEach(t=>{
+                    let o = _CN("option", {}, [t.GetValue() + " - " + t.GetDescription()], val);
+                    if(vals.replace(/\"/g, '')==t.GetValue()) o.selected = true;
+                  });
+                }
+                _CN("tr",{}, [
+                  _CN("td",{}, [px.GetName()]),
+                  _CN("td",{}, [val]),
+                  _CN("td",{}, [px.GetDescription()])
+                ], table);
+              });
+            }
 
             bubble.addEventListener("mouseleave",()=>{
               div.removeChild(bubble);
@@ -148,20 +198,41 @@ const TabChat = new class
     let div = _CN("div", {class:"msg_g"}, [], this.div);
     let send = _CN("div", {class:"msg_s"}, [data.req], div);
     
+    _CN("div", {}, [" > " + data.req], this.shell);
+    this.shell.scrollTo({top: parseInt(this.shell.scrollHeight), behavior:"smooth"});
+
     if(data.cmd)
     {
       const cmd2 = data.cmd;
-      if(data.cmd.CanTest() && data.req.indexOf("=?") < 0)
+      if(data.cmd.CanTest())
       {
-        let help = _CN("span", {class:"msg_h"}, ["?"], div);
-        let req2 = req.trim();
-        if(req2.indexOf("=") > 0)
-          req2 = req2.substring(0, req2.indexOf("="));
-        else if(req2.indexOf("?") > 0)
-          req2 = req2.substring(0, req2.indexOf("?"));
+        let help = _CN("span", {class:"msg_h", title:"help"}, ["?"], div);
         
         help.addEventListener("click", ()=>{
           cmd2.Test();
+        });
+      }
+      if(data.cmd.CanRead())
+      {
+        let read = _CN("span", {class:"msg_h", title:"read"}, ["📖"], div);
+        read.addEventListener("click", ()=>{
+          cmd2.Read();
+        });
+      }
+      if(data.cmd.CanExecute())
+      {
+        let read = _CN("span", {class:"msg_h", title:"execute"}, ["⚡"], div);
+        read.addEventListener("click", ()=>{
+          cmd2.Execute();
+        });
+      }
+      if(data.cmd.CanWrite())
+      {
+        let read = _CN("span", {class:"msg_h", title:"write"}, ["✍"], div);
+        read.addEventListener("click", ()=>{
+          ATEditor.ShowWrite(cmd2).then((p)=>{
+            cmd2.Write(p);
+          }).catch(()=>{});
         });
       }
       _CN("i", {}, [data.cmd.GetDescription()], div);

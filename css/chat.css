@@ -9,6 +9,7 @@
   bottom: 3vh;
   color: springgreen;
   overflow-y: scroll;
+  transition: opacity 0.6s linear;
 }
 
 .chat h2
@@ -16,9 +17,9 @@
   position: sticky;
 }
 
-.chat input
+.chatinput
 {
-  position: fixed;
+  position: absolute;
   width: 40vw;
   right: 5vw;
   bottom: 0.5vh;
@@ -77,6 +78,8 @@
   display: inline-block;
   border-radius: 100%;
   width: 2vh;
+  line-height: 2vh;
+  vertical-align: middle;;
   background: linear-gradient(to bottom, #66a, #448);
   text-align: center;
   color: #fff;

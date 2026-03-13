@@ -6,6 +6,7 @@
 
   "at+caopen",
   "at+carecv",
+  "at+casend",
   "at+caserver",
   "at+cbandcfg",
   "at+cbc",

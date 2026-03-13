@@ -82,3 +82,87 @@
   font-family: monospace;
   text-align: center;
 }
+
+.tabscript
+{
+  background: linear-gradient(to bottom, #cdd, #fff, #dee);
+  background-attachment: fixed;
+}
+
+.tabscript .icon
+{
+  margin:0px 10px;
+  font-size:130%;
+}
+
+.tabscriptmain
+{
+  background:white;
+  border:1px solid black;
+  height:80%;
+  width:85%;
+  padding:5px;
+  margin:5px;
+  text-align:left;
+  position:relative;
+  overflow: hidden;
+}
+
+.tabscripteditor
+{
+  padding-left:50px;
+  font-size:18px;
+  /*font-weight:bold;*/
+  font-family:sans-serif;
+  line-height:22px;
+  height:calc(100% - 20px);
+  width:100%;
+  text-align:left;
+  position:absolute;
+  left:0.4px;
+  top:0.2px;
+  opacity:0.8;
+  overflow-y:scroll;
+  outline: none;
+}
+
+.tabscriptlines
+{
+  padding-left:0px;
+  font-weight:normal;
+  width:40px;
+  text-align:right;
+  overflow:hidden;
+  font-size:14px;
+  opacity: 1;
+  color:#aaa;
+}
+
+.tabscriptlines b
+{
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:24px;
+  height:22px;
+  font-size:18px;
+  line-height:22px;
+  opacity:0.2;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.tabscriptinfo 
+{
+  width: 85%;
+  height: 40px;
+  background: #000;
+  opacity: 0.2;
+  border-radius: 10px;
+  text-align: center;
+  color: #ffa;
+  transition: all 0.2s linear;
+}
+
+
+

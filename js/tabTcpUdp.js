@@ -26,8 +26,6 @@ class TabTcpUdp
       this.CheckStatus();
     });
 
-    _CN("h2", {}, ["Create Server"], this.div);
-
     this.cid = AT_CAOPEN.GetParamDiv("cid", "Select CID", 0);
     this.div.appendChild(this.cid.div);
 
@@ -36,10 +34,65 @@ class TabTcpUdp
 
     this.port = AT_CAOPEN.GetParamDiv("port", "Port (1-65535)", 15005);
     this.div.appendChild(this.port.div);
+    let inpPort = this.port.div.getElementsByTagName("input")[0];
+    inpPort.title = "tcpudp_port";
+    Settings.AutoSaveChanges(inpPort);
 
     this.answer = AT_CAOPEN.GetParamDiv("recv_mode", "Receive Mode", 0);
     this.div.appendChild(this.answer.div);
 
+    _CN("br", null, null, this.div);
+
+    let inpAnswer = this.answer.div.getElementsByTagName("select")[0];
+    inpAnswer.title = "tcpudp_answer";
+    Settings.AutoSaveChanges(inpAnswer);
+
+    let buttServer = _CN("button", null, ["Server"]);
+    let buttClient = _CN("button", null, ["Client"]);
+    let buttData = _CN("button", null, ["Data"]);
+    let buttOptions = _CN("button", null, ["Options"]);
+    let divServer = _CN("div", {style:"display:none;width:100%;"});
+    let divClient = _CN("div", {style:"display:none;width:100%;"});
+    let divData = _CN("div", {style:"display:none;width:100%;"});
+    let divOptions = _CN("div", {style:"display:none;width:100%;"});
+
+    buttServer.addEventListener("click", ()=>{
+      divServer.style.display = "block";
+      divClient.style.display = "none";
+      divData.style.display = "none";
+      divOptions.style.display = "none";
+    });
+    buttClient.addEventListener("click", ()=>{
+      divServer.style.display = "none";
+      divClient.style.display = "block";
+      divData.style.display = "none";
+      divOptions.style.display = "none";
+    });
+    buttData.addEventListener("click", ()=>{
+      divServer.style.display = "none";
+      divClient.style.display = "none";
+      divData.style.display = "block";
+      divOptions.style.display = "none";
+    });
+    buttOptions.addEventListener("click", ()=>{
+      divServer.style.display = "none";
+      divClient.style.display = "none";
+      divData.style.display = "none";
+      divOptions.style.display = "block";
+    });
+
+    _CN("table", {border:1}, [
+      _CN("tr", null, [
+        _CN("td", null, [buttServer]),
+        _CN("td", null, [buttClient]),
+        _CN("td", null, [buttData]),
+        _CN("td", null, [buttOptions]),
+      ]),
+      _CN("tr", null, [
+        _CN("td", {colspan:4}, [divServer, divClient, divData, divOptions])
+      ])
+    ], this.div);
+    
     this.connTypeServer = AT_CASERVER.GetParamDiv("conn_type", "Connection Type", "UDP");
 
     let createServerButt = _CN("button", {style:"margin:1vh;"}, ["Create Server"]);
@@ -54,12 +107,14 @@ class TabTcpUdp
       _CN("tr", {}, [
         _CN("td", {}, [createServerButt])
       ])
-    ], this.div);
+    ], divServer);
 
     this.server = AT_CAOPEN.GetParamDiv("server", "Server name or IP", "TestServer");
-    //this.div.appendChild(this.server.div);
+    let inpServerName = this.server.div.getElementsByTagName("input")[0];
+    inpServerName.title = "tcpudp_servername";
+    Settings.AutoSaveChanges(inpServerName);
 
-    this.connTypeClient = AT_CAOPEN.GetParamDiv("conn_type", "Connection Type", "TCP");
+    this.connTypeClient = AT_CAOPEN.GetParamDiv("conn_type", "Connection Type", "UDP");
     //this.div.appendChild(this.connTypeClient.div);
 
     let connServerButt = _CN("button", {style:"margin:1vh;"}, ["Connect Server"]);
@@ -77,7 +132,20 @@ class TabTcpUdp
       _CN("tr", {}, [
         _CN("td", {}, [connServerButt])
       ])
-    ], this.div);
+    ], divClient);
+
+    let cdata = _CN("input", {type:"text", style:"margin:1vh;"});
+    let csend = _CN("button", {style:"margin:1vh;"}, ["Send Data"]);
+    csend.addEventListener("click", ()=>{
+      this.SendUDP(cdata.value);
+    });
+
+    _CN("table", {}, [
+      _CN("tr", {}, [
+        _CN("td", {}, [cdata]),
+        _CN("td", {}, [csend])
+      ])
+    ], divData);
 
     let cstate = _CN("button", {style:"margin:1vh;"}, ["Query State"]);
     cstate.addEventListener("click", ()=>{
@@ -86,7 +154,7 @@ class TabTcpUdp
 
     let crecv = _CN("button", {style:"margin:1vh;"}, ["+CARECV"]);
     crecv.addEventListener("click", ()=>{
-      AT_CARECV.Write([this.cid.inp.value, 1024]);
+      AT_CARECV.Write([this.cid.inp.value, 512]);
     });
 
     let cclose = _CN("button", {style:"margin:1vh;"}, ["Close Connection"]);
@@ -100,12 +168,29 @@ class TabTcpUdp
         _CN("td", {}, [crecv]),
         _CN("td", {}, [cclose])
       ])
-    ], this.div);
+    ], divOptions);
   }
   
   Select()
   {
     
+  }
+
+  SendUDP(data)
+  {
+    const event = new CustomEvent("cominfo", { detail: {info:""} });
+    let abortUDP = false;
+    setTimeout(()=>{
+      if(abortUDP) return;
+      console.log("send data...", data);
+      SIMSerial.SendData(data);
+    }, 1000);
+    
+    AT_CASEND.Write([this.cid.inp.value, data.length]).then(()=>{
+      abortUDP = true;
+      event.detail.info = "UDP message sent";
+      window.dispatchEvent(event);
+    }).catch((e)=>{this.#Error("Unable to send message", e);});
   }
 
   CheckStatus()

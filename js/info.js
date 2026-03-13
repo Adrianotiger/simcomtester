@@ -27,7 +27,7 @@ const TabInfo = new class
 
     setTimeout(()=>{
       _CN("div", {}, [_CN("a", {href:"https://github.com/Adrianotiger/simcomtester", target:"_blank"}, ["Github Project"])], this.divGit);
-      _CN("div", {}, [_CN("i", {}, ["ver 0.75 - 2026", _CN("br"), "© Adriano Petrucci"])], this.divGit);
+      _CN("div", {}, [_CN("i", {}, ["ver 0.80 - 2026", _CN("br"), "© Adriano Petrucci"])], this.divGit);
     }, 500);
     
     let i = window.setInterval(()=>{
@@ -49,6 +49,13 @@ const TabInfo = new class
   async #InitModule(retries = 0)
   {
     let isConnected = false;
+
+    if(typeof AT === "undefined") // at beginning, it could still not be loaded, wait...
+    {
+      console.warn("AT commands still need to be loaded...");
+      setTimeout(()=>{this.#InitModule();}, 500);
+      return;
+    }
 
     await AT.Execute().then(()=>{
       isConnected = true;

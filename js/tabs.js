@@ -3,6 +3,7 @@ const Tabs = new class
   #tabs = [];
   #div;
   #tabManual = null;
+  #tabScript = null;
   #tabPos = {left:2, top:4.5, W:9.5, T:0, offsetX:9.7, offsetY:-2.5, zIndex:100};
   
   constructor()
@@ -41,10 +42,12 @@ const Tabs = new class
       {name:"tabTcpUdp"},
       {name:"tabSms"},
       {name:"tabGnss"},
-      {name:"tabManual"}
+      {name:"tabManual"},
+      {name:"tabScript"}
     ];
 
-    this.#tabManual = scripts.length - 1;
+    this.#tabManual = scripts.length - 2;
+    this.#tabScript = scripts.length - 1;
     
     let scriptsTotLoaded = 0;
     let scriptsLoading = false;
