@@ -61,9 +61,12 @@ class TabScript
 
     this.#frontDiv.addEventListener("keydown", (e)=>{
       console.log("keydown", e);
-      if(e.code == "Escape")
+      if(e.code == "Escape" || e.code == "ArrowUp" || e.code == "ArrowDown")
       {
-        return this.#writeLetter(e);
+        let ret = this.#writeLetter(e);
+        if(!ret) {e.stopPropagation(); e.preventDefault();}
+        e.cancel = true;
+        return ret;
       }
     });
 
@@ -110,6 +113,26 @@ class TabScript
         this.#cmdList.style.display = "none";
         return false;
       }
+      else if(e.code == "ArrowDown")
+      {
+        let found = false;
+        let exec = false;
+        [...this.#cmdList.options].forEach(o=>{
+          if(!found && o.selected) found = true;
+          else if(!exec && found && o.style.display != "none") {exec=true;o.selected=true;}
+        });
+        return false;
+      }
+      else if(e.code == "ArrowUp")
+      {
+        let found = false;
+        let lasto = null;
+        [...this.#cmdList.options].forEach(o=>{
+          if(!found && o.selected) {found = true; lasto.selected=true;}
+          else if(!found && o.style.display != "none") {lasto = o;}
+        });
+        return false;
+      }
       else
       {
         const selection = window.getSelection();
@@ -126,9 +149,13 @@ class TabScript
         const subs = range?.startContainer?.nodeValue?.substring(selection.baseOffset-startsel, selection.baseOffset);
         if(!subs.startsWith("AT")) return;
 
+        let first = false;
         [...this.#cmdList.getElementsByTagName("option")].forEach(o=>{
           if(!o.value.startsWith(subs)) o.style.display="none";
-          else o.style.display="";
+          else {
+            o.style.display="";
+            if(first) {first = false; o.selected=true;}
+          }
         });
       }
     }
@@ -137,6 +164,26 @@ class TabScript
       if(e?.data == " " || e.inputType == "insertLineBreak" || e.code == "Escape")
       {
         this.#paramList.style.display = "none";
+        return false;
+      }
+      else if(e.code == "ArrowDown")
+      {
+        let found = false;
+        let exec = false;
+        [...this.#paramList.options].forEach(o=>{
+          if(!found && o.selected) found = true;
+          else if(!exec && found && o.style.display != "none") {exec=true;o.selected=true;}
+        });
+        return false;
+      }
+      else if(e.code == "ArrowUp")
+      {
+        let found = false;
+        let lasto = null;
+        [...this.#paramList.options].forEach(o=>{
+          if(!found && o.selected) {found = true; lasto.selected=true;}
+          else if(!found && o.style.display != "none") {lasto = o;}
+        });
         return false;
       }
     }
@@ -170,7 +217,7 @@ class TabScript
       }
       const startsel = selection.baseOffset - j + 1;
       const subs = range?.startContainer?.nodeValue?.substring(selection.baseOffset-startsel, selection.baseOffset-1);
-      console.warn("FIND COMMAND...");
+      
       if(!subs.startsWith("AT")) return;
       if(typeof ATs[subs] !== 'undefined')
       {
@@ -181,10 +228,28 @@ class TabScript
         this.#paramList.style.top = (rect.top + 20) + "px";
         this.#paramList.style.display = "block";
         while(this.#paramList.childNodes.length > 0) this.#paramList.removeChild(this.#paramList.childNodes[0]);
+        
+        console.warn("FIND COMMAND...");
 
-        ATs[subs].GetParams().forEach(p=>{
-          _CN("option", {value:p.GetName()}, [p.GetName() + " | " + p.GetDescription()], this.#paramList);
+        //const allGetterKeys = Object.entries(Object.getOwnPropertyDescriptors(ATs[subs].constructor)).filter(([key, descriptor]) => typeof descriptor.get === 'function').map(([key]) => key);
+        let getters = [];
+        let proto = Object.getPrototypeOf(ATs[subs]);
+        while (proto && proto !== Object.prototype) {
+            const descriptors = Object.getOwnPropertyDescriptors(proto);
+
+            for (const [name, desc] of Object.entries(descriptors)) {
+                if (typeof desc.get === "function") {
+                    getters.push(name);
+                }
+            }
+
+            proto = Object.getPrototypeOf(proto);
+        }
+
+        getters.forEach(p=>{
+          _CN("option", {value:p}, [p], this.#paramList);
         });
+        this.#paramList.options[0].selected = true;
       }
     }
     return true;
@@ -197,9 +262,10 @@ class TabScript
     this.#updatingText = true;
 
     let strO = this.#frontDiv.textContent;
+    strO = strO.replace(/^(IF[A-Za-z0-9\. \+]+=[ ]*[A-Za-z0-9\.]*)/gm, "<span style='color:#aa6;'>$1</span>");
+    strO = strO.replace(/^(END)/gm, "<span style='color:#aa6;'>$1</span>");
     strO = strO.replace(/(^(?!#)\bAT[+A-Z=?]*)/gm, "<span style='color:green;'>$1</span>");
     strO = strO.replace(/^(WAIT[ 0-9]*)/gm, "<span style='color:#66a;'>$1</span>");
-    strO = strO.replace(/^(IF[A-Za-z0-9\. ]+=[ ]*[A-Za-z0-9\.]*)/gm, "<span style='color:#aa6;'>$1</span>");
     strO = strO.replace(/^(#.*?)$/gm, "<span style='color:#888;'>$1</span>");
     strO = strO.replace(/\n/gmi, " <br>");
     this.#backDiv.innerHTML = strO;
@@ -235,10 +301,10 @@ class TabScript
     this.#executingLine.style.top = -this.#LINE + "px";
     this.#executingLine.style.background = "";
 
-    this.#executeSingleCommand(commands);
+    this.#executeSingleCommand(commands, []);
   }
 
-  #executeSingleCommand(cmds)
+  #executeSingleCommand(cmds, ifs)
   {
     this.#executingLine.style.top = parseInt(this.#executingLine.style.top) + this.#LINE + "px";
 
@@ -248,10 +314,27 @@ class TabScript
       
       let p = null;
 
-      if(typeof ATs[cmd.replace(/=.*/g,'').replace(/\?.*/g,'').trim()] !== "undefined")
+      if(ifs.length > 0 && !ifs[ifs.length-1].execute)
+      {// bypass command
+        if(cmd.startsWith("END")) ifs.pop();
+        p = new Promise((res)=>{setTimeout(()=>{res();}, 20);});
+      }
+      else if(typeof ATs[cmd.replace(/=.*/g,'').replace(/\?.*/g,'').trim()] !== "undefined")
       {
         this.#setInfoLine(`Execute command: ${cmd}`);
         p = SIMSerial.Send(cmd, null);
+      }
+      else if(cmd.startsWith("END"))
+      {
+        if(ifs.length > 0)
+        {
+          ifs.pop();
+          p = new Promise((res)=>{setTimeout(()=>{res();}, 100);});
+        }
+        else
+        {
+          rej("END without an IF!"); return; 
+        }
       }
       else if(cmd.startsWith("WAIT "))
       {
@@ -268,12 +351,60 @@ class TabScript
           setTimeout(()=>{res();}, 1000);
         });
       }
+      else if(cmd.startsWith("IF"))
+      {
+        const regex = /IF[ ]*(AT[A-Z+]*).([A-Z0-9]*)[ ]*(!=|=|<|>)[ ]*(.*$)/gm;
+        const m = regex.exec(cmd);
+        console.log(m);
+        if(m.length != 5)
+        {
+          rej("IF parameters count is wrong"); return;
+        }
+        else if(typeof ATs[m[1]] === 'undefined')
+        {
+          rej("IF > AT command not found: " + m[1]); return;
+        }
+        else if(typeof ATs[m[1]][m[2]] === 'undefined')
+        {
+          rej("IF > AT parameter not found: " + m[2]); return;
+        }
+        else if(m[3] != '!=' && m[3] != '=' && m[3] != '<' && m[3] != '>')
+        {
+          rej("IF > allowed are '=', '!=', '<' or '>' not " + m[3]); return;
+        }
+        else
+        {
+          const val1 = ATs[m[1]][m[2]];
+          let val2 = m[4].trim();
+          let isString = false;
+          if(val2.startsWith('"')) {val2 = val2.substring(1, val2.length-1); isString=true;}
+          let success = false;
+          switch(m[3])
+          {
+            case '=': if(val1 == val2) success = true; break;
+            case '!=': if(val1 != val2) success = true; break;
+            case '<': if(val1 < val2) success = true; break;
+            case '>': if(val1 > val2) success = true; break;
+          }
+          if(success)
+          {
+            ifs.push({execute:true});
+          }
+          else
+          {
+            ifs.push({execute:false});
+          }
+          p = new Promise((res)=>{
+            setTimeout(()=>{res();}, 1000);
+          });
+        }
+      }
       else
       {
         this.#setInfoLine(`Invalid command: ${cmd}!`, true);
         this.#executingLine.style.background = "red";
         console.error("Invalid cmd!", cmd);
-        rej("Invalid cmd! " + cmd);
+        rej("Invalid cmd! " + cmd); return;
       }
 
       p.then(()=>{
@@ -283,7 +414,7 @@ class TabScript
         }
         else
         {
-          this.#executeSingleCommand(cmds);
+          this.#executeSingleCommand(cmds, ifs);
         }
       });
     });

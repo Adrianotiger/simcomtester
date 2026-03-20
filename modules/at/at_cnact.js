@@ -57,7 +57,7 @@ let AT_CNACT = new class extends ATBase
     {
       let v = this.GetValue();
       this.#acts[parseInt(v.pdpidx)].active = (parseInt(v.statusx) == 1);
-      this.#acts[parseInt(v.pdpidx)].ip = this.#acts[parseInt(v.pdpidx)].active ? v.addressx : "";
+      this.#acts[parseInt(v.pdpidx)].ip = v.addressx.replace(/\"/g, '');
     }
   }
     
@@ -70,6 +70,16 @@ let AT_CNACT = new class extends ATBase
   {
     return this.IsActive(index) ? this.#acts[index].ip : "";
   }
+
+  get IP0() {return this.#acts[0].ip;}
+  get IP1() {return this.#acts[1].ip;}
+  get IP2() {return this.#acts[2].ip;}
+  get IP3() {return this.#acts[3].ip;}
+  get Active0() {return this.IsActive(0)?1:0;}
+  get Active1() {return this.IsActive(1)?1:0;}
+  get Active2() {return this.IsActive(2)?1:0;}
+  get Active3() {return this.IsActive(3)?1:0;}
+
 };
 
 let _APP_PDP = new class extends ATBase
