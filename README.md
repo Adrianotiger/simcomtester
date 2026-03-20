@@ -63,13 +63,7 @@ You can also open the PDF on the right page, so you don't need to find it inside
 ## Scripts
 ![Scripts](screenshots/image-4.png)  
 Simple text editor with syntax highlightings, allow you to send the commands and wait for the OK each time.  
-Commands accepted:  
-- #: comment out line
-- WAIT XX: wait XX seconds (XX is an integer)
-- AT...: Execute/Write/Read or Test command
-- IF...END: Test a value of a command, example: <img width="298" height="134" alt="image" src="https://github.com/user-attachments/assets/f726cdb5-e465-4b1e-95f2-f883e15c13e3" />
-
-
+Use `#` to comment a line and `WAIT X` to sleep X seconds.
 
 # How to edit/test
 - Create a workspace in GitHub
