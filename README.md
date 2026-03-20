@@ -38,11 +38,11 @@ Like Whatsapp, write what you want to ask and the module will reply with a respo
 🧹 - Clear chat or prompt window  
 
 #### Command editor
-![Command editor](screenshots/image-5.png)
+![Command editor](screenshots/image-5.png)  
 BY pressing ✍ on the chat, a command editor will be opened and you can create a command with the right parameters.
 
 ## Tabs
-![Tabs](screenshots/image-2.png)
+![Tabs](screenshots/image-2.png)  
 Functionality are grouped in TABS:  
 Module : base functionality  
 Commands: execution of commands  
@@ -56,14 +56,20 @@ Manual: See `Manual`
 Scripts: See `Scripts`  
 
 ## Manual
-![Manual](screenshots/image-3.png)
+![Manual](screenshots/image-3.png)  
 Every known AT-command has some specific read/write parameters. You can find them on this tab, by pressing 📃 in the chat.  
 You can also open the PDF on the right page, so you don't need to find it inside the document.  
 
 ## Scripts
-![Scripts](screenshots/image-4.png)
+![Scripts](screenshots/image-4.png)  
 Simple text editor with syntax highlightings, allow you to send the commands and wait for the OK each time.  
-Use `#` to comment a line and `WAIT X` to sleep X seconds.
+Commands accepted:  
+- #: comment out line
+- WAIT XX: wait XX seconds (XX is an integer)
+- AT...: Execute/Write/Read or Test command
+- IF...END: Test a value of a command, example: <img width="298" height="134" alt="image" src="https://github.com/user-attachments/assets/f726cdb5-e465-4b1e-95f2-f883e15c13e3" />
+
+
 
 # How to edit/test
 - Create a workspace in GitHub
