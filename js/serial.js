@@ -88,6 +88,10 @@ const SIMSerial = new class
     
     console.log("Serial send ", str.length + " bytes");
 
+    const dsend = {serialOut:str};
+    const event = new CustomEvent("send", { detail: dsend });
+    window.dispatchEvent(event);
+
     writer.write(encoder.encode(str)).then(()=>{
       writer.releaseLock();
     });

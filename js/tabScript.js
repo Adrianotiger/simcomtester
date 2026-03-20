@@ -266,6 +266,7 @@ class TabScript
     strO = strO.replace(/^(END)/gm, "<span style='color:#aa6;'>$1</span>");
     strO = strO.replace(/(^(?!#)\bAT[+A-Z=?]*)/gm, "<span style='color:green;'>$1</span>");
     strO = strO.replace(/^(WAIT[ 0-9]*)/gm, "<span style='color:#66a;'>$1</span>");
+    strO = strO.replace(/^(DATA .*$)/gm, "<span style='color:#543;'>$1</span>");
     strO = strO.replace(/^(#.*?)$/gm, "<span style='color:#888;'>$1</span>");
     strO = strO.replace(/\n/gmi, " <br>");
     this.#backDiv.innerHTML = strO;
@@ -324,8 +325,17 @@ class TabScript
         this.#setInfoLine(`Execute command: ${cmd}`);
         p = SIMSerial.Send(cmd, null);
       }
+      else if(cmd.startsWith("DATA "))
+      {
+        this.#setInfoLine(`Prepare data: ` + cmd.substring(5));
+        p = new Promise((res)=>{setTimeout(()=>{res();}, 20);});
+        setTimeout(()=>{
+          SIMSerial.SendData(cmd.substring(5));
+        }, 1000);
+      }
       else if(cmd.startsWith("END"))
       {
+        this.#setInfoLine(`END IF`);
         if(ifs.length > 0)
         {
           ifs.pop();
@@ -353,6 +363,7 @@ class TabScript
       }
       else if(cmd.startsWith("IF"))
       {
+        this.#setInfoLine(`IF (check)`);
         const regex = /IF[ ]*(AT[A-Z+]*).([A-Z0-9]*)[ ]*(!=|=|<|>)[ ]*(.*$)/gm;
         const m = regex.exec(cmd);
         console.log(m);

@@ -196,9 +196,9 @@ const TabChat = new class
   {
     const req = data.req + "\r\n";
     let div = _CN("div", {class:"msg_g"}, [], this.div);
-    let send = _CN("div", {class:"msg_s"}, [data.req], div);
+    let send = _CN("div", {class:"msg_s"}, [data.req??data.serialOut], div);
     
-    _CN("div", {}, [" > " + data.req], this.shell);
+    _CN("div", {}, [" > " + data.req??data.serialOut], this.shell);
     this.shell.scrollTo({top: parseInt(this.shell.scrollHeight), behavior:"smooth"});
 
     if(data.cmd)
@@ -241,6 +241,10 @@ const TabChat = new class
         const event = new CustomEvent("manual", { detail: cmd2 });
         window.dispatchEvent(event);
       });
+    }
+    else if(data.serialOut)
+    {
+      send.style.filter = "opacity(0.7)";
     }
     else
     {
