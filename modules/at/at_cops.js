@@ -42,7 +42,7 @@ let AT_COPS = new class extends ATBase
     this.AddReadAnswerParam({mode:null, format:null, oper:null, netact:null});
     
     this.AddWriteSendParam({mode:null});
-    this.AddWriteSendParam({mode:null, format:null, oper:null});
+    this.AddWriteSendParam({mode:1, format:null, oper:null});
   }
   
   ShowChat(div)

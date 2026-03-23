@@ -97,10 +97,8 @@ const TabInfo = new class
               let module = AT_GOI.GetValue();
               if(module.search(/70[0-9]+0/))
               {
-                fetch("modules/sim7080/info.json").then(r=>{return r.json();}).then(j=>{this.#moduleInfo = j});
-                await addATCommands("modules/sim7080/at.json");
-                PDFManual.LoadPDF("./modules/manuals/SIM70x0_AT_107.pdf");
-
+                await this.LoadJson("sim7080");
+                
                 console.log("extended AT commands loaded", ATs);
 
                 window.dispatchEvent(
@@ -151,6 +149,14 @@ const TabInfo = new class
     {
       alert("Unable to execute AT* command");
     });
+  }
+
+  async LoadJson(simModule)
+  {
+    fetch("modules/" + simModule + "/info.json").then(r=>{return r.json();}).then(j=>{this.#moduleInfo = j});
+    await addATCommands("modules/" + simModule + "/at.json");
+    if(simModule == "sim7080")
+      PDFManual.LoadPDF("./modules/manuals/SIM70x0_AT_107.pdf");
   }
   
   #InitOver()

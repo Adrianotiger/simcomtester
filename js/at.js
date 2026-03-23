@@ -242,14 +242,16 @@ class ATBase
         new CustomEvent("cominfo", { detail: {error:`'${this.#cmd}' has no execution command`}})
       );
       console.error("NO EXECUTION AVAILABLE FOR COMMAND " + this.#cmd);
-      return;
+
+      return new Promise((res,rej)=>{
+        rej("NO EXECUTION AVAILABLE");
+      });
     }
     this.#requestType = "exe";
     this.#lines = [];
     this.#answer = "";
     this.#answerRaw = "";
     this.#promise = new Promise((resolve, reject)=>{
-      
       this.#promiseRes = resolve;
       this.#promiseRej = reject;
     });

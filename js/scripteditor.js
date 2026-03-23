@@ -83,6 +83,8 @@ let ScriptEditor = new class
   #backDiv;
   #overlayDiv;
   #linesDiv;
+  #execDiv;
+  #outputDiv;
 
   #lastTimestamp = -1;
   #updatingText = false;
@@ -163,9 +165,50 @@ let ScriptEditor = new class
     });
   }
 
+  ResetExecuting()
+  {
+    this.#execDiv.textContent = "";
+    while(this.#outputDiv.childNodes.length > 0) this.#outputDiv.removeChild(this.#outputDiv.childNodes[0]);
+  }
+
+  ExecuteNextLine(lastLine)
+  {
+    if(this.#execDiv.childNodes.length > 0) 
+    {
+      this.#execDiv.removeChild(this.#execDiv.childNodes[this.#execDiv.childNodes.length - 1]);
+
+      this.#outputDiv.appendChild(document.createTextNode(lastLine));
+      _CN("br", null, null, this.#outputDiv);
+    }
+
+    this.#execDiv.appendChild(document.createTextNode("✔"));
+    _CN("br", null, null, this.#execDiv);
+    this.#execDiv.appendChild(document.createTextNode("⚡"));
+  }
+
+  ErrorExecuting(msg)
+  {
+    if(this.#execDiv.childNodes.length > 0) this.#execDiv.removeChild(this.#execDiv.childNodes[this.#execDiv.childNodes.length - 1]);
+    this.#execDiv.appendChild(document.createTextNode("❌"));
+
+    this.#outputDiv.appendChild(document.createTextNode(msg));
+  }
+
+  FinishExecuting(msg)
+  {
+    if(this.#execDiv.childNodes.length > 0) this.#execDiv.removeChild(this.#execDiv.childNodes[this.#execDiv.childNodes.length - 1]);
+    this.#execDiv.appendChild(document.createTextNode("✅"));
+
+    this.#outputDiv.appendChild(document.createTextNode(msg));
+  }
+
   async #prepareDiv()
   {
-    for(let j=1;j<300;j++) _CN("div", {}, [j], this.#linesDiv);
+    let lineNr = _CN("div", {style:"position:absolute;left:20px;width:20px;text-align:right;"}, [], this.#linesDiv);
+    for(let j=1;j<300;j++) _CN("div", {}, [j], lineNr);
+
+    this.#execDiv = _CN("div", {style:"position:absolute;left:0px;width:20px;text-align:center;"}, ["⚡"], this.#linesDiv);
+    this.#outputDiv = _CN("div", {style:"position:absolute;right:5px;width:400px;text-align:right;"}, [], this.#linesDiv);
 
     this.#overlayDiv.addEventListener("scroll", (e)=>{
       this.#backDiv.scrollTo(0 , this.#overlayDiv.scrollTop);

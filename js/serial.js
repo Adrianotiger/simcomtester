@@ -45,8 +45,15 @@ const SIMSerial = new class
             this.#Connect(port, i1.value);
           });
         });
+        let b3 = _CN("button", {style:"display:block;transform:scale(0.5);right:0px;"}, ["No module"]);
+        b3.addEventListener("click", async ()=>{
+          await TabInfo.LoadJson("sim7080");
+          Tabs.Load();
+          win.style.opacity = 0.2;
+        });
         win.appendChild(i1);
         win.appendChild(b2);
+        win.appendChild(b3);
       }
       else
       {
