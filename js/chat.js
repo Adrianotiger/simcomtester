@@ -198,7 +198,7 @@ const TabChat = new class
     let div = _CN("div", {class:"msg_g"}, [], this.div);
     let send = _CN("div", {class:"msg_s"}, [data.req??data.serialOut], div);
     
-    _CN("div", {}, [" > " + data.req??data.serialOut], this.shell);
+    _CN("div", {}, [" > " + (data.req??data.serialOut)], this.shell);
     this.shell.scrollTo({top: parseInt(this.shell.scrollHeight), behavior:"smooth"});
 
     if(data.cmd)

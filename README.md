@@ -63,7 +63,11 @@ You can also open the PDF on the right page, so you don't need to find it inside
 ## Scripts
 ![Scripts](screenshots/image-4.png)  
 Simple text editor with syntax highlightings, allow you to send the commands and wait for the OK each time.  
-Use `#` to comment a line and `WAIT X` to sleep X seconds.
+Special commands:  
+- `#` to comment a line .  
+- `IF ... END` execute if (example: `IF AT+CNACT.Active0 = 0`)  
+- `WAIT X` wait X seconds  
+
 
 # How to edit/test
 - Create a workspace in GitHub

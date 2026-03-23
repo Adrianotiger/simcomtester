@@ -135,21 +135,15 @@
   overflow:hidden;
   font-size:14px;
   opacity: 1;
-  color:#aaa;
+  color:#000;
 }
 
-.tabscriptlines b
+.tabscripteditor
 {
-  position:absolute;
-  top:0px;
-  left:0px;
-  width:24px;
-  height:22px;
-  font-size:18px;
-  line-height:22px;
-  opacity:0.2;
-  border-radius: 3px;
-  text-align: center;
+  background: linear-gradient(0deg, rgba(255,255,255,0.5) 50%, rgba(250,250,220,0.5) 50%);
+  background-repeat: repeat-y;
+  background-size: 100% 44px;
+  background-attachment: local;
 }
 
 .tabscriptinfo 

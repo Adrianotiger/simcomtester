@@ -14,9 +14,9 @@
 .loading
 {
   background: linear-gradient(to bottom, #fff, #ffa);
-  font-size: 3vh;
-  line-height: 3vh;
-  min-height: 3vh;
+  font-size: 150%;
+  line-height: 2vh;
+  min-height: 2vh;
   text-align: center;
   padding: 5vh;
   color: #005;
