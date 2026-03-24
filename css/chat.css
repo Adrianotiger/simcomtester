@@ -23,11 +23,12 @@
   width: 40vw;
   right: 5vw;
   bottom: 0.5vh;
-  box-shadow: 0vh 0vh 1vh #fff;
   font-size: 2vh;
   text-align: center;
   border-radius: 1vh;
-  opacity: 0.5;
+  background: var(--light-color2);
+  color: var(--dark-color2);
+  opacity: 0.8;
   transition: all 0.5s ease-in-out;
   z-index: 900;
 }

@@ -39,20 +39,25 @@
   font-size: min(1vw, 2vh);
   font-family: monospace;
   border-radius: 1vh;
-  box-shadow: 0vh 0vh 0.2vh #00C;
-  border-width: 2px;
-  border-color: #000;
-  border-style: ridge;
+  box-shadow: inset 1px 1px 2px 1px var(--light-color1), inset -1px -1px 3px 2px var(--dark-color1), 0px 0px 3px 0px var(--light-color2), 0px 0px 2px 1px var(--dark-color1);
+  text-shadow: var(--dark-color1);
+  border-style: none;
   text-align: center;
-  background: linear-gradient(to bottom, #eef, #aaf);
+  background: linear-gradient(to bottom, #356, #4ad);
   cursor:pointer;
   transition: all 0.3s ease-in-out;
 }
 
+.tabselected
+{
+  filter: sepia(0.6);
+  transform: translate(0vh, 0vh) !important;
+} 
+
 .tabselect:hover
 {
-  background: linear-gradient(to bottom, #ffe, #ffa);
-  box-shadow: 0vh 0vh 1vh #00C;
+  background: linear-gradient(to bottom, var(--dark-color3), var(--light-color1));
+  box-shadow: inset 1px 1px 2px 1px var(--light-color2), inset -1px -1px 3px 2px var(--dark-color3), 0px 0px 3px 0px var(--light-color3), 0px 0px 2px 1px var(--dark-color3);
   transform: translate(0vh, -1vh);
 }
 
@@ -60,6 +65,7 @@
 {
     background: linear-gradient(to bottom, #cff, #fff, #dff);
     background-attachment: fixed;
+    color: var(--dark-color0);
 }
 
 .manual h1
@@ -87,6 +93,7 @@
 {
   background: linear-gradient(to bottom, #cdd, #fff, #dee);
   background-attachment: fixed;
+  color: var(--dark-color1);
 }
 
 .tabscript .icon
@@ -115,8 +122,8 @@
   /*font-weight:bold;*/
   font-family:sans-serif;
   line-height:22px;
-  height:calc(100% - 20px);
-  width:100%;
+  height: 100%;
+  width: 100%;
   text-align:left;
   position:absolute;
   left:0.4px;

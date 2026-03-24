@@ -1,11 +1,13 @@
+![Logo](images/180x180.png)  
+  
 # Online SimCom Tester
-This webpage will let you send some simple commands to your SimCom Module. 
+This webpage will let you send some simple AT commands to your SimCom Module. 
 - Send AT-Commands to your SimCom module directly over the webpage
 - No downloads or installation
 - Description of every command, with integrated help and AT-manual
 - Check module and firmware
   
-❕ Actually, only the **SIM7080G** (SIM7070G and SIM7090G) is implemented. Other modules can be used if compatible or can be implemented in future without much work.  
+❕ Currently, only the **SIM7080G** (SIM7070G and SIM7090G) is implemented. Other modules can be used if compatible or can be implemented in future without much work.  
 
 
 # Setup
@@ -14,7 +16,7 @@ This webpage will let you send some simple commands to your SimCom Module.
 - Press on "Connect" and select the right serial port on your browser (the first SimTech serial port, on USB)
 - If everything is connected, you should see something like this:
 
-![Screenshot](screenshots/image_base.png)
+![Screenshot](screenshots/image_baseD.png)
 
 
 # How to use
@@ -24,7 +26,7 @@ This webpage will let you send some simple commands to your SimCom Module.
 - If you press on "📃" a tutorial should be visible for that command.
 
 ## Chat with the module
-![chat](screenshots/image-1.png)
+![chat](screenshots/image-1D.png)
 Like Whatsapp, write what you want to ask and the module will reply with a response. The answer is well formatted and the question has a description.  
 #### Buttons
 ❓ - Test command on the module  
@@ -38,11 +40,15 @@ Like Whatsapp, write what you want to ask and the module will reply with a respo
 🧹 - Clear chat or prompt window  
 
 #### Command editor
-![Command editor](screenshots/image-5.png)  
+![Command editor](screenshots/image-5D.png)  
 BY pressing ✍ on the chat, a command editor will be opened and you can create a command with the right parameters.
 
+#### Command finder
+![Command finder](screenshots/image-6D.png)  
+BY pressing 🔍 on the chat, a command list will be opened and you can find the right command. You can then execute, test, read and even write it with the list of right parameters.
+
 ## Tabs
-![Tabs](screenshots/image-2.png)  
+![Tabs](screenshots/image-2D.png)  
 Functionality are grouped in TABS:  
 Module : base functionality  
 Commands: execution of commands  
@@ -56,12 +62,12 @@ Manual: See `Manual`
 Scripts: See `Scripts`  
 
 ## Manual
-![Manual](screenshots/image-3.png)  
+![Manual](screenshots/image-3D.png)  
 Every known AT-command has some specific read/write parameters. You can find them on this tab, by pressing 📃 in the chat.  
 You can also open the PDF on the right page, so you don't need to find it inside the document.  
 
 ## Scripts
-![Scripts](screenshots/image-4.png)  
+![Scripts](screenshots/image-4D.png)  
 Simple text editor with syntax highlightings, allow you to send the commands and wait for the OK each time.  
 Special commands:  
 - `#` to comment a line .  
@@ -86,5 +92,6 @@ The page is not able to parse "unsolicited results". I need to integrate this fu
 [Web Serial Port API (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/API/SerialPort)  
 [Javascript PDFLib for (github.com)](https://github.com/mozilla/pdf.js)  
 [SimCom Module (simcom.com)](https://www.simcom.com/product/SIM7080G.html)  
+[Image generator (qwen.ai)](https://chat.qwen.ai/)  
 
 Too complicated or module does not answer? Try a Web Serial Terminal: https://www.serialterminal.com/

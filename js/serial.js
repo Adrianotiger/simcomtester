@@ -192,7 +192,7 @@ const SIMSerial = new class
         const event = new CustomEvent("serialactive", { detail: true });
         window.dispatchEvent(event);
 
-        let b = _CN("button", {style:"background:linear-gradient(to bottom, #fff, #faa);"}, ["DISCONNECT"], this.div);
+        let b = _CN("button", {style:"background:linear-gradient(to bottom, #86B, #608);"}, ["DISCONNECT"], this.div);
         b.addEventListener("click", ()=>{
           this.#disconnect = true;
           b.enabled = false;

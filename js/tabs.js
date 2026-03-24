@@ -31,7 +31,7 @@ const Tabs = new class
   
   Load()
   {
-    this.#div = _CN("div", {class:"box tabs", style:"border-style:none;background:transparent;"}, [], document.body);
+    this.#div = _CN("div", {class:"box tabs", style:"border-style:none;box-shadow:none;background:transparent;"}, [], document.body);
     
     let scripts = [
       {name:"tabModule"}, 
@@ -87,7 +87,7 @@ const Tabs = new class
     
     if(j == 0)
     {
-      sel.style.background = "#eff";
+      sel.classList.add("tabselected");
     }
     else
     {
@@ -107,11 +107,11 @@ const Tabs = new class
   #SelectTab(index)
   {
     this.#tabs.forEach((t)=>{
-      t.sel.style.background = null;
+      t.sel.classList.remove("tabselected");
       t.tab.div.style.display = "none";
     });
     
-    this.#tabs[index].sel.style.background = "#eff";
+    this.#tabs[index].sel.classList.add("tabselected");
     this.#tabs[index].tab.div.style.display = "block";
     
     this.#tabs[index].tab.Select();

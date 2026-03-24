@@ -4,11 +4,13 @@ const TabChat = new class
   {
     let buttShell = _CN("button", {title:"SHELL", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(-20px, -8px);"}, ["💻"], this.div);
     let buttChat = _CN("button", {title:"CMD", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(-20px, -8px);"}, ["💬"], this.div);
-    let buttClearShell = _CN("button", {title:"Clear", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(20px, -8px);"}, ["🧹"], this.div);
-    let buttClearChat = _CN("button", {title:"Clear", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(20px, -8px);"}, ["🧹"], this.div);
+    let buttClearShell = _CN("button", {title:"Clear", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(25px, -8px);"}, ["🧹"], this.div);
+    let buttClearChat = _CN("button", {title:"Clear", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(25px, -8px);"}, ["🧹"], this.div);
+    let buttFindShell = _CN("button", {title:"Find command", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(80px, -8px);"}, ["🔍"], this.div);
+    let buttFindChat = _CN("button", {title:"Find command", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(80px, -8px);"}, ["🔍"], this.div);
 
-    this.div = _CN("div", {class:"box chat"}, [buttShell, buttClearChat, _CN("h2", {}, ["Chat"])]);
-    this.shell = _CN("div", {title:"CHAT", class:"box chat", style:"display:none;opacity:0.0;"}, [buttChat, buttClearShell, _CN("h2", {}, ["Commands"])]);
+    this.div = _CN("div", {class:"box chat"}, [buttShell, buttClearChat, buttFindChat, _CN("h2", {}, ["Chat"])]);
+    this.shell = _CN("div", {title:"CHAT", class:"box chat", style:"display:none;opacity:0.0;"}, [buttChat, buttClearShell, buttFindShell, _CN("h2", {}, ["Commands"])]);
     this.chat = _CN("input", {type:"text", class:"chatinput", placeholder:"custom AT commands"}, []);
     
     buttShell.addEventListener("click", ()=>{
@@ -37,6 +39,13 @@ const TabChat = new class
 
     buttClearChat.addEventListener("click", ()=>{
       while(this.div.childNodes.length > shellBaseElements) this.div.removeChild(this.div.childNodes[shellBaseElements]);
+    });
+
+    buttFindShell.addEventListener("click", ()=>{
+      ATEditor.FindCommand(this.chat, true);
+    });
+    buttFindChat.addEventListener("click", ()=>{
+      ATEditor.FindCommand(this.chat, true);
     });
 
   }

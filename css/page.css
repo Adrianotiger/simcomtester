@@ -1,3 +1,17 @@
+:root 
+{
+  --dark-color0: #003;
+  --dark-color1: #024;
+  --dark-color2: #256;
+  --dark-color3: #589;
+
+  --light-color1: #9cf;
+  --light-color2: #dff;
+  --light-color3: #eff;
+
+  --shadow-color1: #afa;
+}
+
 html
 {
   width: 100%;
@@ -10,27 +24,40 @@ body
   height: 100%;
   overflow: hidden;
   margin: 0px;
-  background: radial-gradient(#fff, #bbf);
+  background: linear-gradient(125deg, var(--dark-color2), var(--dark-color1));
+  scrollbar-color: var(--dark-color1) var(--dark-color3);
+  scrollbar-width:  thin;
 }
 
 button, select, input, textarea
 {
-  margin:0 auto;
-  background: linear-gradient(to bottom, #fff, #ffa);
+  margin:2px auto;
+  background: linear-gradient(to bottom, var(--dark-color2), var(--dark-color3), var(--dark-color2));
+  box-shadow: 0px 0px 4px 2px var(--dark-color0), 0px 0px 4px 3px var(--light-color1), inset 2px 2px 2px var(--light-color2), inset -2px -2px 2px var(--dark-color2);
+  color: var(--light-color2);
   font-size: 110%;
-  border-radius: 0.5vh;
+  border-radius: 5px;
+  border-style: none;
   cursor: pointer;
+  padding: 2px 6px;
+  transition: all 0.3s linear;
 }
 
-button:hover 
+button:hover, select:hover 
 {
-  background: linear-gradient(to bottom, #fff, #dff);
-  box-shadow: 0px 0px 3px 1px #ff0;
+  background: linear-gradient(to bottom, var(--light-color3), var(--light-color2));
+  color: var(--dark-color1);
+  box-shadow: 0px 0px 3px 1px var(--shadow-color1);
 }
 
-select, input, textarea
+option
 {
-  background: linear-gradient(to bottom, #fff, #ffe);
+  color: var(--dark-color1);
+}
+
+a
+{
+  color: #eff;
 }
 
 textarea
@@ -43,12 +70,13 @@ textarea
   padding: 0.5vh;
   width: 20vh;
   height: 10vh;
-  background: linear-gradient(#fff, #aaa);
+  background: linear-gradient(125deg, var(--dark-color2), var(--dark-color1));
+  color: #75bfc9;
   position: absolute;
   left: 1vh;
   top: 1vh;
-  border-style: outset;
-  border-width: 2px;
+  box-shadow: inset 1px 1px 1px 0px var(--light-color2), inset -1px -1px 2px 0px var(--dark-color3), -1px -1px 3px 1px var(--dark-color3), 1px 1px 2px 1px var(--light-color3);
+  border-style: none;
   border-radius: 1vh;
   font-size: 1.5vh;
 }
@@ -85,8 +113,7 @@ textarea
   right: 15vh;
   left: unset !important;
   top: 2vh;
-  opacity: 0.5;
-  background: linear-gradient(#fff, #aaf);
+  opacity: 0.7;
   text-align: center;
 }
 
@@ -106,7 +133,9 @@ textarea
 
 .labelInfo i
 {
-  background-color: #aaa;
+  background-color: #000;
+  border-radius: 2px;
+  padding: 0px 5px;
 }
 
 .simModule
@@ -116,7 +145,7 @@ textarea
   top: 1vh;
   width: 10vh;
   height: 10vh;
-  background: url("../modules/sim.png");
+  background: url("../images/180x180.png");
   background-repeat: no-repeat;
   background-size: contain;
 }

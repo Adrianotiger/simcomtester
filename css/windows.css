@@ -13,13 +13,12 @@
 
 .loading
 {
-  background: linear-gradient(to bottom, #fff, #ffa);
   font-size: 150%;
   line-height: 2vh;
-  min-height: 2vh;
+  width: 380px;
+  min-height: 180px;
   text-align: center;
   padding: 5vh;
-  color: #005;
   z-index: 1000;
 }
 
@@ -55,7 +54,7 @@
 {
   margin: 1vh;
   width: 90%;
-  background: #fff;
+  background: var(--dark-color0);
   border-radius: 1vh;
   box-shadow: 0vh 0vh 1vh #666;
   text-align: left;
