@@ -7,7 +7,7 @@
   border-style: ridge;
   border-width: 2px;
   border-radius: 1vh;
-  box-shadow: 0.2vh 0.2vh 1vh #005;
+  box-shadow: 0.2vh 0.2vh 1vh var(--dark-color0);
   font-family: sans-serif;
 }
 
@@ -16,10 +16,11 @@
   font-size: 150%;
   line-height: 2vh;
   width: 380px;
-  min-height: 180px;
+  height: fit-content;
   text-align: center;
-  padding: 5vh;
+  padding: 10px;
   z-index: 1000;
+  background: #000;
 }
 
 .singlecmd
