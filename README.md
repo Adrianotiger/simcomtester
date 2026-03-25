@@ -1,97 +1,96 @@
 ![Logo](images/180x180.png)  
   
 # Online SimCom Tester
-This webpage will let you send some simple AT commands to your SimCom Module. 
-- Send AT-Commands to your SimCom module directly over the webpage
-- No downloads or installation
-- Description of every command, with integrated help and AT-manual
-- Check module and firmware
+This webpage allows you to send AT commands to your SimCom module directly from your browser. 
+- Send AT commands to your SimCom module without leaving the webpage
+- No downloads or installation required
+- Comprehensive descriptions of every command, with integrated help and AT manual reference
+- Check module and firmware information
   
-❕ Currently, only the **SIM7080G** (SIM7070G and SIM7090G) is implemented. Other modules can be used if compatible or can be implemented in future without much work.  
+❕ Currently, only the **SIM7080G** (SIM7070G and SIM7090G) is implemented. Other modules can be added if compatible or integrated in the future with minimal effort.  
 
 
 # Setup
-- Connect your module with your PC (USB or Serial).
-- Open the webpage with Edge, Chrome or another browser with Serial-functionality.
-- Press on "Connect" and select the right serial port on your browser (the first SimTech serial port, on USB)
-- If everything is connected, you should see something like this:
+- Connect your module to your PC via USB or serial connection.
+- Open the webpage in Edge, Chrome, or another browser that supports the Web Serial API.
+- Click "Connect" and select the correct serial port in your browser (the first SimTech serial port on USB).
+- If everything is connected properly, you should see something like this:
 
 ![Screenshot](screenshots/image_baseD.png)
 
 
 # How to use
 - Open the project webpage (https://adrianotiger.github.io/simcomtester/)
-- You can press any predefined commands on the left panel
-- Or you can write the commands directly in the "chat"
-- If you press on "📃" a tutorial should be visible for that command.
+- Click any predefined commands in the left panel
+- Or type commands directly into the chat window
+- Click "📃" to view a tutorial for that specific command
 
 ## Chat with the module
 ![chat](screenshots/image-1D.png)
-Like Whatsapp, write what you want to ask and the module will reply with a response. The answer is well formatted and the question has a description.  
+Similar to WhatsApp, type your questions and the module will respond. The answers are well-formatted and each question includes a description.
 #### Buttons
 ❓ - Test command on the module  
 ⚡ - Execute command on the module
-✍ - Write command on the module using the command editor  
-📖 - Read command on the module  
-📃 - Open the PDF-manual on the right page  
-𝓲 - Command info (tooltip-window)  
-💻 - Hide chat and open the Prompt-like window  
+✍ - Write command using the command editor  
+📖 - Read command from the module  
+📃 - Open the PDF manual to the relevant page  
+𝓲 - Command information (tooltip window)  
+💻 - Hide chat and open the prompt-like window  
 💬 - Hide prompt and open the chat  
-🧹 - Clear chat or prompt window  
+🧹 - Clear the chat or prompt window  
 
 #### Command editor
 ![Command editor](screenshots/image-5D.png)  
-BY pressing ✍ on the chat, a command editor will be opened and you can create a command with the right parameters.
+Click ✍ in the chat to open the command editor, where you can create commands with the appropriate parameters.
 
 #### Command finder
 ![Command finder](screenshots/image-6D.png)  
-BY pressing 🔍 on the chat, a command list will be opened and you can find the right command. You can then execute, test, read and even write it with the list of right parameters.
+Click 🔍 in the chat to open the command list. You can search for the right command and execute, test, read, or write it with the correct parameters.
 
 ## Tabs
 ![Tabs](screenshots/image-2D.png)  
-Functionality are grouped in TABS:  
-Module : base functionality  
-Commands: execution of commands  
-SIM: SIM-related commands, like PIN  
-COAP: Create server/client and COAP-messages  
-HTTPS: Create server/client  
-TCP/UDP: Create server/client and messages  
-SMS: SMS-functionality (MT/MO)  
-GNSS: Some base funtionality  
-Manual: See `Manual`  
-Scripts: See `Scripts`  
+Functionality is organized into tabs:  
+**Module**: Basic functionality  
+**Commands**: Command execution  
+**SIM**: SIM-related commands (e.g., PIN management)  
+**COAP**: Create COAP servers/clients and send COAP messages  
+**HTTPS**: Create HTTPS servers/clients  
+**TCP/UDP**: Create TCP/UDP servers/clients and send messages  
+**SMS**: SMS functionality (MT/MO)  
+**GNSS**: Basic GNSS functionality  
+**Manual**: See Manual section  
+**Scripts**: See Scripts section  
 
 ## Manual
 ![Manual](screenshots/image-3D.png)  
-Every known AT-command has some specific read/write parameters. You can find them on this tab, by pressing 📃 in the chat.  
-You can also open the PDF on the right page, so you don't need to find it inside the document.  
+Every known AT command has specific read/write parameters available on this tab. Click 📃 in the chat to navigate to the relevant section.  
+You can also open the PDF on the right side of the page, so you won't need to search through the document.  
 
 ## Scripts
 ![Scripts](screenshots/image-4D.png)  
-Simple text editor with syntax highlightings, allow you to send the commands and wait for the OK each time.  
+A simple text editor with syntax highlighting that allows you to send commands and wait for an OK response after each one.  
 Special commands:  
-- `#` to comment a line .  
-- `IF ... END` execute if (example: `IF AT+CNACT.Active0 = 0`)  
+- `#` to comment out a line
+- `IF ... END` execute conditionally (example: `IF AT+CNACT.Active0 = 0`)  
 - `WAIT X` wait X seconds  
 
 
 # How to edit/test
 - Create a workspace in GitHub
-- Add extension "Live Preview" from Microsoft
-- Open index.html and press on the right/top button "show preview", opening the browser-tab in a new window
-- Edit and test it until you have a working version.
+- Add the "Live Preview" extension from Microsoft
+- Open index.html and click the "Show Preview" button in the top-right to open a browser tab
+- Edit and test until you have a working version
 
 # Issues  
-I am testing a SIM7080 Module, so this page has some 7080-specific commands.
+I am testing a SIM7080 module, so this page includes some 7080-specific commands.
 
 The structure should let me/us to add (without much works) more commands and to add module-specific commands.
 
-The page is not able to parse "unsolicited results". I need to integrate this functionality.
 
 # Credits
 [Web Serial Port API (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/API/SerialPort)  
-[Javascript PDFLib for (github.com)](https://github.com/mozilla/pdf.js)  
+[JavaScript PDFLib (github.com)](https://github.com/mozilla/pdf.js)  
 [SimCom Module (simcom.com)](https://www.simcom.com/product/SIM7080G.html)  
 [Image generator (qwen.ai)](https://chat.qwen.ai/)  
 
-Too complicated or module does not answer? Try a Web Serial Terminal: https://www.serialterminal.com/
+Having trouble or not getting a response from the module? Try the Web Serial Terminal: https://www.serialterminal.com/
