@@ -5,6 +5,7 @@ class SelectDiv
   #range = null;
   #rangeOffset = 0;
   #originalLen = 0;
+  #rangeLen = -1;
 
   constructor(div, startStr, range)
   {
@@ -15,6 +16,13 @@ class SelectDiv
     this.#originalLen = range.endContainer.length;
     if(this.#div.options && this.#div.options.length > 0)
       this.#div.options[0].selected = true;
+    this.#rangeLen = 2;
+    let lastCh = "";
+    do
+    {
+      lastCh = this.#range.endContainer.textContent[this.#rangeOffset + this.#rangeLen++]
+    } while(lastCh == '+' || lastCh >='A' && lastCh <= 'Z' || lastCh>='0' && lastCh<='9');
+    this.#rangeLen--;
   }
 
   Update()
@@ -27,10 +35,12 @@ class SelectDiv
       return false;
     }
     let first = true;
+    let visible = 0;
     [...this.#div.options].forEach(o=>{
       if(o.value.startsWith(strF))
       {
         o.style.display = "";
+        visible++;
         if(first) {o.selected = true; first = false;}
       }
       else
@@ -38,20 +48,29 @@ class SelectDiv
         o.style.display = "none";
       }
     });
+    if(visible <= 1)
+    {
+      this.Close();
+      return false;
+    }
     return true;
   }
 
   Select()
   {
-    let startOff = this.#range.startOffset;
-    let strEnd = this.#range.endContainer.textContent.substring(0, this.#range.startOffset - this.#str.length);
+    const rangeTxt = this.#range.endContainer.textContent;
+    const startOff = this.#range.startOffset;
+    let strEnd = this.#range.endContainer.textContent.substring(0, startOff - this.#str.length);
+    let cutPos = strEnd.length;
+    while(rangeTxt[cutPos] == '+' || rangeTxt[cutPos] >='A' && rangeTxt[cutPos] <= 'Z' || rangeTxt[cutPos]>='0' && rangeTxt[cutPos]<='9') cutPos++;
     strEnd += this.#div.value;
-    strEnd += this.#range.endContainer.textContent.substring(this.#range.startOffset + (this.#range.endContainer.length - this.#originalLen));
+    const newPos = strEnd.length;
+    strEnd += rangeTxt.substring(cutPos);
     this.#range.endContainer.textContent = strEnd;
     this.Close();
     const selection = window.getSelection(); // find cursor position
     console.log(selection);
-    selection.setPosition(selection.baseNode, startOff + this.#div.value.length);
+    selection.setPosition(selection.baseNode, newPos);
   }
 
   MoveSelected(qty)
@@ -179,10 +198,11 @@ let ScriptEditor = new class
 
       this.#outputDiv.appendChild(document.createTextNode(lastLine));
       _CN("br", null, null, this.#outputDiv);
+
+      this.#execDiv.appendChild(document.createTextNode("✔"));
+      _CN("br", null, null, this.#execDiv);
     }
 
-    this.#execDiv.appendChild(document.createTextNode("✔"));
-    _CN("br", null, null, this.#execDiv);
     this.#execDiv.appendChild(document.createTextNode("⚡"));
   }
 
@@ -286,6 +306,10 @@ let ScriptEditor = new class
           case 'Backspace': removeDiv = !this.#selectDiv.Update(); break;
           case 'ArrowUp': this.#selectDiv.MoveSelected(-1); ret = false; break;
           case 'ArrowDown': this.#selectDiv.MoveSelected(+1); ret = false; break;
+          case 'ArrowLeft': 
+          case 'ArrowRight': 
+          case 'End': 
+          case 'Home': 
           case 'Escape': removeDiv = true; this.#selectDiv.Close(); break;
           case 'Enter': this.#selectDiv.Select(); this.#updateText(e.timeStamp); ret = false; removeDiv = true;  break;
         }

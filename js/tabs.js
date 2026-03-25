@@ -55,7 +55,7 @@ const Tabs = new class
       if(!scriptsLoading)
       {
         scriptsLoading = true;
-        let s = _CN("script", {src:"js/" + scripts[scriptsTotLoaded].name + ".js?v=55" + parseInt(new Date().getTime() / 5000)}, [], document.head);
+        let s = _CN("script", {src:"js/" + scripts[scriptsTotLoaded].name + ".js?v=56"}, [], document.head);
         s.addEventListener("load", ()=>{
           scriptsLoading = false;
           if(++scriptsTotLoaded >= scripts.length) clearInterval(scriptLoading);

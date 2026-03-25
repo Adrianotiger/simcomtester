@@ -35,14 +35,14 @@ let _PSUTTZ = new class extends ATBase
       doc: "5.2.49"
     });
 
-    this.AddParam("year", "integer", "year");
-    this.AddParam("month", "integer", "month");
-    this.AddParam("day", "integer", "day");
-    this.AddParam("hour", "integer", "hour");
-    this.AddParam("min", "integer", "min");
-    this.AddParam("sec", "integer", "sec");
+    this.AddParam("year", "number", "year");
+    this.AddParam("month", "number", "month");
+    this.AddParam("day", "number", "day");
+    this.AddParam("hour", "number", "hour");
+    this.AddParam("min", "number", "min");
+    this.AddParam("sec", "number", "sec");
     this.AddParam("time_zone", "string", "time zone");
-    this.AddParam("dst", "integer", "daylight saving");
+    this.AddParam("dst", "number", "daylight saving");
 
     this.AddUnsolicitedAnswerParam({year:null, month:null, day:null, hour:null, min:null, sec:null, time_zone:null, dst:null});
   }
@@ -77,7 +77,7 @@ let _DST = new class extends ATBase
       doc: "5.2.49"
     });
 
-    this.AddParam("dst", "integer", "daylight saving time");
+    this.AddParam("dst", "number", "daylight saving time");
 
     this.AddUnsolicitedAnswerParam({dst:null});
   }

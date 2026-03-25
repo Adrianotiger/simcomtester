@@ -18,8 +18,8 @@ let AT_CBANDCFG = new class extends ATBase
     enumMode.push(new ATEnum("NB-IOT", "NB-IoT"));
     this.AddParam("mode", enumMode, "mode");
 
-    this.AddParam("band", "integer", "band");
-    for(var j=1;j<20;j++) this.AddParam("band" + j, "integer", "band");
+    this.AddParam("band", "number", "band");
+    for(var j=1;j<20;j++) this.AddParam("band" + j, "number", "band");
     
     let o = {mode:null, band:null};
     let o0 = {...o};

@@ -6,6 +6,9 @@ class TabScript
   #infoLineTimeout = null;
   #lastLineText = "";
   #isExecuting = false;
+  #isWaiting = false;
+  #executeButton = null;
+  
   
   constructor()
   {
@@ -27,7 +30,8 @@ class TabScript
     _CN("button", {class:"icon", title:"load saved script"}, ["📂"],toolbar).addEventListener("click", ()=>{
       ScriptEditor.SetText(localStorage.getItem("gsm_script_file", "AT"));
     });
-    _CN("button", {class:"icon", title:"execute"}, ["⚡"],toolbar).addEventListener("click", ()=>{
+    this.#executeButton = _CN("button", {class:"icon", title:"execute"}, ["⚡"],toolbar);
+    this.#executeButton.addEventListener("click", ()=>{
       this.Execute();
     });
     _CN("i", {style:"padding-left:30px;"}, [" | Create scripts and automate the process"], toolbar);
@@ -94,7 +98,18 @@ class TabScript
   Execute()
   {
     if(this.#isExecuting)
+    {
+      if(this.#isWaiting)
+      {
+        this.#executeButton.textContent = "!";
+        this.#isWaiting = false;
+        return;
+      }
+      this.#executeButton.textContent = "⚡";
+      this.#isExecuting = false;
       return;
+    }
+    this.#executeButton.textContent = "⏳";
 
     let commands = ScriptEditor.GetText().split("\n");
     this.#lastLineText = "";
@@ -114,7 +129,13 @@ class TabScript
     ScriptEditor.ExecuteNextLine(this.#lastLineText);
 
     return new Promise((res, rej)=>{
-      if(cmds.length <= 0) rej();
+      if(!this.#isExecuting)
+      {
+        ScriptEditor.FinishExecuting("ABORT");
+        rej("-");
+        return;
+      }
+      if(cmds.length <= 0) rej("Invalid Line");
       const cmd = cmds.shift().trim();
       
       let p = null;
@@ -151,17 +172,32 @@ class TabScript
         }
         else
         {
-          ScriptEditor.ErrorExecuting("END without IF");
           rej("END without an IF!"); return; 
         }
       }
       else if(cmd.startsWith("WAIT "))
       {
         this.#lastLineText = "wait";
-        const seconds = parseInt(cmd.substring(5));
+        let seconds = parseInt(cmd.substring(5));
+        if(!Number.isInteger(seconds)) seconds = 1;
         this.#setInfoLine(`Sleep ${seconds} seconds`);
         p = new Promise((res)=>{
-          setTimeout(()=>{res();}, seconds*1000);
+          this.#isWaiting = true;
+          this.#executeButton.textContent = "⏭";
+          let tInterval = setInterval(()=>{
+            if(!this.#isExecuting)
+            {
+              clearInterval(tInterval);
+              rej("Execution aborted");
+            }
+            if(--seconds <= 0 || !this.#isWaiting)
+            {
+              this.#isWaiting = false;
+              this.#executeButton.textContent = "⚡";
+              clearInterval(tInterval);
+              res();
+            }
+          }, 1000);
         });
       }
       else if(cmd.length <= 1 || cmd.startsWith("#"))
@@ -180,22 +216,18 @@ class TabScript
         console.log(m);
         if(m.length != 5)
         {
-          ScriptEditor.ErrorExecuting("IF error");
           rej("IF parameters count is wrong"); return;
         }
         else if(typeof ATs[m[1]] === 'undefined')
         {
-          ScriptEditor.ErrorExecuting("IF error");
           rej("IF > AT command not found: " + m[1]); return;
         }
         else if(typeof ATs[m[1]][m[2]] === 'undefined')
         {
-          ScriptEditor.ErrorExecuting("IF error");
           rej("IF > AT parameter not found: " + m[2]); return;
         }
         else if(m[3] != '!=' && m[3] != '=' && m[3] != '<' && m[3] != '>')
         {
-          ScriptEditor.ErrorExecuting("IF error");
           rej("IF > allowed are '=', '!=', '<' or '>' not " + m[3]); return;
         }
         else

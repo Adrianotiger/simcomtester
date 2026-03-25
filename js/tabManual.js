@@ -79,18 +79,19 @@ class TabManual
     console.log(atp);
     for(let j=0;j<4;j++)
     {
-      let o = {txt: "", can:false, arr:[], arr2:[], cmd:cmd.GetCmd(), func:null};
+      let o = {txt: "", can:false, arr:[], arr2:[], cmd:cmd.GetCmd(), ico:"", func:null};
       switch(j)
       {
-        case 0: o.txt = "Test"; o.can = cmd.CanTest(); o.arr = atp.test; o.cmd += "=? "; 
+        case 0: o.txt = "Test"; o.can = cmd.CanTest(); o.arr = atp.test; o.ico = "❓"; o.cmd += "=? "; 
                 o.func = ()=>{cmd.Test();};
                 break;
-        case 1: o.txt = "Read"; o.can = cmd.CanRead(); o.arr = atp.read; o.cmd += "? "; 
+        case 1: o.txt = "Read"; o.can = cmd.CanRead(); o.arr = atp.read; o.ico = "📖"; o.cmd += "? "; 
                 o.func = ()=>{cmd.Read();};
                 break;
-        case 2: o.txt = "Write"; o.can = cmd.CanWrite(); o.arr = atp.write.get; o.arr2 = atp.write.set; o.cmd += "= "; break;
-                o.func = ()=>{cmd.Write();};
-        case 3: o.txt = "Execute"; o.can = cmd.CanExecute(); o.arr = atp.exe; o.cmd += " "; 
+        case 2: o.txt = "Write"; o.can = cmd.CanWrite(); o.arr = atp.write.get; o.arr2 = atp.write.set; o.cmd += "= "; o.ico = "✍"; 
+                o.func = ()=>{ATEditor.ShowWrite(cmd);};
+                break;
+        case 3: o.txt = "Execute"; o.can = cmd.CanExecute(); o.arr = atp.exe; o.cmd += " "; o.ico = "⚡";
                 o.func = ()=>{cmd.Execute();};
                 break;
       }
@@ -107,13 +108,13 @@ class TabManual
               else st += ",";
               st += k;
             });
-            st += " ➡️ (ANSWER)";
+            st += " " + o.ico + " (ANSWER)";
             let divP = _CN("div", {style:"text-align:left;cursor:pointer;"}, [st], div);
             divP.addEventListener("click", o.func);
           });
           
           o.arr.forEach(px=>{
-            let st = o.cmd + " ➡️ ";
+            let st = o.cmd + " " + o.ico + " ";
             let first = true;
             Object.keys(px).forEach(k=>{
               if(first) first = false;
@@ -127,7 +128,7 @@ class TabManual
         }
         else
         {
-          let st = o.cmd + " ➡️ ";
+          let st = o.cmd + " " + o.ico + " ";
           let divP = _CN("div", {style:"text-align:left;cursor:pointer;"}, [st], div);
           divP.addEventListener("click", o.func);
         }

@@ -33,7 +33,6 @@ let AT_CAOPEN = new class extends ATBase
     for(var j=0;j<=4;j++)
       enumPdp.push(new ATEnum(j, "PDP #" + j));
     
-    
     this.AddParam("cid", enumId, "Command identifier");
     this.AddParam("pdp_index", enumPdp, "PDP connection index");
     this.AddParam("conn_type", enumConn, "Transfer type");

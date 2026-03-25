@@ -27,7 +27,7 @@ const TabInfo = new class
 
     setTimeout(()=>{
       _CN("div", {}, [_CN("a", {href:"https://github.com/Adrianotiger/simcomtester", target:"_blank"}, ["Github Project"])], this.divGit);
-      _CN("div", {}, [_CN("i", {}, ["ver 0.91 - 2026", _CN("br"), "© Adriano Petrucci"])], this.divGit);
+      _CN("div", {}, [_CN("i", {}, ["ver 0.92 - 2026", _CN("br"), "© Adriano Petrucci"])], this.divGit);
     }, 500);
     
     let i = window.setInterval(()=>{
@@ -126,7 +126,7 @@ const TabInfo = new class
                   let m;
                   if ((m = reg.exec(revision)) !== null)
                   {
-                    if(m.length == 2 && parseInt(m[2]) < parseInt(this.#moduleInfo.firmware.last))
+                    if(m.length == 2 && parseInt(m[1]) < parseInt(this.#moduleInfo.firmware.last))
                     {
                       window.dispatchEvent(
                         new CustomEvent("cominfo", { detail: {error:"Module firmware (" + m[1] + ") is out of date, there is a newer firmware: " + this.#moduleInfo.firmware.last} })

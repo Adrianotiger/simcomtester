@@ -10,6 +10,7 @@ const ATEditor = new class
     let newParams = [];
     let bg = _CN("div", {class:"bgoverlay"}, [], document.body);
     let win = _CN("div", {class:"window box", style:"padding:10px;min-width:400px;width:fit-content;max-width:80vw;height:fit-content;max-height:80vh;text-align:center;"}, [], bg);
+    let cmdText = null;
     console.log(cmd);
 
     const params = cmd.GetAllParams();
@@ -47,7 +48,7 @@ const ATEditor = new class
             _CN("option", {value:av.v}, [`[${av.v}] ${av.d}`], inp);
           });
         }
-        else if(par.GetType() == "integer")
+        else if(par.GetType() == "number")
         {
             inp = _CN("input", {type:"number"}, []);
         }
@@ -58,8 +59,12 @@ const ATEditor = new class
         else
         {
           inp = _CN("b", {}, ["Unknown type"]);
+          console.error("Unknown type for parameter:", wpk);
         }
-        inp.addEventListener("change", ()=>{newParams[paramIndex] = inp.value;});
+        inp.addEventListener("change", ()=>{
+          newParams[paramIndex] = inp.value;
+          cmdText.textContent = cmd.GetCmd() + "=" + newParams.join(",");
+        });
         _CN("div", {style:"text-align:right;"}, [inp], divInps);
         console.log(wpk, par);
       });
@@ -86,7 +91,20 @@ const ATEditor = new class
         document.body.removeChild(bg);
         rej();
       });
-      _CN("table", {style:"height:100px;width:100%;vertical-align:middle;"}, [_CN("tr", null, [_CN("td", null, [butt1]), _CN("td", null, [butt2])])], win);
+      _CN("table", {style:"height:70px;width:100%;vertical-align:middle;"}, [_CN("tr", null, [_CN("td", null, [butt1]), _CN("td", null, [butt2])])], win);
+      cmdText = _CN("i", {}, [cmd.GetCmd() + "="], win);
+      const copyButt = _CN("b", {style:"float:right;cursor:pointer;"}, ["📋"], win);
+
+      copyButt.addEventListener("click", ()=>{
+        copyButt.textContent = "copied!";
+        setTimeout(()=>{copyButt.textContent = "📋";}, 500);
+        const type = "text/plain";
+        const clipboardItemData = {
+          [type]: cmdText.textContent,
+        };
+        const clipboardItem = new ClipboardItem(clipboardItemData);
+        navigator.clipboard.write([clipboardItem]);
+      });
     });
   }
 
@@ -100,13 +118,13 @@ const ATEditor = new class
 
     filters.forEach(f=>{
       f.i = _CN("input", {type:"checkbox", checked:true});
-      _CN("span", {}, [f.i, " ", f.t, " | "], win);
+      _CN("span", {style:"padding:0px 5px;min-width:60px;display:inline-block;"}, [f.i, " ", f.t, " | "], win);
       f.i.addEventListener("click", ()=>{
         this.#updateList(sel, filters);
       });
     });
     const obji2 = _CN("input", {type:"checkbox", checked:true});
-    _CN("span", {}, [obji2, "ALL "], win);
+    _CN("span", {style:"display:block;"}, [obji2, "ALL "], win);
     obji2.addEventListener("change", ()=>{
       filters.forEach(f=>{f.i.checked = obji2.checked});
       this.#updateList(sel, filters);
@@ -128,7 +146,6 @@ const ATEditor = new class
 
     bg.addEventListener("click", ()=>{
       document.body.removeChild(bg);
-      rej();
     });
 
     sel.addEventListener("change", ()=>{
@@ -143,11 +160,11 @@ const ATEditor = new class
         window.dispatchEvent(event);
       });
       _CN("div", null, ["Doc: ", doc], atdesc);
-      const t = _CN("table", {style:"margin:0 auto;"}, [], atdesc);
+      const t = _CN("table", {style:"margin:0 auto;width:200px;"}, [], atdesc);
       let tr = _CN("tr", null, [_CN("td", null, ["Test"])], t);
       _CN("td", null, [at.CanTest() ? "✅" : "❌"], tr);
       if(at.CanTest()) {
-        _CN("td", {style:"cursor:pointer;"}, ["❓"], tr).addEventListener("click",()=>{
+        _CN("td", {}, [_CN("button", null, ["❓"])], tr).addEventListener("click",()=>{
           document.body.removeChild(bg);
           destInput.value = at.GetCmd() + "=?";
           if(executeCommand) at.Test();
@@ -156,7 +173,7 @@ const ATEditor = new class
       tr = _CN("tr", null, [_CN("td", null, ["Exe"])], t);
       _CN("td", null, [at.CanExecute() ? "✅" : "❌"], tr);
       if(at.CanExecute()) {
-        _CN("td", {style:"cursor:pointer;"}, ["⚡"], tr).addEventListener("click",()=>{
+        _CN("td", {}, [_CN("button", null, ["⚡"])], tr).addEventListener("click",()=>{
           document.body.removeChild(bg);
           destInput.value = at.GetCmd();
           if(executeCommand) at.Execute();
@@ -165,7 +182,7 @@ const ATEditor = new class
       tr = _CN("tr", null, [_CN("td", null, ["Read"])], t);
       _CN("td", null, [at.CanRead() ? "✅" : "❌"], tr);
       if(at.CanRead()) {
-        _CN("td", {style:"cursor:pointer;"}, ["📖"], tr).addEventListener("click",()=>{
+        _CN("td", {}, [_CN("button", null, ["📖"])], tr).addEventListener("click",()=>{
           document.body.removeChild(bg);
           destInput.value = at.GetCmd() + "?";
           if(executeCommand) at.Read();
@@ -175,7 +192,7 @@ const ATEditor = new class
       _CN("td", null, [at.CanWrite() ? "✅" : "❌"], tr);
       console.log(at);
       if(at.CanWrite()) {
-        _CN("td", {style:"cursor:pointer;"}, ["✍"], tr).addEventListener("click",()=>{
+        _CN("td", {}, [_CN("button", null, ["✍"])], tr).addEventListener("click",()=>{
           document.body.removeChild(bg);
           this.ShowWrite(at).then(params=>{
             destInput.value = at.GetCmd() + "=" + params.join(",");
