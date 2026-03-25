@@ -236,7 +236,7 @@ const SIMSerial = new class
       const event = new CustomEvent("serialactive", { detail: false });
       window.dispatchEvent(event);
       
-      const b2 = _CN("button", {style:"background:linear-gradient(to bottom, #fff, #afa);"}, ["RE-CONNECT"], this.div);
+      const b2 = _CN("button", {style:"background:;"}, ["RE-CONNECT"], this.div);
 
       b2.addEventListener("click", ()=>{
         navigator.serial.requestPort().then((port)=>{
@@ -269,7 +269,6 @@ const SIMSerial = new class
     const port = this.#port;
     let serialMsg = "";
     let isClosing = false;
-    let newCmd = null;
     const decoder = new TextDecoder();
     console.warn("Begin read serial...");
     
@@ -412,10 +411,6 @@ const SIMSerial = new class
                     window.dispatchEvent(
                       new CustomEvent("terminal", { detail: serialLine})
                     );
-                    /*
-                    window.dispatchEvent(
-                      new CustomEvent("cominfo", { detail: {error:"No command requested this line: " + serialLine}})
-                    );*/
                   }
                 }
               }

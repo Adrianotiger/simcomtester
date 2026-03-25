@@ -208,7 +208,7 @@ let ScriptEditor = new class
     for(let j=1;j<300;j++) _CN("div", {}, [j], lineNr);
 
     this.#execDiv = _CN("div", {style:"position:absolute;left:0px;width:20px;text-align:center;"}, ["⚡"], this.#linesDiv);
-    this.#outputDiv = _CN("div", {style:"position:absolute;right:5px;width:400px;text-align:right;"}, [], this.#linesDiv);
+    this.#outputDiv = _CN("div", {style:"position:absolute;right:5px;width:400px;text-align:right;white-space:nowrap;text-overflow:ellipsis;overflow-x:hidden;"}, [], this.#linesDiv);
 
     this.#overlayDiv.addEventListener("scroll", (e)=>{
       this.#backDiv.scrollTo(0 , this.#overlayDiv.scrollTop);

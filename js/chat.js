@@ -116,9 +116,20 @@ const TabChat = new class
     let div = _CN("div", {class:"msg_g"}, [], this.div);
     let msg = _CN("div", {class:"msg_r"}, [], div);
 
-    data.answer.split("\n").forEach(lne=>{
-      _CN("div", {}, ["\xa0\xa0\xa0\xa0" + lne], this.shell);
-    });
+    if(data.cmd.GetRequestType() == "unsolicited")
+    {
+      const al = data.cmd.GetLines();
+      al.forEach((lne,j)=>{
+        if((j%2)==1) return; // skip "hand made" OK
+        _CN("div", {}, ["\xa0\xa0\xa0\xa0" + lne], this.shell);
+      });
+    }
+    else
+    {
+      data.answer.split("\n").forEach(lne=>{
+        _CN("div", {}, ["\xa0\xa0\xa0\xa0" + lne], this.shell);
+      });
+    }
     this.shell.scrollTo({top: parseInt(this.shell.scrollHeight), behavior:"smooth"});
 
     if(data.cmd)

@@ -104,7 +104,8 @@
   border-radius: 1vh;
   border-top-left-radius: 0vh;
   border-color: #a85;
-  background: linear-gradient(to bottom, #fff, #ffa);
+  background: linear-gradient(to bottom, #def, #5aa);
+  box-shadow: inset 1px 1px 4px #eff, inset -1px -1px 4px #005;
   color: #44b;
   cursor: pointer;
 }
@@ -120,9 +121,16 @@
   border-radius: 1vh;
   border-top-right-radius: 0vh;
   border-color: #a85;
-  background: linear-gradient(to bottom, #fff, #afa);
+  background: linear-gradient(to bottom, #efe, #afa);
+  box-shadow: inset 1px 1px 4px #efe, inset -1px -1px 4px #050;
   color: #008;
   text-align: right;
+}
+
+.msg_h
+{
+  margin: 0px 2px;
+  background: radial-gradient(circle at 30% 30%, #aaf, #448 30%,  #115) !important;
 }
 
 .msg_u

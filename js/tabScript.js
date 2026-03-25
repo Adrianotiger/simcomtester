@@ -214,13 +214,13 @@ class TabScript
           }
           if(success)
           {
-            this.#lastLineText = "if #" + ifs.length + " (true)";
             ifs.push({execute:true});
+            this.#lastLineText = "if #" + ifs.length + " (true)";
           }
           else
           {
-            this.#lastLineText = "if #" + ifs.length + " (false)";
             ifs.push({execute:false});
+            this.#lastLineText = "if #" + ifs.length + " (false)";
           }
           
           p = new Promise((res)=>{
