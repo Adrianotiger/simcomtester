@@ -128,7 +128,12 @@ const SIMSerial = new class
             case '?': return ATs[cmdat].Read();
             default: return ATs[cmdat].Execute();
           }
-          
+        }
+        else
+        {
+          // create a fake AT object, to be able to send custom commands and receive answers in the terminal
+          obj = new ATBase({cmd: cmdat, description:"Custom command", exe:true, write:true, read:true, test:true, timeout: 1000, doc:"99.0"});
+          cmd = cmd.trim() + "\r\n";
         }
       }
       this.#busy = true;
@@ -151,10 +156,14 @@ const SIMSerial = new class
       console.error("Serial not ready!");
     }
 
-    let p = new Promise((succ)=>{
-      setTimeout(()=>{
-        if(this.#connected && !this.#busy) succ();
-        /*else rej();*/
+    let p = new Promise((succ, rej)=>{
+      let responseTimeout = 100;
+      let respInt = setInterval(()=>{
+        if(this.#connected && !this.#busy || --responseTimeout < 0) 
+        {
+          clearInterval(respInt);
+          succ();
+        }
       }, 10);
     });
     return p;

@@ -35,6 +35,7 @@ const ATEditor = new class
       divInps.innerHTML = "";
       console.log(wp);
       newParams = [];
+      if(!wp) return;
       Object.keys(wp).forEach((wpk, j)=>{
         newParams.push("");
         const paramIndex = j;

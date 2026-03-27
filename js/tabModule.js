@@ -92,6 +92,15 @@ class TabModule
         },
         AT_CCID)
     );
+
+    this.div.appendChild(
+      Tabs.AddCmd(
+        "SimCom Firmware (AT+SIMCOMATI)", 
+        ()=>{
+          AT_SIMCOMATI.Execute().then(()=>{});
+        },
+        AT_SIMCOMATI)
+    );
   }
   
   #InitNetworkInfo()

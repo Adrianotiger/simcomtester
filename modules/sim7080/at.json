@@ -16,6 +16,7 @@
   "at+ccoaphead",
   "at+ccoapinit",
   "at+ccoappara",
+  "at+ccoapread",
   "at+ccoapterm",
   "at+ccoapurl",
   "at+cfsdfile",
@@ -23,6 +24,7 @@
   "at+cfsinit",
   "at+cfsterm",
   "at+cfswfile",
+  "at+cfun",
   "at+cgatt",
   "at+cgdcont",
   "at+cgmi",
@@ -45,6 +47,7 @@
   "at+cnact",
   "at+cncfg",
   "at+cnmp",
+  "at+copn",
   "at+cops",
   "at+cpas",
   "at+cpin",
@@ -65,5 +68,6 @@
   "at+shread",
   "at+shreq",
   "at+shssl",
-  "at+shstate"
+  "at+shstate",
+  "at+simcomati"
 ]

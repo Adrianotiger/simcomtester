@@ -50,6 +50,7 @@ let AT_CPSI = new class extends ATBase
     this.AddParam("c1", "string", "Coefficient for base station selection");
     this.AddParam("c2", "string", "Coefficient for Cell re-selection");
     
+    this.AddReadAnswerParam({systemmode:"no service", operationmode:null});
     this.AddReadAnswerParam({systemmode:"gsm", operationmode:null, lac:null, cellid:null, absoluterfchnum:null, trackloadjust:null, c1:null, c2:null});
     this.AddReadAnswerParam({systemmode:null, operationmode:null, mccmnc:null, tac:null, scellid:null, pcellid:null, frequencyband:null, earfcn:null, dlbw:null, ulbw:null, rsrp:null, rsrq:null, rssi:null, rssnr:null});
   }

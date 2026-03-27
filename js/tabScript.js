@@ -121,6 +121,7 @@ class TabScript
     }).catch((e)=>{
       this.#isExecuting = false;
       ScriptEditor.ErrorExecuting(e);
+      this.#executeButton.textContent = "⚠️";
     });
   }
 
@@ -143,15 +144,19 @@ class TabScript
 
       if(ifs.length > 0 && !ifs[ifs.length-1].execute)
       {// bypass command
-        if(cmd.startsWith("END")) ifs.pop();
+        if(cmd.startsWith("IF")) ifs.push({execute:false});
+        else if(cmd.startsWith("END")) ifs.pop();
         this.#lastLineText = "skip";
         p = new Promise((res)=>{setTimeout(()=>{res();}, 20);});
       }
-      else if(typeof ATs[cmd.replace(/=.*/g,'').replace(/\?.*/g,'').trim()] !== "undefined")
+      else if(cmd.startsWith("AT"))
       {
-        this.#lastLineText = "send XXX";
-        this.#setInfoLine(`Execute command: ${cmd}`);
-        p = SIMSerial.Send(cmd, null);
+        //if(typeof ATs[cmd.replace(/=.*/g,'').replace(/\?.*/g,'').trim()] !== "undefined")
+        {
+          this.#lastLineText = "send XXX";
+          this.#setInfoLine(`Execute command: ${cmd}`);
+          p = SIMSerial.Send(cmd);
+        }
       }
       else if(cmd.startsWith("DATA "))
       {
@@ -205,7 +210,7 @@ class TabScript
         this.#lastLineText = "skip";
         this.#setInfoLine(`Jump to next command`);
         p = new Promise((res)=>{
-          setTimeout(()=>{res();}, 1000);
+          setTimeout(()=>{res();}, 100);
         });
       }
       else if(cmd.startsWith("IF"))

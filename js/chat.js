@@ -1,5 +1,9 @@
 const TabChat = new class
 {
+  #history = [];
+  #historyIndex = -1;
+  #addTimeStamp = true;
+
   constructor()
   {
     let buttShell = _CN("button", {title:"SHELL", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(-20px, -8px);"}, ["💻"], this.div);
@@ -8,9 +12,10 @@ const TabChat = new class
     let buttClearChat = _CN("button", {title:"Clear", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(25px, -8px);"}, ["🧹"], this.div);
     let buttFindShell = _CN("button", {title:"Find command", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(80px, -8px);"}, ["🔍"], this.div);
     let buttFindChat = _CN("button", {title:"Find command", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(80px, -8px);"}, ["🔍"], this.div);
+    let buttAddTimeShell = _CN("button", {title:"Add Timestamp", style:"position:sticky;left:23vw;top:0px;z-index:500;transform:translate(135px, -8px);"}, ["⌚"], this.div);
 
     this.div = _CN("div", {class:"box chat"}, [buttShell, buttClearChat, buttFindChat, _CN("h2", {}, ["Chat"])]);
-    this.shell = _CN("div", {title:"CHAT", class:"box chat", style:"display:none;opacity:0.0;"}, [buttChat, buttClearShell, buttFindShell, _CN("h2", {}, ["Commands"])]);
+    this.shell = _CN("div", {title:"CHAT", class:"box chat", style:"display:none;opacity:0.0;"}, [buttChat, buttClearShell, buttFindShell, buttAddTimeShell, _CN("h2", {}, ["Commands"])]);
     this.chat = _CN("input", {type:"text", class:"chatinput", placeholder:"custom AT commands"}, []);
     
     buttShell.addEventListener("click", ()=>{
@@ -46,6 +51,43 @@ const TabChat = new class
     });
     buttFindChat.addEventListener("click", ()=>{
       ATEditor.FindCommand(this.chat, true);
+    });
+
+    this.chat.addEventListener("keydown", (k)=>{
+      if(k.key === "Enter")
+      {
+        let found = false;
+        this.#history.forEach((h, j)=>{
+          if(!found && h.trim() == this.chat.value.trim())
+          {
+            found = true;
+            this.#history.unshift(this.#history.splice(j, 1)[0]);
+          }
+        });
+        if(!found) this.#history.unshift(this.chat.value.trim());
+        this.#historyIndex = -1;
+      }
+      else if(k.key == "ArrowUp")
+      {
+        if(this.#historyIndex < (this.#history.length-1))
+        {
+          if(this.#historyIndex == -1 && this.#history.length > 1) this.#historyIndex++;
+          this.chat.value = this.#history[++this.#historyIndex];
+        }
+      }
+      else if(k.key == "ArrowDown")
+      {
+        if(this.#history.length > this.#historyIndex && this.#historyIndex > 0)
+        {
+          this.chat.value = this.#history[--this.#historyIndex];
+        }
+      }
+    });
+
+    buttAddTimeShell.addEventListener("click", ()=>{
+      this.#addTimeStamp = !this.#addTimeStamp;
+      if(this.#addTimeStamp) buttAddTimeShell.style.filter = "grayscale(0) opacity(1)";
+      else buttAddTimeShell.style.filter = "grayscale(1) opacity(0.7)";
     });
 
   }
@@ -115,19 +157,20 @@ const TabChat = new class
   {
     let div = _CN("div", {class:"msg_g"}, [], this.div);
     let msg = _CN("div", {class:"msg_r"}, [], div);
+    const timeNow = this.#addTimeStamp ? "[" + (new Date()).toLocaleTimeString("de-CH", {hour:"2-digit", minute:"2-digit", second:"2-digit", fractionalSecondDigits:"1"}) + "]" : "";
 
     if(data.cmd.GetRequestType() == "unsolicited")
     {
       const al = data.cmd.GetLines();
       al.forEach((lne,j)=>{
         if((j%2)==1) return; // skip "hand made" OK
-        _CN("div", {}, ["\xa0\xa0\xa0\xa0" + lne], this.shell);
+        _CN("div", {}, [timeNow + "\xa0\xa0\xa0\xa0" + lne], this.shell);
       });
     }
     else
     {
       data.answer.split("\n").forEach(lne=>{
-        _CN("div", {}, ["\xa0\xa0\xa0\xa0" + lne], this.shell);
+        _CN("div", {}, [timeNow + "\xa0\xa0\xa0\xa0" + lne], this.shell);
       });
     }
     this.shell.scrollTo({top: parseInt(this.shell.scrollHeight), behavior:"smooth"});
@@ -217,8 +260,9 @@ const TabChat = new class
     const req = data.req + "\r\n";
     let div = _CN("div", {class:"msg_g"}, [], this.div);
     let send = _CN("div", {class:"msg_s"}, [data.req??data.serialOut], div);
+    const timeNow = this.#addTimeStamp ? "[" + (new Date()).toLocaleTimeString("de-CH", {hour:"2-digit", minute:"2-digit", second:"2-digit", fractionalSecondDigits:"1"}) + "]" : "";
     
-    _CN("div", {}, [" > " + (data.req??data.serialOut)], this.shell);
+    _CN("div", {}, [timeNow + " > " + (data.req??data.serialOut)], this.shell);
     this.shell.scrollTo({top: parseInt(this.shell.scrollHeight), behavior:"smooth"});
 
     if(data.cmd)

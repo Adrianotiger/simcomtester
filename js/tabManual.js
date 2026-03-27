@@ -89,7 +89,7 @@ class TabManual
                 o.func = ()=>{cmd.Read();};
                 break;
         case 2: o.txt = "Write"; o.can = cmd.CanWrite(); o.arr = atp.write.get; o.arr2 = atp.write.set; o.cmd += "= "; o.ico = "✍"; 
-                o.func = ()=>{ATEditor.ShowWrite(cmd);};
+                o.func = ()=>{ATEditor.ShowWrite(cmd).then(params=>{cmd.Write(params);});};
                 break;
         case 3: o.txt = "Execute"; o.can = cmd.CanExecute(); o.arr = atp.exe; o.cmd += " "; o.ico = "⚡";
                 o.func = ()=>{cmd.Execute();};

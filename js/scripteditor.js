@@ -268,8 +268,8 @@ let ScriptEditor = new class
 
     strO = strO.replace(/^([ ]*IF[A-Za-z0-9\. \+]+=[ ]*[A-Za-z0-9\.]*)/gm, "<span style='color:#aa6;'>$1</span>");
     strO = strO.replace(/^([ ]*END)/gm, "<span style='color:#aa6;'>$1</span>");
-    strO = strO.replace(/(^(?!#)[ ]*\bAT[+A-Z=?]*)/gm, "<span style='color:green;'>$1</span>");
-    strO = strO.replace(/^([ ]*WAIT[ 0-9]*)/gm, "<span style='color:#66a;'>$1</span>");
+    strO = strO.replace(/(^(?!#)[ ]*\bAT[+A-Z0-9 ]*)(=?\??)([ ]*.*?)$/gm, "<span style='color:green;'>$1</span><span style='color:darkred;'>$2</span><span style='color:#83a;'>$3</span>");
+    strO = strO.replace(/^([ ]*WAIT[ 0-9]*)/gm, "<span style='color:#44c;'>$1</span>");
     strO = strO.replace(/^([ ]*DATA .*$)/gm, "<span style='color:#543;'>$1</span>");
     strO = strO.replace(/^(#.*?)$/gm, "<span style='color:#888;'>$1</span>");
     strO = strO.replace(/\n/gmi, " <br>");
