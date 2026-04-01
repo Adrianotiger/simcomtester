@@ -21,7 +21,7 @@ const ATEditor = new class
 
     if(params.write.set.length > 1)
     {
-      let sel = _CN("select", {}, [], win);
+      let sel = _CN("select", {required:true}, [], win);
       params.write.set.forEach((wp, j)=> {
         _CN("option", {value:j}, [Object.keys(wp).join(", ")], sel);
       });
@@ -40,11 +40,11 @@ const ATEditor = new class
         newParams.push("");
         const paramIndex = j;
         let par = cmd.GetParam(wpk);
-        _CN("div", {style:"text-align:left;"}, [par.GetDescription()], divInps);
+        _CN("div", {style:"text-align:left;margin-top:15px;"}, [par.GetDescription()], divInps);
         let inp = null;
         if(Array.isArray(par.GetType()))
         {
-          inp = _CN("select", {}, [_CN("option", {value:""}, ["-select-"])]);
+          inp = _CN("select", {required:true}, [_CN("option", {value:""}, ["-select-"])]);
           par.GetPossibleValues().forEach(av=>{
             _CN("option", {value:av.v}, [`[${av.v}] ${av.d}`], inp);
           });

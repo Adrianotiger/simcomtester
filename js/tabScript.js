@@ -50,10 +50,11 @@ class TabScript
     ScriptEditor.AddTextListener(".", (range)=>{
       const text = range?.startContainer?.nodeValue;
       if(!text || !text.length) return;
-      let startOffset = range.startOffset-1;
-      while(text[startOffset] != ' ' && text[startOffset] != '\n' && startOffset>0) startOffset--;
-      const subs = text.substring(startOffset+1, text.indexOf(".", startOffset));
-      //if(!subs.startsWith("AT")) return;
+      let startOffset = range.startOffset-2;
+      const invalidCh = [' ', '\n', '.'];
+      while(invalidCh.indexOf(text[startOffset]) < 0 && startOffset>0) startOffset--;
+      const subs = text.substring(startOffset, text.indexOf(".", startOffset)).trim();
+      if(subs.length == 0 || typeof ATs[subs] === 'undefined') return;
 
       let getters = [];
       let proto = Object.getPrototypeOf(ATs[subs]);

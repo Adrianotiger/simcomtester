@@ -50,9 +50,90 @@ button:hover, select:hover
   box-shadow: 0px 0px 3px 1px var(--shadow-color1);
 }
 
-option
+select
 {
-  color: var(--dark-color1);
+  appearance: none;
+  linear-gradient(to bottom, var(--dark-color1), var(--dark-color2), var(--dark-color1));
+  @supports (appearance: base-select) {
+    &,
+    &::picker(select) {
+      appearance: base-select;
+    }
+  }
+}
+
+select
+{
+  display: flex;
+  justify-content: space-between;
+  min-width: 200px;
+  line-height: 22px;
+  @supports (appearance: base-select) 
+  {
+    &::picker-icon {
+      content: "⮋";
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      transition: rotate 0.2s ease-out;
+    }
+    &:open::picker-icon {
+      rotate: 180deg;
+    }
+    &::picker(select) {
+      appearance: base-select;
+      opacity: 0;
+      height: 0;
+      margin-top: 5px;
+      border: none;
+      padding: 4px;
+      background: rgba(0,0,0,0.2);
+      box-shadow: inset 0px 0px 10px #000, 0px 0px 10px #000;
+      border-radius: 5px;
+      font-weight: 400;
+      overflow: clip;
+      transition: height 0.5s ease-out, opacity 0.5s ease-out, overlay 0.5s, display 0.5s;
+      transition-behavior: allow-discrete;
+    }
+    &:open::picker(select) {
+      opacity: 1;
+      height: calc-size(auto, size);
+      overflow: auto;
+      @starting-style {
+        opacity: 0;
+        height: 0;
+      }
+    }
+
+    option
+    {
+      background: linear-gradient(to bottom, var(--dark-color1), var(--dark-color0), var(--dark-color1));
+      color: var(--light-color1);
+      border-radius: 5px;
+      box-shadow: inset 0px 0px 4px var(--dark-color2);
+      transition-property: color;
+      transition-duration: 0.2s;
+      transition-timing-function: ease-out;
+
+      &:where(:hover, :focus, :active) {
+        background: var(--dark-color1);
+        color: var(--light-color2);
+      }
+      &:checked {
+        background: linear-gradient(to bottom, var(--dark-color3), var(--dark-color2), var(--dark-color3));
+        color: var(--light-color3);
+        text-shadow: 2px 2px 3px #880;
+      }
+      &::checkmark {
+        display: none;
+      }
+      &:first-child {
+        border: 0;
+      }
+    }
+  }
 }
 
 a
@@ -134,8 +215,9 @@ textarea
 .labelInfo i
 {
   background-color: #000;
-  border-radius: 2px;
+  border-radius: 4px;
   padding: 0px 5px;
+  box-shadow: 2px 2px 4px #225;
 }
 
 .simModule
@@ -163,7 +245,6 @@ textarea
 .paramdiv input, .paramdiv select
 {
   min-width: 50%;
-  display: block;
 }
 
 .paramdiv textarea

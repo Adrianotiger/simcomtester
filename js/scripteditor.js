@@ -50,7 +50,8 @@ class SelectDiv
     });
     if(visible <= 1)
     {
-      this.Close();
+      if(visible == 1) this.Select();
+      else this.Close();
       return false;
     }
     return true;
@@ -319,7 +320,7 @@ let ScriptEditor = new class
       {
         if(e.data >='A' && e.data <= 'Z' || e.data>='0' && e.data<='9' || e.data=='+')
         {
-          this.#selectDiv.Update();
+          removeDiv = !this.#selectDiv.Update();
         }
         else
         {
@@ -351,6 +352,11 @@ let ScriptEditor = new class
       const selection = window.getSelection(); // find cursor position
       if(selection.rangeCount !== 1) return true;
       const range = selection.getRangeAt(0);
+
+      if(typeof e.key !== 'undefined') // keydown
+      {
+        return ret;
+      }
 
       this.#listingTexts.forEach(lt=>{
         if(range?.startContainer?.nodeValue?.substring(selection.baseOffset-lt.str.length, selection.baseOffset) == lt.str)

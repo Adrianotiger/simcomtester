@@ -123,6 +123,18 @@ class ATBase
   {
     return false;
   }
+
+  #addGetters(paramList)
+  {
+    const proto = Object.getPrototypeOf(this);
+    Object.keys(paramList).forEach(k=>{
+      const k2 = k.charAt(0).toUpperCase() + k.slice(1);
+      if (!Object.prototype.hasOwnProperty.call(proto, k2)) 
+      {
+        Object.defineProperty(proto, k2, { get() { return this.GetValue()[k]; } });
+      }
+    });
+  }
     
   
   AddParam(name, type, description)
@@ -133,11 +145,13 @@ class ATBase
   AddReadAnswerParam(paramList)
   {
     this.#readParams.push(paramList);
+    this.#addGetters(paramList);
   }
   
   AddWriteAnswerParam(paramList)
   {
     this.#writeParams.push(paramList);
+    this.#addGetters(paramList);
   }
   
   AddTestAnswerParam(paramList)
@@ -153,11 +167,13 @@ class ATBase
   AddExeAnswerParam(paramList)
   {
     this.#exeParams.push(paramList);
+    this.#addGetters(paramList);
   }
 
   AddUnsolicitedAnswerParam(paramList)
   {
     this.#unsolicitedParams.push(paramList);
+    this.#addGetters(paramList);
   }
   
   GetCmd()
