@@ -34,7 +34,7 @@ let PDFManual = new class
   LoadPDF(pdf)
   {
     this.pdfFile = pdf;
-    let pdft = pdfjsLib.getDocument(pdf);
+    let pdft = pdfjsLib.getDocument({url:pdf});
     
     pdft.promise.then(async(pdf)=>{
       this.#pdf = pdf;
