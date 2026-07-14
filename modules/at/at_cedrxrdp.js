@@ -13,9 +13,9 @@ let AT_CEDRXRDP = new class extends ATBase
     });
     
     let enumA = [];
-    enumA.push(new ATEnum(0, "AccesstechnologyisnotusingeDRX"));
-    enumA.push(new ATEnum(4, "E-UTRAN(CAT-M1)"));
-    enumA.push(new ATEnum(5, "E-UTRAN(NB-S1mode)"));
+    enumA.push(new ATEnum(0, "Access technology is not using eDRX"));
+    enumA.push(new ATEnum(4, "E-UTRAN (CAT-M1)"));
+    enumA.push(new ATEnum(5, "E-UTRAN (NB-S1mode)"));
         
     this.AddParam("act", enumA, "AcT-type");
     this.AddParam("req_edrx_value", "string", "Requested_eDRX_value");
@@ -27,5 +27,5 @@ let AT_CEDRXRDP = new class extends ATBase
     this.AddExeAnswerParam({act:null, req_edrx_value:null, prov_edrx_value:null});
     this.AddExeAnswerParam({act:null, req_edrx_value:null, prov_edrx_value:null, paging_time:null});
   }
-  
+
 };
